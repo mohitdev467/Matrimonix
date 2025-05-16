@@ -11,6 +11,7 @@ const SearchComponent = ({ searchQuery, setSearchQuery, placeholder }) => {
       <TextInput
         style={styles.input}
         placeholder={placeholder}
+        placeholderTextColor={pickColors.lightGreyColor}
         value={searchQuery}
         onChangeText={(text) => setSearchQuery(text)}
       />
