@@ -1,0 +1,24 @@
+export const apiEndpoints = {
+  signupUser: "admin/add-user",
+  getUsers: "admin/users",
+  forgotPassword: "admin/request-password-reset",
+  updatePassword: (token) => `admin/reset-password/${token}`,
+  getStatsData: (userId) => `admin/stats-data/${userId}`,
+  addUserIntoShortlist: "admin/shortlisted",
+  getMatchedUsers: (id) => `admin/matched/user/${id}`,
+  getPaymentHistory: (userId) => `user/payment/history/${userId}`,
+  checkPaymentStatus: (orderId) => `user/status/${orderId}`,
+
+  getNews: "admin/news",
+  getServiceProviders: "admin/service-providers",
+  uploadFile: "admin/upload",
+  loginUser: "user/login",
+  getConversation: (userId) => `user/conversations/${userId}`,
+  getMessageById: (id) => `user/messages/${id}`,
+  createConversation: `user/conversations`,
+  createMessagesEndPoint: `user/messages`,
+  getEntities: `admin/entities`,
+  getPackages: `admin/packages`,
+  getRecentUserById: (email, gender) =>
+    `user/recent-users?email=${email}&gender=${gender}`,
+};
