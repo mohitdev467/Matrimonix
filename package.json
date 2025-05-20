@@ -21,6 +21,7 @@
     "moment": "^2.30.1",
     "react": "19.0.0",
     "react-native": "0.79.2",
+    "react-native-agora": "^4.5.3",
     "react-native-cashfree-pg-sdk": "^2.2.2",
     "react-native-flash-message": "^0.4.2",
     "react-native-gesture-handler": "^2.25.0",

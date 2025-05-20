@@ -69,8 +69,8 @@ const SubscriptionScreen = () => {
 
   const getSessionId = async (item) => {
     const data = {
-      customer_email: "mohit@gmail.com",
-      customer_name: "Mohit Lehri",
+      customer_email: loginData?.data?.email,
+      customer_name: loginData?.data?.name,
       customer_id: loginData?.data?._id,
       customer_uid: loginData?.data?._id,
       amount: item?.price || 0,
@@ -82,6 +82,7 @@ const SubscriptionScreen = () => {
 
       return res.data;
     } catch (err) {
+    
       console.error('Error fetching session ID:', err);
     }
   };
@@ -132,7 +133,7 @@ const SubscriptionScreen = () => {
 
   const handlePurchase = async () => {
     const sessionId = await getSessionId(selectedSubscriptionDetails);
-     await startCheckout(sessionId?.payment_session_id, sessionId?.order_id)
+    await startCheckout(sessionId?.payment_session_id, sessionId?.order_id)
 
 
   }

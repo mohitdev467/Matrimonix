@@ -27,7 +27,7 @@ const screenNames = {
   ShortlistedScreen: "ShortlistedScreen",
   ForgotPassword: "ForgotPassword",
   ResetPassword: "ResetPassword",
-  videoCallScreen: "videoCallScreen",
+  VideoCallScreen: "VideoCallScreen",
   PaymentHistoryScreen: "PaymentHistoryScreen",
 
 };

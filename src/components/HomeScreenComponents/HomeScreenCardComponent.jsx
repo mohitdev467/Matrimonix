@@ -18,14 +18,16 @@ const HomeScreenCardComponent = ({ statsData }) => {
         <TextBold style={styles.countStyle}>{statsData.shortlistedCount}</TextBold>
         <TextSemiBold style={styles.titleStyle}>{commonUtils.shortlistedBYme}</TextSemiBold>
       </TouchableOpacity>
-      <View style={[styles.wrapper, { backgroundColor: "#cca600" }]}>
-        <TextBold style={styles.countStyle}>{statsData.profileViewCount}</TextBold>
-        <TextSemiBold style={styles.titleStyle}>{commonUtils.viewedYourProfile}</TextSemiBold>
-      </View>
-      <View style={[styles.wrapper, { backgroundColor: "#759619" }]}>
+      <TouchableOpacity style={[styles.wrapper, { backgroundColor: "#cca600" }]} onPress={() => navigation.navigate(screenNames.NewsScreen)}>
+        <TextBold style={styles.countStyle}>{statsData.newsCount}</TextBold>
+        <TextSemiBold style={styles.titleStyle}>{commonUtils.totalNews}</TextSemiBold>
+      </TouchableOpacity>
+      <TouchableOpacity style={[styles.wrapper, { backgroundColor: "#759619" }]}         
+      onPress={() => navigation.navigate(screenNames.ServieProviderScreen)}
+      >
         <TextBold style={styles.countStyle}>{statsData.serviceProvidersCount}</TextBold>
         <TextSemiBold style={styles.titleStyle}>{commonUtils.totalServices}</TextSemiBold>
-      </View>
+      </TouchableOpacity>
 
       <View></View>
     </View>

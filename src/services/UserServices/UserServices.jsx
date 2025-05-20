@@ -141,7 +141,6 @@ export const getPaymentStatus = async (orderid) => {
     const response = await apiInstance.get(
       `${apiEndpoints.checkPaymentStatus(orderid)}`
     );
-    console.log("responseeee", response)
     return response.data;
   } catch (error) {
     return { success: false, error: error };

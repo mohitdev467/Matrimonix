@@ -14,7 +14,6 @@ const HeaderWithSearchBack = ({
   isBackHeader,
   icon,
   isChatScreen = false,
-  handleStartCall
 }) => {
   const goBack = useGoBack();
   const navigation = useNavigation();
@@ -53,7 +52,7 @@ const HeaderWithSearchBack = ({
                   ]}
                 />
                 <TouchableOpacity
-                  onPress={handleStartCall}
+                  onPress={()=>navigation.navigate(screenNames.VideoCallScreen)}
                 >
                   <Image
                     source={ImagePicker.videoCallImage}

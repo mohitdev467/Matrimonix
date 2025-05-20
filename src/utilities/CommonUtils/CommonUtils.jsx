@@ -66,7 +66,7 @@ export const commonUtils = {
   userUpateSuccess: "User updated successfully",
 
   shortlistedBYme: "Shortlisted by me",
-  viewedYourProfile: "Viewed your profile",
+  totalNews: "Total News",
   totalServices: "Total Services",
   PaymentHistory:"Payment History"
 };
