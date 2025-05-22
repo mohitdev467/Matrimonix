@@ -79,7 +79,7 @@ import {
                       name={item.iconName}
                       style={[
                         styles.icon,
-                        { color: pickColors.primaryButtonColor },
+                        { color: pickColors.primary },
                       ]}
                     />
                   )}
@@ -147,7 +147,7 @@ import {
     },
   
     title: {
-      fontFamily: "SemiBold",
+      fontFamily:"Ubuntu-Medium",
       fontSize: Responsive.font(5),
     },
   
@@ -172,7 +172,7 @@ import {
     },
   
     mainTitle: {
-      fontFamily: "Regular",
+      fontFamily:"Ubuntu-Medium",
       fontSize: Responsive.font(4),
       color: pickColors.blackColor,
     },
@@ -181,17 +181,19 @@ import {
       marginHorizontal: Responsive.widthPx(5),
       marginVertical: Responsive.heightPx(4),
       alignItems: "center",
+      fontFamily:"Ubuntu-Medium",
+
     },
   
     logoutTextStyle: {
       fontSize: Responsive.font(4.5),
-      fontFamily: "Bold",
+      fontFamily:"Ubuntu-Medium",
     },
   
     modalText: {
       textAlign: "center",
       fontSize: Responsive.font(3.8),
-      fontFamily: "SemiBold",
+      fontFamily: "Ubuntu-Medium",
       marginVertical: Responsive.heightPx(2),
     },
     modalButtonContainer: {
@@ -214,11 +216,11 @@ import {
     cancelButtonText: {
       color: pickColors.whiteColor,
       fontSize: Responsive.font(4),
-      fontFamily: "SemiBold",
+      fontFamily: "Ubuntu-Medium",
     },
     confirmButtonText: {
       color: pickColors.whiteColor,
-      fontFamily: "SemiBold",
+      fontFamily: "Ubuntu-Medium",
       fontSize: Responsive.font(4),
     },
   });

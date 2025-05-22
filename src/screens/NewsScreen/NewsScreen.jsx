@@ -8,7 +8,6 @@ import {
   SafeAreaView,
 } from "react-native";
 import { useCallback, useEffect, useState } from "react";
-import CommonHeader from "../../components/CommonComponents/CommonHeader";
 import useAuthStorage from "../../helpers/Hooks/useAuthStorage";
 import { pickColors } from "../../helpers/theme/colors";
 import { getAllNews } from "../../services/NewsServices/NewsServices";
@@ -55,7 +54,6 @@ const NewsScreen = () => {
     getNewsListData();
   }, [loginData]);
 
-  console.log("stateeeeee", state.data);
 
   const uniqueCategories = state?.data?.reduce((acc, item) => {
     if (!acc.some((el) => el.category === item.category)) {
@@ -162,6 +160,6 @@ const styles = StyleSheet.create({
     color: pickColors.whiteColor,
     textTransform: "capitalize",
     fontSize: Responsive.font(3.5),
-    fontFamily: "Bold",
+    fontFamily: "Ubuntu-Medium",
   },
 });

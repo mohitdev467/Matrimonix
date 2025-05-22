@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   headerText: {
     color: pickColors.blackColor,
     fontSize: Responsive.font(5),
-    fontFamily: "Bold",
+    fontFamily: "Ubuntu-Medium",
     textTransform: "uppercase",
   },
 
@@ -127,13 +127,13 @@ const styles = StyleSheet.create({
   },
 
   titleText: {
-    fontFamily: "Bold",
+    fontFamily: "Ubuntu-Bold",
     fontSize: Responsive.font(8),
   },
   dateText: {
     color: "grey",
     fontSize: Responsive.font(4),
-    fontFamily: "Regular",
+    fontFamily: "Ubuntu-Regular",
   },
 
   imageWrapper: {
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
 
   descText: {
     fontSize: Responsive.font(4),
-    fontFamily: "Regular",
+    fontFamily: "Ubuntu-Regular",
     textAlign: "justify",
   },
 });

@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   },
   modalTitle: {
     fontSize: Responsive.font(5),
-    fontFamily: "Bold",
+    fontFamily: "Ubuntu-Bold",
     textAlign: "center",
   },
   closeButtonWrapper: {

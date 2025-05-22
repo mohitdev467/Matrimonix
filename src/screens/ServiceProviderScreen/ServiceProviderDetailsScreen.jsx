@@ -170,8 +170,9 @@ const styles = StyleSheet.create({
   headerText: {
     color: pickColors.blackColor,
     fontSize: Responsive.font(5),
-    fontFamily: "Bold",
     textTransform: "uppercase",
+    fontFamily: "Ubuntu-Medium",
+
   },
 
   mainWrapper: {
@@ -184,13 +185,13 @@ const styles = StyleSheet.create({
   },
 
   titleText: {
-    fontFamily: "Bold",
+    fontFamily: "Ubuntu-Bold",
     fontSize: Responsive.font(8),
   },
   dateText: {
     color: "grey",
     fontSize: Responsive.font(4),
-    fontFamily: "Regular",
+    fontFamily: "Ubuntu-Regular",
   },
 
   imageWrapper: {
@@ -206,9 +207,10 @@ const styles = StyleSheet.create({
 
   detailsText: {
     color: pickColors.blackColor,
-    fontFamily: "Bold",
+    fontFamily: "Ubuntu-Medium",
     fontSize: Responsive.font(4.5),
     marginBottom: Responsive.heightPx(1.5),
+
   },
 
   contactDetailsStyle: {
@@ -243,7 +245,7 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     color: pickColors.blackColor,
-    fontFamily: "SemiBold",
+    fontFamily: "Ubuntu-Regular",
     fontSize: Responsive.font(4),
   },
 });

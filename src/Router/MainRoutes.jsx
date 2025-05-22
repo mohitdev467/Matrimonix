@@ -30,7 +30,6 @@ import ChatsScreen from '../screens/ChatsScreen/ChatsScreen';
 import ChatsDetailsScreen from '../screens/ChatsScreen/ChatsDetailsScreen';
 import ForgotPasswordScreen from '../screens/ForgotPasswordScreen/ForgotPasswordScreen';
 import ResetPasswordScreen from '../screens/ForgotPasswordScreen/ResetPasswordScreen';
-import VideoCallScreen from '../screens/VideoCallScreen/VideoCallScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -148,7 +147,6 @@ const MainRoutes = () => {
                         />
                         <Stack.Screen name={screenNames.PaymentHistoryScreen} component={PaymentHistoryScreen} />
 
-                        <Stack.Screen name={screenNames.VideoCallScreen} component={VideoCallScreen} />
 
 
                     </>

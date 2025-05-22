@@ -86,7 +86,7 @@ const SearchUsersListComponents = () => {
           }
           style={[
             styles.imageStyle,
-            item.image ?? { resizeMode: "contain", borderRadius: 10 },
+            item.image ?? { resizeMode: "cover", borderRadius: 10 },
           ]}
         />
       </View>
@@ -96,7 +96,7 @@ const SearchUsersListComponents = () => {
           <View style={styles.nameHeartWrp}>
             <Text style={styles.cardName}>{item.name}</Text>
           </View>
-          <Text style={styles.cardName}>
+          <Text style={[styles.cardName,{fontFamily:"Ubuntu-Regular", fontSize:Responsive.font(3.5)}]}>
             {item.occupation || commonUtils.notAvailable}
           </Text>
         </View>
@@ -109,7 +109,7 @@ const SearchUsersListComponents = () => {
       <SearchComponent
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
-        placeholder={"Search by name, email, or mobile..."}
+        placeholder={"Search..."}
       />
 
       {state?.loading ? (
@@ -153,7 +153,6 @@ const styles = StyleSheet.create({
   },
   card: {
     flexDirection: "column",
-    padding: Responsive.heightPx(1),
     backgroundColor: pickColors.whiteColor,
     elevation: 3,
     backgroundColor: pickColors.whiteColor,
@@ -161,10 +160,10 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   imageStyle: {
-    height: Responsive.heightPx(10),
-    width: Responsive.widthPx(34),
-    borderRadius: Responsive.widthPx(50),
-    resizeMode: "contain",
+    height: Responsive.heightPx(20),
+    width: Responsive.widthPx(38),
+    resizeMode: "cover",
+    borderRadius:10,
   },
   imageContainer: {
     backgroundColor: pickColors.imageBgColor,
@@ -176,12 +175,13 @@ const styles = StyleSheet.create({
   contentWrapper: {
     width: Responsive.widthPx(36),
     paddingVertical: Responsive.heightPx(1.3),
+    paddingHorizontal:Responsive.widthPx(3)
   },
 
   cardName: {
     color: pickColors.blackColor,
-    fontFamily: "SemiBold",
-    fontSize: Responsive.font(3.5),
+    fontFamily: "Ubuntu-Bold",
+    fontSize: Responsive.font(4),
   },
   cardDescription: {
     fontSize: Responsive.font(2.7),

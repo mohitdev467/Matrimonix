@@ -29,7 +29,7 @@ import LinearGradient from "react-native-linear-gradient";
 import successHandler from "../../services/NotificationServices/SuccessHandler";
 
 const SubscriptionScreen = () => {
-  const { loginData } = useAuthStorage();
+  const { loginData,updateLoginData } = useAuthStorage();
   const { data } = usePackages();
   const navigation = useNavigation()
 
@@ -72,6 +72,7 @@ const SubscriptionScreen = () => {
       customer_email: loginData?.data?.email,
       customer_name: loginData?.data?.name,
       customer_id: loginData?.data?._id,
+      customer_phone:loginData?.data?.mobile,
       customer_uid: loginData?.data?._id,
       amount: item?.price || 0,
       version: Date.now(),
@@ -80,9 +81,9 @@ const SubscriptionScreen = () => {
       const com_url = `${API_BASE_URL}/user/order`;
       const res = await axios.post(com_url, data);
 
+
       return res.data;
     } catch (err) {
-    
       console.error('Error fetching session ID:', err);
     }
   };
@@ -118,8 +119,10 @@ const SubscriptionScreen = () => {
 
       setTimeout(async () => {
         const paymentStatus = await getPaymentStatus(orderId);
-        if (paymentStatus?.data?.status === 'SUCCESS') {
+        console.log("Payment stayisss", paymentStatus)
+        if (paymentStatus?.data?.paymentStatus === 'SUCCESS') {
           successHandler(paymentStatus?.message)
+          updateLoginData(paymentStatus?.data?.customer)
           navigation.navigate(screenNames.PaymentHistoryScreen);
           console.log()
         } else {
@@ -134,7 +137,6 @@ const SubscriptionScreen = () => {
   const handlePurchase = async () => {
     const sessionId = await getSessionId(selectedSubscriptionDetails);
     await startCheckout(sessionId?.payment_session_id, sessionId?.order_id)
-
 
   }
 

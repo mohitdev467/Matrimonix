@@ -326,8 +326,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: Responsive.widthPx(4),
   },
   userDetailsContainer: {
-    backgroundColor: pickColors.whiteColor,
-    elevation: 5,
+    // backgroundColor: pickColors.whiteColor,
+    // elevation: 5,
     marginHorizontal: Responsive.widthPx(1.5),
     borderRadius: 5,
     marginVertical: Responsive.heightPx(2),
@@ -342,10 +342,14 @@ const styles = StyleSheet.create({
   aboutMyself: {
     marginTop: Responsive.heightPx(3),
     paddingBottom: Responsive.heightPx(1.5),
-    marginBottom: Responsive.heightPx(1.5),
+    marginBottom: Responsive.heightPx(2),
     marginHorizontal: Responsive.widthPx(2),
     borderBottomWidth: 1,
     borderBottomColor: pickColors.lightGreyColor,
+    elevation:5,
+    backgroundColor:pickColors.whiteColor,
+    padding:16,
+    borderRadius:10,
   },
 
   commonSectionHeader: {

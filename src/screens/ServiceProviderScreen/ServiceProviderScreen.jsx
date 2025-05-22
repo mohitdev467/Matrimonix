@@ -236,10 +236,14 @@ const styles = StyleSheet.create({
     color: pickColors.blackColor,
     fontSize: Responsive.font(4.2),
     flex: 1,
+   fontFamily: "Ubuntu-Medium",
+
   },
   addressText: {
     fontSize: Responsive.font(2.8),
     color: pickColors.lightGreyColor,
+    fontFamily: "Ubuntu-Regular",
+
   },
 
   checkNowBtn: {

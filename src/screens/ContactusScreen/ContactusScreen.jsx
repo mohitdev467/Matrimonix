@@ -90,13 +90,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   getinTouchHeadingStyle: {
-    fontFamily: "Bold",
+    fontFamily: "Ubuntu-Bold",
     fontSize: Responsive.font(6.5),
     marginBottom: Responsive.heightPx(1.2),
     color: pickColors.blackColor,
   },
   subtitleStyle: {
-    fontFamily: "Regular",
+    fontFamily: "Ubuntu-Medium",
     fontSize: Responsive.font(3.7),
   },
 
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     marginTop: Responsive.heightPx(4),
   },
   textStyle: {
-    fontFamily: "SemiBold",
+    fontFamily: "Ubuntu-Regular",
     fontSize: Responsive.font(4),
     width:Responsive.widthPx(70)
   },

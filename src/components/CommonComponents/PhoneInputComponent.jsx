@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   label: {
     fontSize: Responsive.font(3.8),
     color: pickColors.blackColor,
-    fontFamily: "SemiBold",
+    fontFamily: "Ubuntu-Medium",
     marginBottom: Responsive.heightPx(0.5),
   },
   phoneContainer: {
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   },
   textInputStyle: {
     backgroundColor: pickColors.inputFieldBg,
-    fontFamily: "Bold",
+    fontFamily: "Ubuntu-Medium",
     color: pickColors.blackColor,
     fontSize: Responsive.font(4),
   },
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingVertical: 0,
     backgroundColor: pickColors.inputFieldBg,
-    fontFamily: "Regular",
+    fontFamily: "Ubuntu-Medium",
   },
   errorText: {
     color: "red",

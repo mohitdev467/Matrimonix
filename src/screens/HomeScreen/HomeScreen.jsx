@@ -17,13 +17,13 @@ import {
   import NewsCardHomeScreen from "../../components/HomeScreenComponents/NewsCardHomeScreen";
   import useStatsData from "../../helpers/Hooks/useStatsData";
   import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import useUserDetailsById from "../../helpers/Hooks/useUserDetailsById";
   
   const HomeScreen = () => {
     useBackHandler(true);
     const navigation = useNavigation();
     const [isRefreshing, setIsRefreshing] = useState(false);
     const { loginData } = useAuthStorage();
-  
     const { statsData, fetchStatsData } = useStatsData();
   
     useFocusEffect(

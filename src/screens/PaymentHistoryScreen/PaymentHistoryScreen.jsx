@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  TouchableOpacity,
+  LayoutAnimation,
+  Platform,
+  UIManager,
+} from "react-native";
+import Collapsible from "react-native-collapsible";
 import { handlePaymentHistory } from "../../services/UserServices/UserServices";
 import useAuthStorage from "../../helpers/Hooks/useAuthStorage";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -8,11 +18,24 @@ import { commonUtils } from "../../utilities/CommonUtils/CommonUtils";
 import { pickColors } from "../../helpers/theme/colors";
 import Responsive from "../../helpers/ResponsiveDimensions/Responsive";
 import Loader from "../../components/LoaderComponent/Loader";
+import FeatherIcon from "react-native-vector-icons/FontAwesome";
+import moment from "moment";
+
+if (Platform.OS === "android") {
+  UIManager.setLayoutAnimationEnabledExperimental &&
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+}
 
 const PaymentHistoryScreen = () => {
   const [payments, setPayments] = useState([]);
   const { loginData } = useAuthStorage();
-  const [isLoading,setIsLoading]= useState(false)
+  const [isLoading, setIsLoading] = useState(false);
+  const [activeId, setActiveId] = useState(null);
+
+  const toggleAccordion = (id) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    setActiveId(prev => (prev === id ? null : id));
+  };
 
   const fetchPaymentHistory = async () => {
     const userId = loginData?.data?._id;
@@ -20,15 +43,14 @@ const PaymentHistoryScreen = () => {
       console.warn("User ID is undefined");
       return;
     }
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       const response = await handlePaymentHistory(userId);
-      console.log("respjnseeeeee", response)
       setPayments(response.data || []);
     } catch (error) {
       console.error("Error fetching payment history:", error);
-    } finally{
-      setIsLoading(false)
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -46,48 +68,50 @@ const PaymentHistoryScreen = () => {
         icon={"arrow-left"}
       />
 
-{isLoading ? (
+      {isLoading ? (
         <Loader visible={isLoading} />
       ) : payments?.length > 0 ? (
-        <>
-      <FlatList
-        data={payments}
-        keyExtractor={(item) => item._id}
-        renderItem={({ item }) => (
-          <View style={styles.card}>
-            <View style={styles.innerCard}>
+        <FlatList
+          data={payments}
+          keyExtractor={(item) => item._id}
+          renderItem={({ item }) => {
+            const isActive = activeId === item._id;
 
-              <Text style={[styles.text, {color:pickColors.blackColor, fontWeight:'800'}]}>Order ID:- </Text>
-              <Text style={styles.text}>{item.orderId}</Text>
+            return (
+              <View style={styles.card}>
+                {/* Accordion Header */}
+                <TouchableOpacity onPress={() => toggleAccordion(item._id)} style={styles.accordianHeader}>
+                  <Text style={styles.accordionHeader}>Order ID: {item.orderId}</Text>
+                  <FeatherIcon name="chevron-down" style={styles.iconStyle} />
+                  
+                </TouchableOpacity>
 
-            </View>
-            <View style={styles.innerCard}>
-              <Text style={[styles.text, {color:pickColors.blackColor, fontWeight:'800'}]}>Status:- </Text>
-              <Text style={styles.text}>{item.status}</Text>
-            </View>
-            <View style={styles.innerCard}>
-              <Text style={[styles.text, {color:pickColors.blackColor, fontWeight:'800'}]}>Amount: </Text>
-              <Text style={styles.text}>₹ {item.amount}</Text>
-            </View>
-
-            <View style={styles.innerCard}>
-              <Text style={[styles.text, {color:pickColors.blackColor, fontWeight:'800'}]}>Package: </Text>
-              <Text style={styles.text}>{item.packages?.subscriptionType || "N/A"}</Text>
-
-            </View>
-            <View style={styles.innerCard}>
-              <Text style={[styles.text, {color:pickColors.blackColor, fontWeight:'800'}]}>Date: </Text>
-              <Text style={styles.text}>{new Date(item.timestamp).toLocaleString()}</Text>
-            </View>
-          </View>
-        )}
-      />
-      </>
-       ) : (
-              <View style={styles.noDataContainer}>
-                <Text style={styles.noDataText}>{commonUtils.noDataFound}</Text>
+                {/* Accordion Body */}
+                <Collapsible collapsed={!isActive}>
+                  <View style={styles.innerCard}>
+                    <Text style={styles.label}>Status:</Text>
+                    <Text style={styles.value}>{item.paymentStatus}</Text>
+                  </View>
+                  <View style={styles.innerCard}>
+                    <Text style={styles.label}>Amount:</Text>
+                    <Text style={styles.value}>₹ {item.amount}</Text>
+                  </View>
+                  <View style={styles.innerCard}>
+                    <Text style={styles.label}>Date:</Text>
+                    <Text style={styles.value}>
+                      {moment(item.createdAt).format("DD-MMM-YYYY")}
+                    </Text>
+                  </View>
+                </Collapsible>
               </View>
-            )}
+            );
+          }}
+        />
+      ) : (
+        <View style={styles.noDataContainer}>
+          <Text style={styles.noDataText}>{commonUtils.noDataFound}</Text>
+        </View>
+      )}
     </SafeAreaView>
   );
 };
@@ -98,26 +122,51 @@ const styles = StyleSheet.create({
     backgroundColor: pickColors.whiteColor,
   },
   card: {
-    padding: 15,
     marginVertical: Responsive.heightPx(2),
     marginHorizontal: 10,
     backgroundColor: pickColors.whiteColor,
     borderRadius: 8,
     elevation: 5,
     borderWidth: 1,
-    borderColor:pickColors.brandColor
-
+    borderColor: pickColors.brandColor,
+    paddingHorizontal:Responsive.widthPx(2),
+    paddingVertical:Responsive.heightPx(2)
+  },
+  accordionHeader: {
+    color: pickColors.blackColor,
+    fontWeight: "bold",
+    fontSize: Responsive.font(3.5),
   },
   innerCard: {
     flexDirection: "row",
-    alignItems: "center",
     justifyContent: "space-between",
-    marginVertical:Responsive.heightPx(0.5)
+    marginTop: Responsive.heightPx(1),
   },
-  text: {
+  label: {
+    color: pickColors.blackColor,
+    fontWeight: "800",
+    fontSize: Responsive.font(3.5),
+  },
+  value: {
     color: pickColors.brandColor,
-    fontSize:Responsive.font(3.5)
+    fontSize: Responsive.font(3.5),
+    fontFamily:"Ubuntu-Medium"
   },
+  noDataContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  noDataText: {
+    fontSize: 16,
+    color: pickColors.textGray,
+  },
+  accordianHeader:{
+    flexDirection:"row",
+    justifyContent:"space-between",
+    alignItems:"center"
+
+  }
 });
 
 export default PaymentHistoryScreen;

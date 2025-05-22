@@ -98,15 +98,19 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     gap: Responsive.heightPx(0.5),
   },
+  titleDescription:{
+    fontFamily: "Ubuntu-Regular",
+
+  },
   categoryText: {
     textTransform: "capitalize",
     fontSize: Responsive.font(4),
-    fontFamily: "SemiBold",
+    fontFamily: "Ubuntu-Bold",
   },
 
   titleText: {
     fontSize: Responsive.font(4.5),
-    fontFamily: "SemiBold",
+    fontFamily: "Ubuntu-Medium",
     color: pickColors.brandColor,
   },
   createdAtStyle: {

@@ -19,7 +19,7 @@ const HomeScreenCardComponent = ({ statsData }) => {
         <TextSemiBold style={styles.titleStyle}>{commonUtils.shortlistedBYme}</TextSemiBold>
       </TouchableOpacity>
       <TouchableOpacity style={[styles.wrapper, { backgroundColor: "#cca600" }]} onPress={() => navigation.navigate(screenNames.NewsScreen)}>
-        <TextBold style={styles.countStyle}>{statsData.newsCount}</TextBold>
+        <TextBold style={styles.countStyle}>{statsData.newsCount || 0}</TextBold>
         <TextSemiBold style={styles.titleStyle}>{commonUtils.totalNews}</TextSemiBold>
       </TouchableOpacity>
       <TouchableOpacity style={[styles.wrapper, { backgroundColor: "#759619" }]}         
@@ -55,12 +55,12 @@ const styles = StyleSheet.create({
   },
   countStyle: {
     fontSize: Responsive.font(6),
-    fontFamily: "SemiBold",
+    fontFamily:"Ubuntu-Medium",
     color: pickColors.whiteColor,
   },
   titleStyle: {
     fontSize: Responsive.font(3),
-    fontFamily: "SemiBold",
+    fontFamily:"Ubuntu-Medium",
     color: pickColors.whiteColor,
     textAlign: "center",
   },

@@ -8,7 +8,7 @@ import {
   SafeAreaView,
 } from "react-native";
 import _ from "lodash";
-import { Colors, pickColors } from "../../helpers/theme/colors";
+import {  pickColors } from "../../helpers/theme/colors";
 import Responsive from "../../helpers/ResponsiveDimensions/Responsive";
 
 import Icon from "react-native-vector-icons/Feather";
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
   },
   chatText: {
     fontSize: Responsive.font(3.5),
-    fontFamily: "SemiBold",
+    fontFamily:"Ubuntu-Medium",
   },
   imageView: {
     width: Responsive.widthPx(10),

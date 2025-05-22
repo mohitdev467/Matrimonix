@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   serviceText: {
     color: pickColors.whiteColor,
     fontSize: Responsive.font(3.5),
-    fontFamily: "Bold",
+    fontFamily: "Ubuntu-Medium",
   },
 });
 

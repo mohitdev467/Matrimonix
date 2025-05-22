@@ -127,17 +127,17 @@ const styles = StyleSheet.create({
   dateStyle: {
     fontSize: Responsive.font(3.2),
     width: Responsive.widthPx(20),
-    fontFamily: "SemiBold",
+    fontFamily: "Ubuntu-Regular",
   },
   nameText: {
     fontSize: Responsive.font(4.5),
     color: pickColors.blackColor,
-    fontFamily: "Bold",
+    fontFamily: "Ubuntu-Medium",
   },
   descriptionText: {
     color: "grey",
     fontSize: Responsive.font(3.5),
-    fontFamily: "Regular",
+    fontFamily: "Ubuntu-Regular",
     width: Responsive.widthPx(80),
   },
 });

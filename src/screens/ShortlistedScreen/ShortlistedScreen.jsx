@@ -68,6 +68,7 @@ export default function ShortlistedScreen() {
         <ScrollView
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
+          style={{marginTop:Responsive.heightPx(2)}}
         >
           <SwipeListView
             data={shortlistData || []}
@@ -142,11 +143,13 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontFamily: "Ubuntu-Medium",
   },
   description: {
     fontSize: 14,
     color: "#666",
+    fontFamily: "Ubuntu-Regular",
+
   },
   hiddenContainer: {
     alignItems: "flex-end",

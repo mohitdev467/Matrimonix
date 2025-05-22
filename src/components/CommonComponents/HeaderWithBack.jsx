@@ -99,8 +99,9 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontFamily: "SemiBold",
+    fontFamily: "Ubuntu-Medium",
     fontSize: Responsive.font(4.5),
+
   },
   icon: {
     fontSize: Responsive.font(5.5),

@@ -23,7 +23,7 @@ import Responsive from "../../helpers/ResponsiveDimensions/Responsive";
 
 const { width } = Dimensions.get("window");
 const ITEM_WIDTH = width * 0.75;
-const ITEM_SPACING = (width - ITEM_WIDTH) / 4;
+const ITEM_SPACING = (width - ITEM_WIDTH) / 3;
 
 const SliderItem = ({ item }) => {
   const navigation = useNavigation();
@@ -97,10 +97,18 @@ const SliderItem = ({ item }) => {
             <Text
               style={[
                 styles.nameStyle,
-                { fontSize: Responsive.font(4), fontFamily: "SemiBold" },
+                { fontSize: Responsive.font(4), fontFamily: "Ubuntu-Regular",marginVertical:Responsive.heightPx(0.5) },
               ]}
             >
               {item.email}
+            </Text>
+            <Text
+              style={[
+                styles.nameStyle,
+                { fontSize: Responsive.font(4), fontFamily: "Ubuntu-Regular",marginVertical:Responsive.heightPx(0.5) },
+              ]}
+            >
+              {item.occupation}
             </Text>
           </View>
 
@@ -128,19 +136,7 @@ const SliderItem = ({ item }) => {
         </View>
       </TouchableOpacity>
 
-      <View style={styles.percentWrapper}>
-        <View style={styles.percentWrapperINner}>
-          <Text style={styles.percentText}>
-            {item.matchPercentage
-              ? `${item.matchPercentage}%`
-              : item.percent || "0%"}
-          </Text>
-        </View>
-        <View>
-          <Text style={styles.matchProfile}>Match</Text>
-          <Text style={styles.yourProfile}>Your Profile</Text>
-        </View>
-      </View>
+     
     </View>
   );
 };
@@ -188,13 +184,14 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     width: "100%",
     alignItems: "center",
+    marginTop:Responsive.heightPx(4)
   },
   image: {
     width: "100%",
     height: Responsive.heightPx(48),
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    resizeMode: "cover",
+    resizeMode: "contain",
   },
   innerContainer: {
     padding: Responsive.widthPx(4),
@@ -219,7 +216,7 @@ const styles = StyleSheet.create({
   },
   nameStyle: {
     color: "black",
-    fontFamily: "Bold",
+    fontFamily:"Ubuntu-Medium",
     fontSize: Responsive.font(6.5),
     letterSpacing: 1.5,
   },

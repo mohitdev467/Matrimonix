@@ -163,7 +163,8 @@ import {
             <Text
               style={{
                 color: "grey",
-                fontFamily: "SemiBold",
+                fontFamily: "Ubuntu-Medium",
+
               }}
             >
               Forgot Password ?
@@ -207,7 +208,7 @@ import {
     welcomeText: {
       bottom: Responsive.heightPx(3),
       fontSize: Responsive.font(5.3),
-      fontFamily: "Bold",
+      fontFamily: "Ubuntu-Bold",
       color: pickColors.headingColor,
     },
     subTitle: {
@@ -215,7 +216,7 @@ import {
       fontSize: Responsive.font(3.5),
       paddingHorizontal: Responsive.widthPx(4),
       textAlign: "center",
-      fontFamily: "SemiBold",
+      fontFamily: "Ubuntu-Medium",
       color: pickColors.subHeadingColor,
     },
     inputContainer: {
@@ -245,7 +246,8 @@ import {
       flex: 1,
       marginHorizontal: Responsive.widthPx(2),
       backgroundColor: "transparent",
-      fontFamily: "Bold",
+      fontFamily: "Ubuntu-Medium",
+      color:pickColors.blackColor,
       height: Responsive.heightPx(7),
       color: pickColors.blackColor,
     },
@@ -271,7 +273,7 @@ import {
     },
     textBttStyle: {
       color: pickColors.whiteColor,
-      fontFamily: "Regular",
+      fontFamily: "Ubuntu-Medium",
       fontSize: Responsive.font(4.2),
     },
     line: {
@@ -304,13 +306,13 @@ import {
     dontHaveAccountText: {
       color: pickColors.blackColor,
       fontSize: Responsive.font(4),
-      fontFamily: "Regular",
+      fontFamily: "Ubuntu-Regular",
     },
     registerText: {
       color: pickColors.brandColor,
       fontSize: Responsive.font(4),
       textDecorationLine: "underline",
-      fontFamily: "SemiBold",
+      fontFamily: "Ubuntu-Medium",
     },
   
     searchWrapper: {

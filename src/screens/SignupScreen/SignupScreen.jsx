@@ -70,6 +70,7 @@ import {
       try {
         setIsLoading(true);
         const result = await handleRegisterUser(formData);
+        console.log("resultrrr", result)
         if (result.success) {
           successHandler(commonUtils.userCreatedSuccess);
           storeLoginData(result.data);
@@ -154,6 +155,7 @@ import {
               <PhoneNumberInput
                 onChangePhone={handlePhoneNumber}
                 label={"Phone number"}
+                isRequired={true}
                 error={errors?.phone_no}
                 errorMessage={errors?.phone_no}
               />
@@ -386,7 +388,7 @@ import {
     },
     label: {
       color: pickColors.blackColor,
-      fontFamily: "SemiBold",
+      fontFamily: "Ubuntu-Medium",
       fontSize: Responsive.font(4),
     },
     subLabel: {
@@ -402,7 +404,8 @@ import {
       paddingHorizontal: Responsive.widthPx(3),
       height: Responsive.heightPx(6),
       fontSize: Responsive.font(4),
-      fontFamily: "SemiBold",
+      fontFamily:"Ubuntu-Medium",
+      color:pickColors.blackColor
     },
     errorText: {
       color: pickColors.brandColor,
@@ -413,29 +416,29 @@ import {
     createAccountText: {
       bottom: Responsive.heightPx(3),
       fontSize: Responsive.font(5.5),
-      fontFamily: "Bold",
+      fontFamily: "Ubuntu-Bold",
       color: pickColors.headingColor,
     },
     registerWithEmailId: {
       bottom: Responsive.heightPx(2.3),
       fontSize: Responsive.font(3.4),
       color: pickColors.subHeadingColor,
-      fontFamily: "SemiBold",
+      fontFamily: "Ubuntu-Medium",
     },
     signInButtonText: {
       color: pickColors.brandColor,
       fontSize: Responsive.font(4.2),
       textDecorationLine: "underline",
-      fontFamily: "Bold",
+      fontFamily: "Ubuntu-Medium",
     },
     alreadyHaveAccount: {
       color: pickColors.blackColor,
       fontSize: Responsive.font(4.2),
-      fontFamily: "SemiBold",
+      fontFamily: "Ubuntu-Regular",
     },
     buttonTextStyle: {
       color: pickColors.whiteColor,
-      fontFamily: "Bold",
+      fontFamily: "Ubuntu-Medium",
       fontSize: Responsive.font(4.5),
     },
     alreadyHaveAccountWrappaer: {

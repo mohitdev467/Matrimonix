@@ -116,16 +116,18 @@ const styles = StyleSheet.create({
   nameStyle: {
     color: pickColors.blackColor,
     fontSize: Responsive.font(4),
-    fontFamily: "Bold",
+    fontFamily: "Ubuntu-Medium",
     paddingHorizontal: Responsive.widthPx(2),
   },
   dateStyle: {
-    fontFamily: "SemiBold",
+    fontFamily: "Ubuntu-Regular",
     fontSize: Responsive.font(3.2),
   },
   descriptionText: {
     width: Responsive.widthPx(75),
     paddingHorizontal: Responsive.widthPx(2),
     color: "grey",
+    fontFamily: "Ubuntu-Regular",
+
   },
 });

@@ -59,7 +59,6 @@ const UpdateProfileScreen = () => {
     }
   };
 
-  console.log("Login dataaa", loginData?.data?.phone_no);
 
   return (
     <>

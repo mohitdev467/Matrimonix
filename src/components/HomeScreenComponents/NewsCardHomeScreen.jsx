@@ -125,12 +125,12 @@ const styles = StyleSheet.create({
   },
   productTitle: {
     fontSize: Responsive.font(4.7),
-    fontFamily: "SemiBold",
+    fontFamily:"Ubuntu-Medium",
   },
   seeAlltextStyle: {
     fontSize: Responsive.font(3.8),
     color: pickColors.brandColor,
-    fontFamily: "SemiBold",
+    fontFamily:"Ubuntu-Medium",
   },
 
   flatListContent: {
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
   cardText: {
     fontSize: Responsive.font(3),
     color: pickColors.blackColor,
-    fontFamily: "SemiBold",
+    fontFamily:"Ubuntu-Medium",
     textAlign: "center",
     textTransform: "capitalize",
   },
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
   cardSubTitle: {
     fontSize: Responsive.font(3),
     color: pickColors.blackColor,
-    fontFamily: "Regular",
+    fontFamily:"Ubuntu-Regular",
     textAlign: "center",
     textTransform: "capitalize",
   },

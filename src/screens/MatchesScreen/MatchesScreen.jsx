@@ -24,6 +24,7 @@ const MatchesScreen = () => {
     refreshing: false,
   });
 
+
   const updateState = (name, value) => {
     setState((prevState) => ({
       ...prevState,
@@ -52,7 +53,6 @@ const MatchesScreen = () => {
     fetchMatchUserDetailsById();
   }, [loginData]);
 
-  console.log("state-----", state.data)
 
   return (
     <SafeAreaView style={styles.container}>

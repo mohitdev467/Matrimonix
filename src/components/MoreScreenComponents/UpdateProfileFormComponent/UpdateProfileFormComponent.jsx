@@ -32,7 +32,7 @@ const UpdateProfileFormComponent = ({ handleUpdateData }) => {
     name: "",
     email: "",
     country_code: "",
-    phone_no: "",
+    mobile: null,
     about_me: "",
     image: null,
     address: "",
@@ -161,9 +161,9 @@ const UpdateProfileFormComponent = ({ handleUpdateData }) => {
           <PhoneNumberInput
             onChangePhone={handlePhoneNumber}
             label={"Phone number"}
-            exisitingPhoneNumber={formState.phone_no}
-            error={errors?.phone_no}
-            errorMessage={errors?.phone_no}
+            exisitingPhoneNumber={formState.mobile}
+            error={errors?.mobile}
+            errorMessage={errors?.mobile}
             isRequired={true}
             phoneContainerStyle={styles.phoneContainerStyle}
             textContainerStyle={styles.textContainerStyle}
