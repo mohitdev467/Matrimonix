@@ -59,7 +59,8 @@ import {
           successHandler(commonUtils.loginSuccess);
           storeLoginData(result.data);
           setIsLoading(false);
-          navigation.navigate(screenNames.MainTabs);
+          navigation.navigate(screenNames.HomeScreen);
+
         } else {
           ErrorHandler(result.data?.message ?? commonUtils.unexpectedError);
           setIsLoading(false);

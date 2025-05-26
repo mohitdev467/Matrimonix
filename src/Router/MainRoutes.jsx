@@ -51,106 +51,105 @@ const MainRoutes = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [showOnboarding, setShowOnboarding] = useState(false);
     const { loginData } = useAuthStorage();
-  
+
     useEffect(() => {
-      const timer = setTimeout(() => {
-        setIsLoading(false);
-        if (!loginData?.accessToken) {
-          setShowOnboarding(true);
-        }
-      }, 2000);
-      return () => clearTimeout(timer);
+        const timer = setTimeout(() => {
+            setIsLoading(false);
+            if (!loginData?.accessToken) {
+                setShowOnboarding(true);
+            }
+        }, 2000);
+        return () => clearTimeout(timer);
     }, [loginData]);
-  
+
     if (isLoading) return <SplashScreen />;
-  
+
 
     return (
         <NavigationContainer>
-            <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {/* When not logged in */}
-        {!loginData?.accessToken ? (
-          <>
-            {showOnboarding && (
-              <Stack.Screen name={screenNames.OnboardingScreen}>
-                {(props) => (
-                  <OnboardingScreen
-                    {...props}
-                    onFinish={() => setShowOnboarding(false)}
-                  />
-                )}
-              </Stack.Screen>
-            )}
-            <Stack.Screen name={screenNames.LoginScreen} component={LoginScreen} />
-            <Stack.Screen name={screenNames.SignUpScreen} component={SignupScreen} />
-            <Stack.Screen name={screenNames.ForgotPassword} component={ForgotPasswordScreen} />
-            <Stack.Screen name={screenNames.ResetPassword} component={ResetPasswordScreen} />
-          </>
-        ) : (
-                    <>
+            <Stack.Navigator initialRouteName={
+          loginData?.accessToken
+            ? screenNames.HomeScreen
+            : showOnboarding
+            ? screenNames.OnboardingScreen
+            : screenNames.LoginScreen
+        } screenOptions={{ headerShown: false }}>
+                    { showOnboarding && (
+                        <Stack.Screen name={screenNames.OnboardingScreen}>
+                            {(props) => (
+                                <OnboardingScreen
+                                    {...props}
+                                    onFinish={() => setShowOnboarding(false)}
+                                />
+                            )}
+                        </Stack.Screen>
+
+                        )}
+
+                    <Stack.Screen name={screenNames.LoginScreen} component={LoginScreen} />
+                    <Stack.Screen name={screenNames.HomeScreen} component={MainTabs} />
+
+                    <Stack.Screen name={screenNames.ForgotPassword} component={ForgotPasswordScreen} />
+                    <Stack.Screen name={screenNames.ResetPassword} component={ResetPasswordScreen} />
                     <Stack.Screen name={screenNames.MainTabs}>
-              {(props) => <MainTabs {...props} loginData={loginData} />}
-            </Stack.Screen>
-                        <Stack.Screen name={screenNames.OnboardingScreen} component={OnboardingScreen} />
-                        <Stack.Screen name={screenNames.LoginScreen} component={LoginScreen} />
-
-                        <Stack.Screen name={screenNames.SignUpScreen} component={SignupScreen} />
-                        <Stack.Screen name={screenNames.NewsScreen} component={NewsScreen} />
-                        <Stack.Screen name={screenNames.NewsDetailsScreen} component={NewsDetailsScreen} />
-                        <Stack.Screen
-                            name={screenNames.DetailsScreen}
-                            component={UserDetailsScreen}
-                        />
-                        <Stack.Screen
-                            name={screenNames.UpdateProfileScreen}
-                            component={UpdateProfileScreen}
-                        />
-
-                        <Stack.Screen
-                            name={screenNames.ServieProviderScreen}
-                            component={ServiceProviderScreen}
-                        />
-                        <Stack.Screen
-                            name={screenNames.ServieProviderDetailsScreen}
-                            component={ServiceProviderDetailsScreen}
-                        />
-                        <Stack.Screen
-                            name={screenNames.SubscriptionScreen}
-                            component={SubscriptionScreen}
-                        />
-                        <Stack.Screen
-                            name={screenNames.NotificationScreen}
-                            component={NotificationScreen}
-                        />
-
-                        <Stack.Screen
-                            name={screenNames.AboutusScreen}
-                            component={AboutusScreen}
-                        />
-                        <Stack.Screen
-                            name={screenNames.ContactScreen}
-                            component={ContactScreen}
-                        />
-
-                        <Stack.Screen
-                            name={screenNames.ShortlistedScreen}
-                            component={ShortlistedScreen}
-                        />
-
-                        <Stack.Screen
-                            name={screenNames.ChatsScreen}
-                            component={ChatsScreen}
-                        />
-                        <Stack.Screen
-                            name={screenNames.ChatsDetailsScreen}
-                            component={ChatsDetailsScreen}
-                        />
-                        <Stack.Screen name={screenNames.PaymentHistoryScreen} component={PaymentHistoryScreen} />
+                        {(props) => <MainTabs {...props} loginData={loginData} />}
+                    </Stack.Screen>
 
 
+                    <Stack.Screen name={screenNames.NewsScreen} component={NewsScreen} />
+                    <Stack.Screen name={screenNames.NewsDetailsScreen} component={NewsDetailsScreen} />
+                    <Stack.Screen
+                        name={screenNames.DetailsScreen}
+                        component={UserDetailsScreen}
+                    />
+                    <Stack.Screen
+                        name={screenNames.UpdateProfileScreen}
+                        component={UpdateProfileScreen}
+                    />
 
-                    </>
-                )}
+                    <Stack.Screen
+                        name={screenNames.ServieProviderScreen}
+                        component={ServiceProviderScreen}
+                    />
+                    <Stack.Screen
+                        name={screenNames.ServieProviderDetailsScreen}
+                        component={ServiceProviderDetailsScreen}
+                    />
+                    <Stack.Screen
+                        name={screenNames.SubscriptionScreen}
+                        component={SubscriptionScreen}
+                    />
+                    <Stack.Screen
+                        name={screenNames.NotificationScreen}
+                        component={NotificationScreen}
+                    />
+
+                    <Stack.Screen
+                        name={screenNames.AboutusScreen}
+                        component={AboutusScreen}
+                    />
+                    <Stack.Screen
+                        name={screenNames.ContactScreen}
+                        component={ContactScreen}
+                    />
+
+                    <Stack.Screen
+                        name={screenNames.ShortlistedScreen}
+                        component={ShortlistedScreen}
+                    />
+
+                    <Stack.Screen
+                        name={screenNames.ChatsScreen}
+                        component={ChatsScreen}
+                    />
+                    <Stack.Screen
+                        name={screenNames.ChatsDetailsScreen}
+                        component={ChatsDetailsScreen}
+                    />
+                    <Stack.Screen name={screenNames.PaymentHistoryScreen} component={PaymentHistoryScreen} />
+
+                
+
             </Stack.Navigator>
         </NavigationContainer>
     );

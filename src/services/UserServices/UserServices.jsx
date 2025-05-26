@@ -48,7 +48,6 @@ export const handleUpdateUser = async (id, data) => {
 };
 
 export const getImageUrl = async (file) => {
-  console.log("file", file);
   const formData = new FormData();
   formData.append("file", file);
   try {
@@ -129,7 +128,7 @@ export const handlePaymentHistory = async (userId) => {
     const response = await apiInstance.get(
       `${apiEndpoints.getPaymentHistory(userId)}`
     );
-    
+
     return response.data;
   } catch (error) {
     return { success: false, error: error };
@@ -146,3 +145,6 @@ export const getPaymentStatus = async (orderid) => {
     return { success: false, error: error };
   }
 };
+
+
+

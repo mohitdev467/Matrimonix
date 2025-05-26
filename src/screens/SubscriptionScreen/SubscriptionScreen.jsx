@@ -93,6 +93,7 @@ const SubscriptionScreen = () => {
   const startCheckout = async (sessionId, orderId) => {
     try {
       const session = new CFSession(sessionId, orderId, CFEnvironment.SANDBOX);
+      console.log("sesssion", session)
       const paymentModes = new CFPaymentComponentBuilder()
         .add(CFPaymentModes.CARD)
         .add(CFPaymentModes.UPI)
@@ -119,7 +120,7 @@ const SubscriptionScreen = () => {
 
       setTimeout(async () => {
         const paymentStatus = await getPaymentStatus(orderId);
-        console.log("Payment stayisss", paymentStatus)
+        
         if (paymentStatus?.data?.paymentStatus === 'SUCCESS') {
           successHandler(paymentStatus?.message)
           updateLoginData(paymentStatus?.data?.customer)

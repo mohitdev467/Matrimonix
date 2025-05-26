@@ -22,14 +22,18 @@ import useAuthStorage from "../../helpers/Hooks/useAuthStorage";
 import UpdateProfileView from "../../components/MoreScreenComponents/UpdateProfileFormComponent/UpdateProfileView";
 import Loader from "../../components/LoaderComponent/Loader";
 import successHandler from "../../services/NotificationServices/SuccessHandler";
-import { handleUpdateUser } from "../../services/UserServices/UserServices";
+import { getImageUrl, handleUpdateUser } from "../../services/UserServices/UserServices";
 import ErrorHandler from "../../services/NotificationServices/ErrorHandler";
+import { launchImageLibrary } from "react-native-image-picker";
+
 
 const UpdateProfileScreen = () => {
   const goBack = useGoBack();
   const { loginData, updateLoginData } = useAuthStorage();
   const [isEditData, setIsEditData] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [uploading, setUploading] = useState(false);
+
 
   const handleEditData = async () => {
     setIsLoading(true);
@@ -58,6 +62,43 @@ const UpdateProfileScreen = () => {
       setIsLoading(false);
     }
   };
+
+
+  const handleImageUpload = async () => {
+    try {
+      const result = await launchImageLibrary({ mediaType: "photo" });
+  
+      if (result?.assets && result.assets.length > 0) {
+        setUploading(true);
+  
+        const selectedImage = result.assets[0];
+        const imageUri = {
+          uri: selectedImage.uri,
+          name: selectedImage.fileName,
+          type: selectedImage.type,
+        };
+  
+        const uploadedImageUrl = await getImageUrl(imageUri);
+  
+        const updatedUser = {
+          ...loginData.data,
+          image: uploadedImageUrl,
+        };
+  
+        const response = await handleUpdateUser(loginData.data._id, updatedUser);
+  
+        if (response?.data?.success) {
+          await updateLoginData(response.data);
+          successHandler("Profile image updated", "bottom");
+        }
+      }
+    } catch (error) {
+      ErrorHandler("Failed to update image");
+    } finally {
+      setUploading(false);
+    }
+  };
+  
 
 
   return (
@@ -111,14 +152,29 @@ const UpdateProfileScreen = () => {
             </View>
 
             <View>
-              <Image
-                source={
-                  typeof loginData?.data?.image === "string"
-                    ? { uri: loginData?.data?.image }
-                    : ImagePicker.dummyUserImage
-                }
-                style={styles.profileImage}
-              />
+            <TouchableOpacity onPress={handleImageUpload} style={{ position: "relative" }}>
+    <Image
+      source={
+        typeof loginData?.data?.image === "string"
+          ? { uri: loginData?.data?.image }
+          : ImagePicker.dummyUserImage
+      }
+      style={styles.profileImage}
+    />
+    <FeatherIcon
+      name="camera"
+      size={20}
+      color={pickColors.whiteColor}
+      style={{
+        position: "absolute",
+        bottom: 10,
+        left: Responsive.widthPx(20),
+        backgroundColor: pickColors.brandColor,
+        padding: 8,
+        borderRadius: 50,
+      }}
+    />
+  </TouchableOpacity>
 
               <View style={styles.userNameWrapper}>
                 <FeatherIcon name="user" style={styles.newIcon} />

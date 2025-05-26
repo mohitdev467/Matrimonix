@@ -23,10 +23,17 @@ import Icon from "react-native-vector-icons/Feather";
 import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
 import screenNames from "../../helpers/ScreenNames/ScreenNames";
 import HeaderWithSearchBack from "../../components/CommonComponents/HeaderWithBack";
+import { BlurView } from "@react-native-community/blur";
+import FeatherIcon from "react-native-vector-icons/Feather";
+import useGoBack from "../../helpers/Hooks/useGoBack";
+
+
 
 const ServiceProviderScreen = () => {
   const navigation = useNavigation();
   const { loginData } = useAuthStorage();
+  const goBack = useGoBack()
+
   const [searchQuery, setSearchQuery] = useState("");
   const [state, setState] = useState({
     data: [],
@@ -66,6 +73,9 @@ const ServiceProviderScreen = () => {
     fetchServiceProvider();
     setTimeout(() => updateState("refreshing", false), 2000);
   }, [loginData]);
+
+  const isExpired = loginData?.data?.membershipStatus === "expired";
+
 
   const renderItem = ({ item }) => {
     return (
@@ -171,6 +181,36 @@ const ServiceProviderScreen = () => {
           </>
         )}
       </ScrollView>
+
+
+      {!isExpired && (
+        <>
+          <BlurView
+            style={StyleSheet.absoluteFill}
+            blurType="light"
+            blurAmount={10}
+            reducedTransparencyFallbackColor="white"
+          />
+          <View style={styles.popupContainer}>
+            <TouchableOpacity style={{ position: 'absolute', top: Responsive.heightPx(5), left: Responsive.widthPx(5), zIndex:99 }} onPress={goBack}>
+              <FeatherIcon
+                name="arrow-left"
+                color={pickColors.blackColor}
+                size={Responsive.font(7)}
+              />
+            </TouchableOpacity>
+            <View style={styles.popup}>
+              <Text style={styles.popupTitle}>Explore Service Provider</Text>
+              <Text style={styles.popupMessage}>
+                Please purchase a plan to continue exploring servicer provider details.
+              </Text>
+              <TouchableOpacity style={styles.button} onPress={() => navigation.navigate(screenNames.SubscriptionScreen)}>
+                <Text style={styles.buttonText}>Buy Plan</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </>
+      )}
     </View>
   );
 };
@@ -236,7 +276,7 @@ const styles = StyleSheet.create({
     color: pickColors.blackColor,
     fontSize: Responsive.font(4.2),
     flex: 1,
-   fontFamily: "Ubuntu-Medium",
+    fontFamily: "Ubuntu-Medium",
 
   },
   addressText: {
@@ -264,5 +304,46 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: Responsive.font(3.5),
     textAlign: "center",
+  },
+
+  popupContainer: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  popup: {
+    width: "80%",
+    backgroundColor: "#fff",
+    borderRadius: 15,
+    padding: Responsive.widthPx(5),
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 5,
+    elevation: 5,
+  },
+  popupTitle: {
+    fontSize: Responsive.font(5),
+    fontFamily: "Ubuntu-Bold",
+    marginBottom: 10,
+  },
+  popupMessage: {
+    fontSize: Responsive.font(3.8),
+    textAlign: "center",
+    color: "grey",
+    marginBottom: 20,
+    fontFamily: "Ubuntu-Regular",
+  },
+  button: {
+    backgroundColor: pickColors.brandColor,
+    paddingVertical: 10,
+    paddingHorizontal: 25,
+    borderRadius: 10,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: Responsive.font(3.8),
+    fontFamily: "Ubuntu-Bold",
   },
 });

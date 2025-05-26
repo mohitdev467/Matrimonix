@@ -23,12 +23,19 @@ import Loader from "../../components/LoaderComponent/Loader";
 import useAuthStorage from "../../helpers/Hooks/useAuthStorage";
 import successHandler from "../../services/NotificationServices/SuccessHandler";
 import { handleAddUserShortlist } from "../../services/UserServices/UserServices";
+import useGoBack from "../../helpers/Hooks/useGoBack";
+import FeatherIcon from "react-native-vector-icons/Feather";
+import { BlurView } from "@react-native-community/blur";
+
+
 
 export default function ShortlistedScreen() {
   const { shortlistData, isLoading, error, fetchShortlistedUsers } =
     useShortlistUser();
   const { loginData } = useAuthStorage();
   const [removing, setRemoving] = useState(false);
+  const goBack = useGoBack()
+
 
   const deleteCard = async (userId) => {
     try {
@@ -53,6 +60,9 @@ export default function ShortlistedScreen() {
       icon: "info",
     });
   }, []);
+console.log("Login dataaaa", loginData)
+  const isExpired = loginData?.data?.membershipStatus === "expired";
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -118,6 +128,37 @@ export default function ShortlistedScreen() {
         <View style={styles.noDataContainer}>
           <Text style={styles.noDataText}>{commonUtils.noDataFound}</Text>
         </View>
+      )}
+
+
+
+{!isExpired && (
+        <>
+          <BlurView
+            style={StyleSheet.absoluteFill}
+            blurType="light"
+            blurAmount={10}
+            reducedTransparencyFallbackColor="white"
+          />
+          <View style={styles.popupContainer}>
+            <TouchableOpacity style={{ position: 'absolute', top: Responsive.heightPx(5), left: Responsive.widthPx(5), zIndex:99 }} onPress={goBack}>
+              <FeatherIcon
+                name="arrow-left"
+                color={pickColors.blackColor}
+                size={Responsive.font(7)}
+              />
+            </TouchableOpacity>
+            <View style={styles.popup}>
+              <Text style={styles.popupTitle}>Explore Matches</Text>
+              <Text style={styles.popupMessage}>
+                Please purchase a plan to continue exploring matches.
+              </Text>
+              <TouchableOpacity style={styles.button} onPress={() => navigation.navigate(screenNames.SubscriptionScreen)}>
+                <Text style={styles.buttonText}>Buy Plan</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </>
       )}
     </SafeAreaView>
   );
@@ -197,4 +238,44 @@ const styles = StyleSheet.create({
     color: pickColors.lightGreyColor,
     fontFamily: "SemiBold",
   },
+   popupContainer: {
+      ...StyleSheet.absoluteFillObject,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    popup: {
+      width: "80%",
+      backgroundColor: "#fff",
+      borderRadius: 15,
+      padding: Responsive.widthPx(5),
+      alignItems: "center",
+      shadowColor: "#000",
+      shadowOpacity: 0.2,
+      shadowOffset: { width: 0, height: 2 },
+      shadowRadius: 5,
+      elevation: 5,
+    },
+    popupTitle: {
+      fontSize: Responsive.font(5),
+      fontFamily: "Ubuntu-Bold",
+      marginBottom: 10,
+    },
+    popupMessage: {
+      fontSize: Responsive.font(3.8),
+      textAlign: "center",
+      color: "grey",
+      marginBottom: 20,
+      fontFamily: "Ubuntu-Regular",
+    },
+    button: {
+      backgroundColor: pickColors.brandColor,
+      paddingVertical: 10,
+      paddingHorizontal: 25,
+      borderRadius: 10,
+    },
+    buttonText: {
+      color: "#fff",
+      fontSize: Responsive.font(3.8),
+      fontFamily: "Ubuntu-Bold",
+    },
 });

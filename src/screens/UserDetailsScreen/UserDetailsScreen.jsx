@@ -12,7 +12,7 @@ import React, { useEffect, useState } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Responsive from "../../helpers/ResponsiveDimensions/Responsive";
 import useGoBack from "../../helpers/Hooks/useGoBack";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import {
   getUserDetailsById,
   handleAddUserShortlist,
@@ -30,10 +30,15 @@ import useAuthStorage from "../../helpers/Hooks/useAuthStorage";
 import Loader from "../../components/LoaderComponent/Loader";
 import successHandler from "../../services/NotificationServices/SuccessHandler";
 import useShortlistUser from "../../helpers/Hooks/useShortlistUser";
+import { BlurView } from "@react-native-community/blur";
+import FeatherIcon from "react-native-vector-icons/Feather";
+
+
 
 const UserDetailsScreen = () => {
   const goBack = useGoBack();
   const route = useRoute();
+  const navigation = useNavigation()
   const { loginData, updateLoginData } = useAuthStorage();
   const { id } = route.params || {};
   const { shortlistData } = useShortlistUser();
@@ -99,6 +104,9 @@ const UserDetailsScreen = () => {
       }));
     }
   }, [shortlistData, state?.data?._id]);
+
+  const isExpired = loginData?.data?.membershipStatus === "expired";
+
 
   return (
     <>
@@ -304,6 +312,37 @@ const UserDetailsScreen = () => {
             </View>
           </ScrollView>
         )}
+
+
+        {!isExpired && (
+          <>
+            <BlurView
+              style={StyleSheet.absoluteFill}
+              blurType="light"
+              blurAmount={10}
+              reducedTransparencyFallbackColor="white"
+            />
+
+            <View style={styles.popupContainer}>
+              <TouchableOpacity style={{ position: 'absolute', top: Responsive.heightPx(5), left: Responsive.widthPx(5), zIndex: 99 }} onPress={goBack}>
+                <FeatherIcon
+                  name="arrow-left"
+                  color={pickColors.blackColor}
+                  size={Responsive.font(7)}
+                />
+              </TouchableOpacity>
+              <View style={styles.popup}>
+                <Text style={styles.popupTitle}>Explore User Details</Text>
+                <Text style={styles.popupMessage}>
+                  Please purchase a plan to continue exploring user details.
+                </Text>
+                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate(screenNames.SubscriptionScreen)}>
+                  <Text style={styles.buttonText}>Buy Plan</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </>
+        )}
       </SafeAreaView>
     </>
   );
@@ -346,10 +385,10 @@ const styles = StyleSheet.create({
     marginHorizontal: Responsive.widthPx(2),
     borderBottomWidth: 1,
     borderBottomColor: pickColors.lightGreyColor,
-    elevation:5,
-    backgroundColor:pickColors.whiteColor,
-    padding:16,
-    borderRadius:10,
+    elevation: 5,
+    backgroundColor: pickColors.whiteColor,
+    padding: 16,
+    borderRadius: 10,
   },
 
   commonSectionHeader: {
@@ -393,5 +432,46 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: Responsive.widthPx(2),
+  },
+
+  popupContainer: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  popup: {
+    width: "80%",
+    backgroundColor: "#fff",
+    borderRadius: 15,
+    padding: Responsive.widthPx(5),
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 5,
+    elevation: 5,
+  },
+  popupTitle: {
+    fontSize: Responsive.font(5),
+    fontFamily: "Ubuntu-Bold",
+    marginBottom: 10,
+  },
+  popupMessage: {
+    fontSize: Responsive.font(3.8),
+    textAlign: "center",
+    color: "grey",
+    marginBottom: 20,
+    fontFamily: "Ubuntu-Regular",
+  },
+  button: {
+    backgroundColor: pickColors.brandColor,
+    paddingVertical: 10,
+    paddingHorizontal: 25,
+    borderRadius: 10,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: Responsive.font(3.8),
+    fontFamily: "Ubuntu-Bold",
   },
 });
