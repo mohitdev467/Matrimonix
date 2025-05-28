@@ -148,3 +148,16 @@ export const getPaymentStatus = async (orderid) => {
 
 
 
+
+export const handleDeletePaymentHistory = async (userId,paymentId) => {
+  try {
+    const response = await apiInstance.delete(
+      `${apiEndpoints.deletePaymentHistory(userId,paymentId)}`
+    );
+
+    return response.data;
+  } catch (error) {
+    return { success: false, error: error };
+  }
+};
+

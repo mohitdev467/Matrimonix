@@ -78,7 +78,7 @@ const SubscriptionScreen = () => {
       version: Date.now(),
     };
     try {
-      const com_url = `${API_BASE_URL}/user/order`;
+      const com_url = `${API_BASE_URL}user/order`;
       const res = await axios.post(com_url, data);
 
 
@@ -92,8 +92,7 @@ const SubscriptionScreen = () => {
 
   const startCheckout = async (sessionId, orderId) => {
     try {
-      const session = new CFSession(sessionId, orderId, CFEnvironment.SANDBOX);
-      console.log("sesssion", session)
+      const session = new CFSession(sessionId, orderId, CFEnvironment.PRODUCTION);
       const paymentModes = new CFPaymentComponentBuilder()
         .add(CFPaymentModes.CARD)
         .add(CFPaymentModes.UPI)

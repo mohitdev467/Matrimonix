@@ -14,8 +14,12 @@ const PhoneNumberInput = ({
   phoneContainerStyle,
   textContainerStyle,
   textInputStyleNew,
+  countryPickerStyle,
   isRequired = false,
+  phoneContainer,
+  newCodeTextStyle,
 }) => {
+
   const phoneInputRef = useRef(null);
   const [phoneNumber, setPhoneNumber] = useState(exisitingPhoneNumber || "");
   const [formattedValue, setFormattedValue] = useState("");
@@ -25,7 +29,7 @@ const PhoneNumberInput = ({
   }, [exisitingPhoneNumber]);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container,phoneContainer]}>
       {label && (
         <Text style={[styles.label, labelStyle]}>
           {label} {isRequired && <Text style={{ color: "red" }}>*</Text>}
@@ -46,7 +50,9 @@ const PhoneNumberInput = ({
         containerStyle={[styles.phoneContainer, phoneContainerStyle]}
         textContainerStyle={[styles.textContainer, textContainerStyle]}
         textInputStyle={[styles.textInputStyle, textInputStyleNew]}
-        codeTextStyle={styles.codeTextStyle}
+        codeTextStyle={[styles.codeTextStyle, newCodeTextStyle]}
+        countryPickerButtonStyle={[styles.countryPickerStyle, countryPickerStyle ]}
+      
       />
       {error ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
     </View>
@@ -55,9 +61,9 @@ const PhoneNumberInput = ({
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
+    width: "101%",
     marginVertical: Responsive.heightPx(1.3),
-    marginHorizontal: Responsive.widthPx(5),
+    marginHorizontal: Responsive.widthPx(4),
   },
 
   label: {
@@ -68,7 +74,7 @@ const styles = StyleSheet.create({
   },
   phoneContainer: {
     backgroundColor: pickColors.inputFieldBg,
-    borderRadius: 5,
+    borderRadius: 10,
     marginTop: Responsive.heightPx(0.5),
     paddingHorizontal: Responsive.widthPx(2),
     height: Responsive.heightPx(6),
@@ -86,6 +92,7 @@ const styles = StyleSheet.create({
   codeTextStyle: {
     backgroundColor: pickColors.inputFieldBg,
     fontFamily: "Bold",
+  
   },
   textContainer: {
     borderRadius: 8,

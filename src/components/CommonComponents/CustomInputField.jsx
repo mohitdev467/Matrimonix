@@ -114,6 +114,7 @@ const styles = StyleSheet.create({
     borderRadius: Responsive.widthPx(2),
     paddingHorizontal: Responsive.widthPx(2),
     height: Responsive.heightPx(6.2),
+    color:pickColors.lightGreyColor
   },
   inputWrapperFocused: {
     borderColor: pickColors.blueColorText,

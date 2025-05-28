@@ -10,7 +10,7 @@ import {
   UIManager,
 } from "react-native";
 import Collapsible from "react-native-collapsible";
-import { handlePaymentHistory } from "../../services/UserServices/UserServices";
+import {  handlePaymentHistory } from "../../services/UserServices/UserServices";
 import useAuthStorage from "../../helpers/Hooks/useAuthStorage";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HeaderWithSearchBack from "../../components/CommonComponents/HeaderWithBack";
@@ -54,6 +54,19 @@ const PaymentHistoryScreen = () => {
     }
   };
 
+  // const handleDeletePayment = async (paymentId) => {
+  //   const userId = loginData?.data?._id;
+  //   try {
+  //     const response = await handleDeletePaymentHistory(userId,paymentId);
+  //     console.log("responseeee", response.data)
+  //     if(response?.data?.success){
+
+  //     }
+  //   } catch (error) {
+  //     console.error("Error in deleting history", error);
+  //   }
+  // }
+
   useEffect(() => {
     if (loginData?.data?._id) {
       fetchPaymentHistory();
@@ -83,7 +96,7 @@ const PaymentHistoryScreen = () => {
                 <TouchableOpacity onPress={() => toggleAccordion(item._id)} style={styles.accordianHeader}>
                   <Text style={styles.accordionHeader}>Order ID: {item.orderId}</Text>
                   <FeatherIcon name="chevron-down" style={styles.iconStyle} />
-                  
+
                 </TouchableOpacity>
 
                 {/* Accordion Body */}
@@ -102,6 +115,13 @@ const PaymentHistoryScreen = () => {
                       {moment(item.createdAt).format("DD-MMM-YYYY")}
                     </Text>
                   </View>
+
+                  {/* <TouchableOpacity
+                    onPress={() => handleDeletePayment(item._id)}
+                    style={styles.deleteButton}
+                  >
+                    <FeatherIcon name="trash" size={22} color="red" />
+                  </TouchableOpacity> */}
                 </Collapsible>
               </View>
             );
@@ -129,8 +149,8 @@ const styles = StyleSheet.create({
     elevation: 5,
     borderWidth: 1,
     borderColor: pickColors.brandColor,
-    paddingHorizontal:Responsive.widthPx(2),
-    paddingVertical:Responsive.heightPx(2)
+    paddingHorizontal: Responsive.widthPx(2),
+    paddingVertical: Responsive.heightPx(2)
   },
   accordionHeader: {
     color: pickColors.blackColor,
@@ -150,7 +170,7 @@ const styles = StyleSheet.create({
   value: {
     color: pickColors.brandColor,
     fontSize: Responsive.font(3.5),
-    fontFamily:"Ubuntu-Medium"
+    fontFamily: "Ubuntu-Medium"
   },
   noDataContainer: {
     flex: 1,
@@ -161,12 +181,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: pickColors.textGray,
   },
-  accordianHeader:{
-    flexDirection:"row",
-    justifyContent:"space-between",
-    alignItems:"center"
+  accordianHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center"
 
   }
+  ,
+  deleteButton: {
+    marginTop: Responsive.heightPx(2),
+    alignSelf: "flex-end",
+    padding: 5,
+  },
 });
 
 export default PaymentHistoryScreen;

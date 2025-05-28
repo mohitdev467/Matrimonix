@@ -52,7 +52,7 @@ const UpdateProfileFormComponent = ({ handleUpdateData }) => {
     gender: null,
     bodyType: "",
     special_case: "",
-    education: "",
+    qualification: "",
     occupation: "",
     drinking: "",
     dietary: "",
@@ -74,6 +74,7 @@ const UpdateProfileFormComponent = ({ handleUpdateData }) => {
     gotra_nanihal: "",
     manglik: "",
     family_income: "",
+    whatsapp_no:'',
     aadhaar: "",
   });
 
@@ -165,8 +166,13 @@ const UpdateProfileFormComponent = ({ handleUpdateData }) => {
             error={errors?.mobile}
             errorMessage={errors?.mobile}
             isRequired={true}
-            phoneContainerStyle={styles.phoneContainerStyle}
-            textContainerStyle={styles.textContainerStyle}
+                        labelStyle={{color:pickColors.blackColor, marginLeft:Responsive.widthPx(3)}}
+                        phoneContainer={styles.phoneContainer}
+                        phoneContainerStyle={styles.phoneContainerStyle}
+                        newCodeTextStyle={styles.newCodeTextStyle}
+                        textContainerStyle={styles.textContainerStyle}
+                        textInputStyleNew={styles.textInputStyleNew}
+                        countryPickerStyle={styles.countryPickerStyle}
           />
           <View>
             <CustomInputField
@@ -409,13 +415,13 @@ const UpdateProfileFormComponent = ({ handleUpdateData }) => {
 
           <View>
             <CustomInputField
-              name="education"
+              name="qualification"
               label="Education"
-              value={formState.education}
+              value={formState.qualification}
               onTextChange={handleInputChange}
               placeholder="Enter education"
-              error={errors.education}
-              helperText={errors.education}
+              error={errors.qualification}
+              helperText={errors.qualification}
               containerStyle={styles.containerStyle}
               mainContainerStyle={styles.mainContainer}
               labelStyle={styles.labelStyle}
@@ -727,6 +733,22 @@ const UpdateProfileFormComponent = ({ handleUpdateData }) => {
 
           <View>
             <CustomInputField
+              name="whatsapp_no"
+              label="Whatsapp Number"
+              value={formState.whatsapp_no}
+              onTextChange={handleInputChange}
+              placeholder="Enter whatsapp number"
+              error={errors.whatsapp_no}
+              helperText={errors.whatsapp_no}
+              containerStyle={styles.containerStyle}
+              mainContainerStyle={styles.mainContainer}
+              labelStyle={styles.labelStyle}
+              inputStyle={styles.inputStyle}
+            />
+          </View>
+
+          <View>
+            <CustomInputField
               name="aadhaar"
               label="Aadhar Number"
               value={formState.aadhaar}
@@ -740,6 +762,7 @@ const UpdateProfileFormComponent = ({ handleUpdateData }) => {
               inputStyle={styles.inputStyle}
             />
           </View>
+
 
           <ButtonComponent
             title={commonUtils.updateProfileHeading}
@@ -768,6 +791,7 @@ const styles = StyleSheet.create({
     color: pickColors.blackColor,
     fontSize: Responsive.font(3.5),
     marginBottom: Responsive.heightPx(1),
+    fontFamily:"Ubuntu-Medium",
     marginLeft: Responsive.widthPx(4),
   },
   inputStyle: {
@@ -779,11 +803,13 @@ const styles = StyleSheet.create({
   },
 
   mainContainer: {
-    backgroundColor: pickColors.inputFieldBg,
+    backgroundColor: pickColors.whiteColor,
     width: Responsive.widthPx(85),
     height: Responsive.heightPx(5.5),
     alignSelf: "center",
-    borderRadius: 25,
+    borderRadius: 10,
+    borderWidth:1,
+    borderColor:pickColors.blackColor
   },
   dropdownStyle: {
     width: Responsive.widthPx(85),
@@ -796,16 +822,54 @@ const styles = StyleSheet.create({
     marginBottom: Responsive.heightPx(4),
     marginTop: Responsive.heightPx(4),
   },
-  phoneContainerStyle: {
-    width: Responsive.widthPx(85),
-    height: Responsive.heightPx(5.5),
-    marginLeft: Responsive.widthPx(-10),
-    alignSelf: "center",
-    borderRadius: 50,
-    marginBottom: Responsive.heightPx(0.2),
-  },
+ phoneContainerStyle: {
+     backgroundColor: "#fff",
+     borderWidth: 1,
+     height: Responsive.heightPx(6.2),
+     width: "90%",
+     borderRadius:10,
+     alignSelf:"center"
+   },
+ 
+   phoneContainer:{
+     marginHorizontal:0,
+   },
+ 
+   textContainerStyle: {
+     backgroundColor: "#fff",
+     borderBottomWidth: 0.5,
+     borderColor: pickColors.blackColor,
+     paddingVertical: 0,
+     borderRadius:10,
+   },
+ 
+   textInputStyleNew: {
+     backgroundColor: "transparent",
+     fontFamily: "Ubuntu-Medium",
+     fontSize: Responsive.font(4),
+     color: pickColors.blackColor,
+   },
+ 
+   countryPickerStyle: {
+     backgroundColor: "#fff",
+     borderBottomWidth: 0.5,
+     borderColor: pickColors.blackColor,
+   },
+ 
+  
+  mainContainerStyle:{
+    borderWidth:1,
+    borderColor: pickColors.blackColor,
 
-  textContainerStyle: {
-    borderRadius: 50,
   },
+  newCodeTextStyle:{
+    backgroundColor:pickColors.whiteColor
+  },
+   textInputStyleNew: {
+      backgroundColor: "transparent",
+      fontFamily: "Ubuntu-Medium",
+      fontSize: Responsive.font(4),
+      color: pickColors.blackColor,
+    },
+  
 });

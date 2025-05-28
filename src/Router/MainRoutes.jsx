@@ -87,6 +87,8 @@ const MainRoutes = () => {
                         )}
 
                     <Stack.Screen name={screenNames.LoginScreen} component={LoginScreen} />
+                    <Stack.Screen name={screenNames.SignUpScreen} component={SignupScreen} />
+
                     <Stack.Screen name={screenNames.HomeScreen} component={MainTabs} />
 
                     <Stack.Screen name={screenNames.ForgotPassword} component={ForgotPasswordScreen} />

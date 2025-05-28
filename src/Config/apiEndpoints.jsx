@@ -6,9 +6,10 @@ export const apiEndpoints = {
   getStatsData: (userId) => `admin/stats-data/${userId}`,
   addUserIntoShortlist: "admin/shortlisted",
   getMatchedUsers: (id) => `admin/matched/user/${id}`,
+  getUserById:(id)=>       `admin/users/${id}`,
   getPaymentHistory: (userId) => `user/payment/history/${userId}`,
   checkPaymentStatus: (orderId) => `user/status/${orderId}`,
-
+  deletePaymentHistory : (userId, paymentId)=>`user/payment/history/${userId}/${paymentId}`,
   getNews: "admin/news",
   getServiceProviders: "admin/service-providers",
   uploadFile: "admin/upload",

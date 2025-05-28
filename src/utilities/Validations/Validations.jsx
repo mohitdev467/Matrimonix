@@ -14,14 +14,13 @@ export const validateLoginForm = (formData, setFormErrors) => {
   let errors = {};
   let isValid = true;
 
-  if (!formData.email.trim()) {
-    errors.email = commonUtils.emailRequired;
+  if (!formData.mobile.trim()) {
+    errors.mobile = commonUtils.phoneRequired;
     isValid = false;
-  } else if (!validateEmail(formData.email)) {
-    errors.email = commonUtils.validEmail;
+  } else if (!validatePhone(formData.mobile)) {
+    errors.mobile = commonUtils.validPhoneNumber;
     isValid = false;
   }
-
   if (!formData.password.trim()) {
     errors.password = commonUtils.passwordRequired;
     isValid = false;

@@ -5,6 +5,7 @@ import { pickColors } from "../../helpers/theme/colors";
 import { commonUtils } from "../../utilities/CommonUtils/CommonUtils";
 
 const UserFamilySection = ({ myDetails }) => {
+  console.log("My detailsss", myDetails)
   return (
     <View>
       <View style={styles.mainWrapper}>
@@ -370,8 +371,8 @@ const UserFamilySection = ({ myDetails }) => {
               },
             ]}
           >
-            {myDetails?.permanent_address
-              ? myDetails?.permanent_address
+            {myDetails?.family_address
+              ? myDetails?.family_address
               : commonUtils.notAvailable}
           </Text>
         </View>
@@ -400,8 +401,8 @@ const UserFamilySection = ({ myDetails }) => {
               },
             ]}
           >
-            {myDetails?.family_pin
-              ? myDetails?.family_pin
+            {myDetails?.pinCode
+              ? myDetails?.pinCode
               : commonUtils.notAvailable}
           </Text>
         </View>
@@ -436,34 +437,7 @@ const UserFamilySection = ({ myDetails }) => {
         </View>
       </View>
 
-      <View style={styles.mainWrapper}>
-        <View style={styles.widthPx40}>
-          <Text
-            style={[
-              styles.newTextStyle,
-              {
-                fontSize: Responsive.font(3.7),
-                color: pickColors.subHeadingColor,
-              },
-            ]}
-          >
-            Parent Contact :
-          </Text>
-        </View>
-        <View style={styles.innerWrapper}>
-          <Text
-            style={[
-              styles.newTextStyle,
-              {
-                fontSize: Responsive.font(3.8),
-                color: pickColors.blackColor,
-              },
-            ]}
-          >
-            {myDetails?.mobile2 ? myDetails?.mobile2 : commonUtils.notAvailable}
-          </Text>
-        </View>
-      </View>
+      
       <View style={styles.mainWrapper}>
         <View style={styles.widthPx40}>
           <Text

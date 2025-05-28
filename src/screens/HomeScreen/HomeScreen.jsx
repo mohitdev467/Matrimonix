@@ -17,7 +17,6 @@ import {
   import NewsCardHomeScreen from "../../components/HomeScreenComponents/NewsCardHomeScreen";
   import useStatsData from "../../helpers/Hooks/useStatsData";
   import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import useUserDetailsById from "../../helpers/Hooks/useUserDetailsById";
   
   const HomeScreen = () => {
     useBackHandler(true);

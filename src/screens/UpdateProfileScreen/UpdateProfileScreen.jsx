@@ -25,6 +25,7 @@ import successHandler from "../../services/NotificationServices/SuccessHandler";
 import { getImageUrl, handleUpdateUser } from "../../services/UserServices/UserServices";
 import ErrorHandler from "../../services/NotificationServices/ErrorHandler";
 import { launchImageLibrary } from "react-native-image-picker";
+import useUserDetailsById from "../../helpers/Hooks/useUserDetailsById";
 
 
 const UpdateProfileScreen = () => {
@@ -33,6 +34,9 @@ const UpdateProfileScreen = () => {
   const [isEditData, setIsEditData] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const { data: userData } = useUserDetailsById(loginData?.data?._id);
+
+
 
 
   const handleEditData = async () => {
@@ -67,26 +71,26 @@ const UpdateProfileScreen = () => {
   const handleImageUpload = async () => {
     try {
       const result = await launchImageLibrary({ mediaType: "photo" });
-  
+
       if (result?.assets && result.assets.length > 0) {
         setUploading(true);
-  
+
         const selectedImage = result.assets[0];
         const imageUri = {
           uri: selectedImage.uri,
           name: selectedImage.fileName,
           type: selectedImage.type,
         };
-  
+
         const uploadedImageUrl = await getImageUrl(imageUri);
-  
+
         const updatedUser = {
           ...loginData.data,
           image: uploadedImageUrl,
         };
-  
+
         const response = await handleUpdateUser(loginData.data._id, updatedUser);
-  
+
         if (response?.data?.success) {
           await updateLoginData(response.data);
           successHandler("Profile image updated", "bottom");
@@ -98,7 +102,7 @@ const UpdateProfileScreen = () => {
       setUploading(false);
     }
   };
-  
+
 
 
   return (
@@ -152,54 +156,54 @@ const UpdateProfileScreen = () => {
             </View>
 
             <View>
-            <TouchableOpacity onPress={handleImageUpload} style={{ position: "relative" }}>
-    <Image
-      source={
-        typeof loginData?.data?.image === "string"
-          ? { uri: loginData?.data?.image }
-          : ImagePicker.dummyUserImage
-      }
-      style={styles.profileImage}
-    />
-    <FeatherIcon
-      name="camera"
-      size={20}
-      color={pickColors.whiteColor}
-      style={{
-        position: "absolute",
-        bottom: 10,
-        left: Responsive.widthPx(20),
-        backgroundColor: pickColors.brandColor,
-        padding: 8,
-        borderRadius: 50,
-      }}
-    />
-  </TouchableOpacity>
+              <TouchableOpacity onPress={handleImageUpload} style={{ position: "relative" }}>
+                <Image
+                  source={
+                    typeof loginData?.data?.image === "string"
+                      ? { uri: loginData?.data?.image }
+                      : ImagePicker.dummyUserImage
+                  }
+                  style={styles.profileImage}
+                />
+                <FeatherIcon
+                  name="camera"
+                  size={20}
+                  color={pickColors.whiteColor}
+                  style={{
+                    position: "absolute",
+                    bottom: 10,
+                    left: Responsive.widthPx(20),
+                    backgroundColor: pickColors.brandColor,
+                    padding: 8,
+                    borderRadius: 50,
+                  }}
+                />
+              </TouchableOpacity>
 
               <View style={styles.userNameWrapper}>
                 <FeatherIcon name="user" style={styles.newIcon} />
                 <Text style={styles.userNameStyle}>
-                  {loginData?.data?.name || commonUtils.notAvailable}
+                  {userData?.name || commonUtils.notAvailable}
                 </Text>
               </View>
               <View style={styles.userNameWrapper}>
                 <FeatherIcon name="mail" style={styles.newIcon} />
                 <Text style={styles.userNameStyle}>
-                  {loginData?.data?.email || commonUtils.notAvailable}
+                  {userData?.email || commonUtils.notAvailable}
                 </Text>
               </View>
               <View style={styles.userNameWrapper}>
                 <FeatherIcon name="phone" style={styles.newIcon} />
                 <Text style={styles.userNameStyle}>
-                  {loginData?.data?.phone_no
-                    ? `${loginData?.data?.country_code}-${loginData?.data?.phone_no}`
+                  {userData?.mobile
+                    ? `${userData?.country_code}-${userData?.mobile}`
                     : commonUtils.notAvailable}
                 </Text>
               </View>
               <View style={styles.userNameWrapper}>
                 <FeatherIcon name="map-pin" style={styles.newIcon} />
                 <Text style={styles.userNameStyle}>
-                  {`${loginData?.data?.address || commonUtils.notAvailable}`}
+                  {`${userData?.address || commonUtils.notAvailable}`}
                 </Text>
               </View>
             </View>
@@ -212,7 +216,7 @@ const UpdateProfileScreen = () => {
         ) : isEditData ? (
           <UpdateProfileFormComponent handleUpdateData={handleUpdateData} />
         ) : (
-          <UpdateProfileView userData={loginData?.data} />
+          <UpdateProfileView userData={userData} />
         )}
       </SafeAreaView>
     </>

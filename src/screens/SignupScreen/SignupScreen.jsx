@@ -158,6 +158,14 @@ import {
                 isRequired={true}
                 error={errors?.phone_no}
                 errorMessage={errors?.phone_no}
+                labelStyle={{color:pickColors.blackColor
+                  ,marginLeft:Responsive.widthPx(5)}}
+                              phoneContainer={styles.phoneContainer}
+                              phoneContainerStyle={styles.phoneContainerStyle}
+                              newCodeTextStyle={styles.newCodeTextStyle}
+                              textContainerStyle={styles.textContainerStyle}
+                              textInputStyleNew={styles.textInputStyleNew}
+                              countryPickerStyle={styles.countryPickerStyle}
               />
   
               <View style={styles.formWrapper}>
@@ -398,14 +406,16 @@ import {
     },
   
     inputStyle: {
-      backgroundColor: pickColors.inputFieldBg,
-      borderRadius: 5,
+      backgroundColor: pickColors.whiteColor,
+      borderRadius: 10,
       marginTop: Responsive.heightPx(1),
       paddingHorizontal: Responsive.widthPx(3),
       height: Responsive.heightPx(6),
       fontSize: Responsive.font(4),
       fontFamily:"Ubuntu-Medium",
-      color:pickColors.blackColor
+      color:pickColors.blackColor,
+      borderWidth:1,
+      borderRadius:5,
     },
     errorText: {
       color: pickColors.brandColor,
@@ -455,5 +465,40 @@ import {
       borderRadius: 10,
       height: Responsive.heightPx(6),
     },
+     phoneContainerStyle: {
+        backgroundColor: "#fff",
+        borderWidth: 1,
+        height: Responsive.heightPx(6.2),
+        width: "87%",
+        borderRadius:5,
+        alignSelf:"center"
+      },
+    
+      phoneContainer:{
+        marginHorizontal:0,
+      },
+    
+      textContainerStyle: {
+        backgroundColor: "#fff",
+        borderBottomWidth: 0.5,
+        borderColor: pickColors.blackColor,
+        paddingVertical: 0,
+      },
+    
+      textInputStyleNew: {
+        backgroundColor: "transparent",
+        fontFamily: "Ubuntu-Medium",
+        fontSize: Responsive.font(4),
+        color: pickColors.blackColor,
+      },
+    
+      countryPickerStyle: {
+        backgroundColor: "#fff",
+        borderBottomWidth: 0.5,
+        borderColor: pickColors.blackColor,
+      },
+      newCodeTextStyle:{
+        backgroundColor:pickColors.whiteColor
+      }
   });
   
