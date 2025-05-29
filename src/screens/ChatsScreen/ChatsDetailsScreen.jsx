@@ -22,7 +22,7 @@ import Feather from "react-native-vector-icons/Feather";
 import io from "socket.io-client";
 import screenNames from "../../helpers/ScreenNames/ScreenNames";
 
-const SOCKET_SERVER_URL = "http://192.168.29.119:5000"; // <-- Change to your IP/server
+const SOCKET_SERVER_URL = "http://192.168.1.4:5000"; // <-- Change to your IP/server
 
 const ChatsDetailsScreen = () => {
   const route = useRoute();
@@ -50,27 +50,7 @@ const ChatsDetailsScreen = () => {
       );
     });
 
-    socket.on("incoming_call", ({ roomId, senderName }) => {
-      Alert.alert(
-        "Incoming Call",
-        `Video call from ${senderName}`,
-        [
-          {
-            text: "Reject",
-            style: "cancel",
-          },
-          {
-            text: "Accept",
-            onPress: () =>
-              navigation.navigate(screenNames.CallPageScreen, {
-                roomId,
-                isCaller: false,
-              }),
-          },
-        ],
-        { cancelable: false }
-      );
-    });
+    
 
     return () => {
       socket.disconnect();
@@ -158,7 +138,7 @@ const ChatsDetailsScreen = () => {
       <HeaderWithSearchBack
         headerTitle={data.name}
         isBackHeader={true}
-        isChatScreen={true}
+        isChatScreen={false}
         icon={"arrow-left"}
         onVideoCallPress={handleStartCall} // Add this to the header
       />

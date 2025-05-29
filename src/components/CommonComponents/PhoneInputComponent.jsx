@@ -47,6 +47,7 @@ const PhoneNumberInput = ({
         onChangeFormattedText={(text) => {
           setFormattedValue(text);
         }}
+        placeholder="Enter phone number"
         containerStyle={[styles.phoneContainer, phoneContainerStyle]}
         textContainerStyle={[styles.textContainer, textContainerStyle]}
         textInputStyle={[styles.textInputStyle, textInputStyleNew]}

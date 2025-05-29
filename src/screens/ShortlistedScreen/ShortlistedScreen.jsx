@@ -132,7 +132,7 @@ console.log("Login dataaaa", loginData)
 
 
 
-{!isExpired && (
+{isExpired && (
         <>
           <BlurView
             style={StyleSheet.absoluteFill}
