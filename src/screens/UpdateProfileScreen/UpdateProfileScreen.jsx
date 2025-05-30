@@ -265,6 +265,7 @@ const styles = StyleSheet.create({
     marginHorizontal: Responsive.widthPx(6),
     borderRadius: 100,
     resizeMode: "contain",
+    borderWidth:1,
   },
 
   trainerLevelWrp: {
