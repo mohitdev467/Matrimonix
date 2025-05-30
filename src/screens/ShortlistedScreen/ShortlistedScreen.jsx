@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import HeaderWithSearchBack from "../../components/CommonComponents/HeaderWithBack";
 import { commonUtils } from "../../utilities/CommonUtils/CommonUtils";
 import { SwipeListView } from "react-native-swipe-list-view";
@@ -26,6 +26,8 @@ import { handleAddUserShortlist } from "../../services/UserServices/UserServices
 import useGoBack from "../../helpers/Hooks/useGoBack";
 import FeatherIcon from "react-native-vector-icons/Feather";
 import { BlurView } from "@react-native-community/blur";
+import useUserDetailsById from "../../helpers/Hooks/useUserDetailsById";
+import { useFocusEffect } from "@react-navigation/native";
 
 
 
@@ -35,6 +37,8 @@ export default function ShortlistedScreen() {
   const { loginData } = useAuthStorage();
   const [removing, setRemoving] = useState(false);
   const goBack = useGoBack()
+  const { data: userData, refetch } = useUserDetailsById(loginData?.data?._id);
+
 
 
   const deleteCard = async (userId) => {
@@ -60,9 +64,17 @@ export default function ShortlistedScreen() {
       icon: "info",
     });
   }, []);
-console.log("Login dataaaa", loginData)
-  const isExpired = loginData?.data?.membershipStatus === "expired";
 
+useFocusEffect(
+    useCallback(() => {
+      if (loginData?.data?._id) {
+        refetch();
+      }
+    }, [loginData?.data?._id])
+  );
+
+
+  const isExpired = userData?.membershipStatus === "expired";
 
   return (
     <SafeAreaView style={styles.container}>

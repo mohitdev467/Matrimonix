@@ -13,7 +13,7 @@ import Loader from "../../components/LoaderComponent/Loader";
 import SearchComponent from "../../components/CommonComponents/SearchComponent";
 import { getAllServiceProvider } from "../../services/ServiceProviderServices/ServiceProviderServices";
 import ErrorHandler from "../../services/NotificationServices/ErrorHandler";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import useAuthStorage from "../../helpers/Hooks/useAuthStorage";
 import { commonUtils } from "../../utilities/CommonUtils/CommonUtils";
 import { pickColors } from "../../helpers/theme/colors";
@@ -26,6 +26,7 @@ import HeaderWithSearchBack from "../../components/CommonComponents/HeaderWithBa
 import { BlurView } from "@react-native-community/blur";
 import FeatherIcon from "react-native-vector-icons/Feather";
 import useGoBack from "../../helpers/Hooks/useGoBack";
+import useUserDetailsById from "../../helpers/Hooks/useUserDetailsById";
 
 
 
@@ -33,6 +34,8 @@ const ServiceProviderScreen = () => {
   const navigation = useNavigation();
   const { loginData } = useAuthStorage();
   const goBack = useGoBack()
+  const { data: userData, refetch } = useUserDetailsById(loginData?.data?._id);
+
 
   const [searchQuery, setSearchQuery] = useState("");
   const [state, setState] = useState({
@@ -74,8 +77,16 @@ const ServiceProviderScreen = () => {
     setTimeout(() => updateState("refreshing", false), 2000);
   }, [loginData]);
 
-  const isExpired = loginData?.data?.membershipStatus === "expired";
+useFocusEffect(
+    useCallback(() => {
+      if (loginData?.data?._id) {
+        refetch();
+      }
+    }, [loginData?.data?._id])
+  );
 
+
+  const isExpired = userData?.membershipStatus === "expired";
 
   const renderItem = ({ item }) => {
     return (

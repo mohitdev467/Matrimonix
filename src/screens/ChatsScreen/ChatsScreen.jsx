@@ -18,18 +18,21 @@ import { commonUtils } from "../../utilities/CommonUtils/CommonUtils";
 import HeaderWithSearchBack from "../../components/CommonComponents/HeaderWithBack";
 import useGetUsers from "../../helpers/Hooks/useGetUsers";
 import { BlurView } from "@react-native-community/blur";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import screenNames from "../../helpers/ScreenNames/ScreenNames";
 import FeatherIcon from "react-native-vector-icons/Feather";
 import useGoBack from "../../helpers/Hooks/useGoBack";
 import io from "socket.io-client";
+import useUserDetailsById from "../../helpers/Hooks/useUserDetailsById";
 
 const ChatsScreen = () => {
     const socket = io("http://143.110.243.199:5001", {
     transports: ["websocket"],
   });
   const { loginData } = useAuthStorage();
-  console.log("loginData", loginData);
+  const { data: userData, refetch } = useUserDetailsById(loginData?.data?._id);
+
+
   const navigation = useNavigation()
   const { users, isLoading, fetchGetUsers } = useGetUsers();
   const [searchQuery, setSearchQuery] = useState("");
@@ -43,15 +46,12 @@ const ChatsScreen = () => {
     fetchGetUsers();
   }, [loginData]);
 
-  const isExpired = loginData?.data?.membershipStatus === "expired";
 
     useEffect(() => {
-    // socket.on("allMessages-in-app", (data) =>  setChatsData(data));
     socket.emit(
       "fetch-all-in-app-messages",
       { userId: loginData?.data?._id },
       (data) => {
-        // console.log('------*********-----------', data)
         setChatsData(data);
       }
     );
@@ -60,6 +60,18 @@ const ChatsScreen = () => {
       socket.disconnect();
     };
   });
+
+  useFocusEffect(
+    useCallback(() => {
+      if (loginData?.data?._id) {
+        refetch();
+      }
+    }, [loginData?.data?._id])
+  );
+
+
+  const isExpired = userData?.membershipStatus === "expired";
+
 
 
   return (

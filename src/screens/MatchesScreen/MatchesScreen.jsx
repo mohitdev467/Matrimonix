@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { pickColors } from "../../helpers/theme/colors";
 import CommonHeader from "../../components/CommonComponents/CommonHeader";
 import Responsive from "../../helpers/ResponsiveDimensions/Responsive";
@@ -17,9 +17,10 @@ import useAuthStorage from "../../helpers/Hooks/useAuthStorage";
 import Loader from "../../components/LoaderComponent/Loader";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { BlurView } from "@react-native-community/blur";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import FeatherIcon from "react-native-vector-icons/Feather";
 import useGoBack from "../../helpers/Hooks/useGoBack";
+import useUserDetailsById from "../../helpers/Hooks/useUserDetailsById";
 
 
 
@@ -27,6 +28,8 @@ const MatchesScreen = () => {
   const { loginData } = useAuthStorage();
   const navigation = useNavigation()
   const goBack = useGoBack()
+  const { data: userData, refetch } = useUserDetailsById(loginData?.data?._id);
+
 
   const [state, setState] = useState({
     data: null,
@@ -64,8 +67,16 @@ const MatchesScreen = () => {
     fetchMatchUserDetailsById();
   }, [loginData]);
 
-  const isExpired = loginData?.data?.membershipStatus === "expired";
+ useFocusEffect(
+    useCallback(() => {
+      if (loginData?.data?._id) {
+        refetch();
+      }
+    }, [loginData?.data?._id])
+  );
 
+
+  const isExpired = userData?.membershipStatus === "expired";
 
 
   return (

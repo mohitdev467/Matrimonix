@@ -8,12 +8,12 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 import Responsive from "../../helpers/ResponsiveDimensions/Responsive";
 import useGoBack from "../../helpers/Hooks/useGoBack";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
 import {
   getUserDetailsById,
   handleAddUserShortlist,
@@ -34,6 +34,7 @@ import useShortlistUser from "../../helpers/Hooks/useShortlistUser";
 import { BlurView } from "@react-native-community/blur";
 import FeatherIcon from "react-native-vector-icons/Feather";
 import screenNames from "../../helpers/ScreenNames/ScreenNames";
+import useUserDetailsById from "../../helpers/Hooks/useUserDetailsById";
 
 
 
@@ -44,6 +45,8 @@ const UserDetailsScreen = () => {
   const { loginData, updateLoginData } = useAuthStorage();
   const { id } = route.params || {};
   const { shortlistData } = useShortlistUser();
+  const { data: userData, refetch } = useUserDetailsById(loginData?.data?._id);
+
 
   const [state, setState] = useState({
     data: null,
@@ -107,8 +110,17 @@ const UserDetailsScreen = () => {
     }
   }, [shortlistData, state?.data?._id]);
 
-  const isExpired = loginData?.data?.membershipStatus === "expired";
 
+useFocusEffect(
+    useCallback(() => {
+      if (loginData?.data?._id) {
+        refetch();
+      }
+    }, [loginData?.data?._id])
+  );
+
+
+  const isExpired = userData?.membershipStatus === "expired";
 
   return (
     <>
