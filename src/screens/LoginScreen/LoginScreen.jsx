@@ -55,11 +55,9 @@ export default function LoginScreen() {
       ErrorHandler(commonUtils.pleaseFillAllFields);
       return;
     }
-    console.log("Form dataaaaa", formData)
     try {
       setIsLoading(true);
       const result = await handleLoginUser(formData);
-      console.log("resultttt", result)
       if (result?.data?.success) {
         successHandler(commonUtils.loginSuccess);
         storeLoginData(result.data);
@@ -79,7 +77,7 @@ export default function LoginScreen() {
        <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0} // adjust if you have header/navigation
+        keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0} 
       >
         <ScrollView
           contentContainerStyle={{ flexGrow: 1 }}

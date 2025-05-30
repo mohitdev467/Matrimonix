@@ -35,7 +35,7 @@ const SearchUsersListComponents = () => {
   const [citiesData, setCitiesData] = useState([])
   const [statesData, setStatesData] = useState([])
 
-  const [filterVisible,setFilterVisible]= useState(false)
+  const [filterVisible, setFilterVisible] = useState(false)
   const { cities, states } = useCityAndStates();
   const [loadingFilters, setLoadingFilters] = useState(true);
 
@@ -57,12 +57,12 @@ const SearchUsersListComponents = () => {
     const languageList = Array.isArray(languages?.data) ? languages?.data?.map((item) => item.language) : [];
     const citiesList = Array.isArray(cities?.data) ? cities?.data?.map((item) => item.name) : [];
     const statesList = Array.isArray(states?.data) ? states?.data?.map((item) => item.name) : [];
-  
+
     setCasteData(casteList);
     setLanguagesData(languageList);
     setCitiesData(citiesList);
     setStatesData(statesList);
-  
+
     if (
       casteList.length > 0 &&
       languageList.length > 0 &&
@@ -72,10 +72,6 @@ const SearchUsersListComponents = () => {
       setLoadingFilters(false);
     }
   }, [castes?.data, languages?.data, cities?.data, states?.data]);
-  
-
-
-
   const [state, setState] = useState({
     data: [],
     loading: false,
@@ -94,7 +90,7 @@ const SearchUsersListComponents = () => {
     try {
       const result = await getAllUsers(appliedFilters);
 
-      
+
       if (result?.success) {
         const filteredData = result.data.filter(
           (user) => user._id !== loginData?.data?._id
@@ -164,132 +160,132 @@ const SearchUsersListComponents = () => {
 
       <View style={styles.filterActionRow}>
 
-  <TouchableOpacity
-    style={styles.filterWrapper}
-    onPress={() => setFilterVisible(true)}
-  >
-    <Text style={styles.filterText}>Filters</Text>
-  </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.filterWrapper}
+          onPress={() => setFilterVisible(true)}
+        >
+          <Text style={styles.filterText}>Filters</Text>
+        </TouchableOpacity>
 
-  {Object.values(filters).some((val) => val !== "" && val !== 18 && val !== 60) && (
-    <TouchableOpacity
-      style={styles.clearBtnInline}
-      onPress={() => {
-        const defaultFilters = {
-          gender: "",
-          caste: "",
-          language: "",
-          city: "",
-          minAge: 18,
-          maxAge: 60,
-        };
-        setFilters(defaultFilters);
-        getUsersListData(defaultFilters);
-      }}
-    >
-      <Text style={styles.clearBtnText}>Clear All Filters</Text>
-    </TouchableOpacity>
-  )}
-
-</View>
-
-{Object.values(filters).some((val) => val !== "" && val !== 18 && val !== 60) && (
-  <View style={styles.appliedFiltersWrapper}>
-    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-      {filters.gender !== "" && (
-        <View style={styles.filterChip}>
-          <Text style={styles.filterChipText}>
-            Gender: {filters.gender}
-          </Text>
+        {Object.values(filters).some((val) => val !== "" && val !== 18 && val !== 60) && (
           <TouchableOpacity
+            style={styles.clearBtnInline}
             onPress={() => {
-              const updated = { ...filters, gender: "" };
-              setFilters(updated);
-              getUsersListData(updated);
+              const defaultFilters = {
+                gender: "",
+                caste: "",
+                language: "",
+                city: "",
+                minAge: 18,
+                maxAge: 60,
+              };
+              setFilters(defaultFilters);
+              getUsersListData(defaultFilters);
             }}
           >
-            <Text style={styles.closeIcon}>✕</Text>
+            <Text style={styles.clearBtnText}>Clear All Filters</Text>
           </TouchableOpacity>
-        </View>
-      )}
+        )}
 
-      {filters.city !== "" && (
-        <View style={styles.filterChip}>
-          <Text style={styles.filterChipText}>
-            City: {filters.city}
-          </Text>
-          <TouchableOpacity
-            onPress={() => {
-              const updated = { ...filters, city: "" };
-              setFilters(updated);
-              getUsersListData(updated);
-            }}
-          >
-            <Text style={styles.closeIcon}>✕</Text>
-          </TouchableOpacity>
-        </View>
-      )}
+      </View>
 
-      {filters.caste !== "" && (
-        <View style={styles.filterChip}>
-          <Text style={styles.filterChipText}>
-            Caste: {filters.caste}
-          </Text>
-          <TouchableOpacity
-            onPress={() => {
-              const updated = { ...filters, caste: "" };
-              setFilters(updated);
-              getUsersListData(updated);
-            }}
-          >
-            <Text style={styles.closeIcon}>✕</Text>
-          </TouchableOpacity>
-        </View>
-      )}
+      {Object.values(filters).some((val) => val !== "" && val !== 18 && val !== 60) && (
+        <View style={styles.appliedFiltersWrapper}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            {filters.gender !== "" && (
+              <View style={styles.filterChip}>
+                <Text style={styles.filterChipText}>
+                  Gender: {filters.gender}
+                </Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    const updated = { ...filters, gender: "" };
+                    setFilters(updated);
+                    getUsersListData(updated);
+                  }}
+                >
+                  <Text style={styles.closeIcon}>✕</Text>
+                </TouchableOpacity>
+              </View>
+            )}
 
-      {filters.language !== "" && (
-        <View style={styles.filterChip}>
-          <Text style={styles.filterChipText}>
-            Language: {filters.language}
-          </Text>
-          <TouchableOpacity
-            onPress={() => {
-              const updated = { ...filters, language: "" };
-              setFilters(updated);
-              getUsersListData(updated);
-            }}
-          >
-            <Text style={styles.closeIcon}>✕</Text>
-          </TouchableOpacity>
-        </View>
-      )}
+            {filters.city !== "" && (
+              <View style={styles.filterChip}>
+                <Text style={styles.filterChipText}>
+                  City: {filters.city}
+                </Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    const updated = { ...filters, city: "" };
+                    setFilters(updated);
+                    getUsersListData(updated);
+                  }}
+                >
+                  <Text style={styles.closeIcon}>✕</Text>
+                </TouchableOpacity>
+              </View>
+            )}
 
-      {(filters.minAge !== 18 || filters.maxAge !== 60) && (
-        <View style={styles.filterChip}>
-          <Text style={styles.filterChipText}>
-            Age: {filters.minAge} - {filters.maxAge}
-          </Text>
-          <TouchableOpacity
-            onPress={() => {
-              const updated = { ...filters, minAge: 18, maxAge: 60 };
-              setFilters(updated);
-              getUsersListData(updated);
-            }}
-          >
-            <Text style={styles.closeIcon}>✕</Text>
-          </TouchableOpacity>
+            {filters.caste !== "" && (
+              <View style={styles.filterChip}>
+                <Text style={styles.filterChipText}>
+                  Caste: {filters.caste}
+                </Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    const updated = { ...filters, caste: "" };
+                    setFilters(updated);
+                    getUsersListData(updated);
+                  }}
+                >
+                  <Text style={styles.closeIcon}>✕</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+
+            {filters.language !== "" && (
+              <View style={styles.filterChip}>
+                <Text style={styles.filterChipText}>
+                  Language: {filters.language}
+                </Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    const updated = { ...filters, language: "" };
+                    setFilters(updated);
+                    getUsersListData(updated);
+                  }}
+                >
+                  <Text style={styles.closeIcon}>✕</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+
+            {(filters.minAge !== 18 || filters.maxAge !== 60) && (
+              <View style={styles.filterChip}>
+                <Text style={styles.filterChipText}>
+                  Age: {filters.minAge} - {filters.maxAge}
+                </Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    const updated = { ...filters, minAge: 18, maxAge: 60 };
+                    setFilters(updated);
+                    getUsersListData(updated);
+                  }}
+                >
+                  <Text style={styles.closeIcon}>✕</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          </ScrollView>
         </View>
       )}
-    </ScrollView>
-  </View>
-)}
       {state?.loading ? (
         <Loader visible={state.loading} />
       ) : (
         <>
           {state?.data?.length > 0 ? (
             <FlatList
-              data={state?.data.sort((a, b) => a.name.localeCompare(b.name))}
+              data={state?.data?.sort((a, b) => a?.name?.localeCompare(b?.name))}
               renderItem={renderItem}
               keyExtractor={(item, index) => `${item.id}-${index}`}
               numColumns={2}
@@ -308,22 +304,22 @@ const SearchUsersListComponents = () => {
 
 
 
-<FilterModal
-  visible={filterVisible}
-  onClose={() => setFilterVisible(false)}
-  onApply={(appliedFilters) => {
-    setFilters(appliedFilters);
-    setFilterVisible(false);
-    getUsersListData(appliedFilters); 
-  }}
-  data={{
-    cities: citiesData,
-    states:statesData,
-    castes: casteData,
-    languages: languagesData
-  }}
-  loading={loadingFilters}
-/>
+      <FilterModal
+        visible={filterVisible}
+        onClose={() => setFilterVisible(false)}
+        onApply={(appliedFilters) => {
+          setFilters(appliedFilters);
+          setFilterVisible(false);
+          getUsersListData(appliedFilters);
+        }}
+        data={{
+          cities: citiesData,
+          states: statesData,
+          castes: casteData,
+          languages: languagesData
+        }}
+        loading={loadingFilters}
+      />
 
     </View>
   );
@@ -439,16 +435,16 @@ const styles = StyleSheet.create({
     backgroundColor: pickColors.whiteColor,
     width: Responsive.widthPx(20),
     borderRadius: 10,
-    paddingHorizontal:Responsive.widthPx(3),
-    paddingVertical:Responsive.heightPx(1),
+    paddingHorizontal: Responsive.widthPx(3),
+    paddingVertical: Responsive.heightPx(1),
     marginHorizontal: Responsive.widthPx(2),
     marginVertical: Responsive.heightPx(1),
     alignSelf: "flex-end",
     justifyContent: "center",
     alignItems: "center",
-    borderWidth:0.5,
-    elevation:5,
-  
+    borderWidth: 0.5,
+    elevation: 5,
+
   },
 
   filterText: {
@@ -465,7 +461,7 @@ const styles = StyleSheet.create({
     marginVertical: Responsive.heightPx(1),
     gap: Responsive.widthPx(2),
   },
-  
+
   clearBtnInline: {
     backgroundColor: pickColors.brandColor,
     paddingHorizontal: Responsive.widthPx(3),
@@ -480,7 +476,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     gap: 8,
   },
-  
+
   filterChip: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -493,19 +489,19 @@ const styles = StyleSheet.create({
     marginBottom: Responsive.heightPx(2),
     gap: 8, // space between text and close icon
   },
-  
+
   closeIcon: {
     color: pickColors.whiteColor,
     fontSize: Responsive.font(3),
     marginLeft: Responsive.widthPx(1),
   },
-  
+
   filterChipText: {
     color: pickColors.whiteColor,
     fontSize: Responsive.font(3.2),
     fontFamily: "Ubuntu-Regular",
   },
-  
+
   clearBtn: {
     alignSelf: "flex-end",
     backgroundColor: pickColors.redColor || "#ff4d4d",
@@ -513,7 +509,7 @@ const styles = StyleSheet.create({
     paddingVertical: Responsive.heightPx(1),
     borderRadius: 10,
   },
-  
+
   clearBtnText: {
     color: pickColors.whiteColor,
     fontSize: Responsive.font(3.5),

@@ -53,6 +53,9 @@ const PhoneNumberInput = ({
         textInputStyle={[styles.textInputStyle, textInputStyleNew]}
         codeTextStyle={[styles.codeTextStyle, newCodeTextStyle]}
         countryPickerButtonStyle={[styles.countryPickerStyle, countryPickerStyle ]}
+        textInputProps={{
+          placeholderTextColor: 'grey', // customize as needed
+        }}
       
       />
       {error ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
@@ -80,7 +83,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Responsive.widthPx(2),
     height: Responsive.heightPx(6),
     fontSize: Responsive.font(4.2),
-    fontFamily: "SemiBold",
+    fontFamily: "Ubuntu-Medium",
     alignSelf: "flex-start",
     width: Responsive.widthPx(90),
   },
@@ -92,12 +95,13 @@ const styles = StyleSheet.create({
   },
   codeTextStyle: {
     backgroundColor: pickColors.inputFieldBg,
-    fontFamily: "Bold",
+    fontFamily: "Ubuntu-Medium",
   
   },
   textContainer: {
     borderRadius: 8,
     paddingVertical: 0,
+    paddingHorizontal: 0,
     backgroundColor: pickColors.inputFieldBg,
     fontFamily: "Ubuntu-Medium",
   },

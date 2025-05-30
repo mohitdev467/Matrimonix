@@ -64,7 +64,6 @@ const UserDetailsScreen = () => {
     updateState("loading", true);
     try {
       const result = await getUserDetailsById(id);
-      console.log("resur------", result)
       if (result?.success) {
         updateState("data", result?.data || []);
       }

@@ -80,8 +80,7 @@ const SubscriptionScreen = () => {
     try {
       const com_url = `${API_BASE_URL}user/order`;
       const res = await axios.post(com_url, data);
-
-
+     
       return res.data;
     } catch (err) {
       console.error('Error fetching session ID:', err);
@@ -92,7 +91,7 @@ const SubscriptionScreen = () => {
 
   const startCheckout = async (sessionId, orderId) => {
     try {
-      const session = new CFSession(sessionId, orderId, CFEnvironment.PRODUCTION);
+      const session = new CFSession(sessionId, orderId, CFEnvironment.SANDBOX);
       const paymentModes = new CFPaymentComponentBuilder()
         .add(CFPaymentModes.CARD)
         .add(CFPaymentModes.UPI)
@@ -124,7 +123,6 @@ const SubscriptionScreen = () => {
           successHandler(paymentStatus?.message)
           updateLoginData(paymentStatus?.data?.customer)
           navigation.navigate(screenNames.PaymentHistoryScreen);
-          console.log()
         } else {
           navigation.navigate(screenNames.SubscriptionScreen, { status: 'failed' });
         }

@@ -89,6 +89,16 @@ export const familyTypeData = [
   { label: "Joint Family", value: "joint_family" },
 ];
 
+export const bloodGroupData = [
+  { label: "A+", value: "A+" },
+  { label: "B+", value: "B+" },
+  { label: "O+", value: "O+" },
+  { label: "O-", value: "O-" },
+  { label: "AB-", value: "AB-" },
+
+
+];
+
 export const familyClassData = [
   { label: "Middle Class", value: "middle-class" },
   { label: "Upper Middle Class", value: "upper-middle-class" },
@@ -217,9 +227,9 @@ export const chatsScreenData = [
 
 export const aboutUsScreenData = {
   description:
-    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+    "Matrimonix is a modern matrimonial platform designed to bring together individuals and families seeking meaningful and lasting relationships. Our mission is to make match-making simple, safe, and personal by blending traditional values with cutting-edge technology. Whether you're looking for love, companionship, or a life partner, Matrimonix offers a trusted space where your preferences, privacy, and beliefs are respected. We cater to diverse communities, cultures, and lifestyles, helping you find your perfect match from the comfort of your home.",
   description2:
-    "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.",
+    "With advanced search filters, verified profiles, and an intuitive user experience, Matrimonix stands apart as a reliable partner in your journey to marriage. Join thousands of happy members who have found their soulmates through Matrimonix. Your perfect match is just a click away.",
 };
 
 export const contactusScreenData = {

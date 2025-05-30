@@ -10,7 +10,7 @@ import {
   UIManager,
 } from "react-native";
 import Collapsible from "react-native-collapsible";
-import {  handlePaymentHistory } from "../../services/UserServices/UserServices";
+import {  handleDeletePaymentHistory, handlePaymentHistory } from "../../services/UserServices/UserServices";
 import useAuthStorage from "../../helpers/Hooks/useAuthStorage";
 import { SafeAreaView } from "react-native-safe-area-context";
 import HeaderWithSearchBack from "../../components/CommonComponents/HeaderWithBack";
@@ -20,6 +20,9 @@ import Responsive from "../../helpers/ResponsiveDimensions/Responsive";
 import Loader from "../../components/LoaderComponent/Loader";
 import FeatherIcon from "react-native-vector-icons/FontAwesome";
 import moment from "moment";
+import ModalComponent from "../../components/CommonComponents/ModalComponent";
+import successHandler from "../../services/NotificationServices/SuccessHandler";
+import ErrorHandler from "../../services/NotificationServices/ErrorHandler";
 
 if (Platform.OS === "android") {
   UIManager.setLayoutAnimationEnabledExperimental &&
@@ -31,6 +34,8 @@ const PaymentHistoryScreen = () => {
   const { loginData } = useAuthStorage();
   const [isLoading, setIsLoading] = useState(false);
   const [activeId, setActiveId] = useState(null);
+  const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
+const [selectedPaymentId, setSelectedPaymentId] = useState(null);
 
   const toggleAccordion = (id) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -54,18 +59,33 @@ const PaymentHistoryScreen = () => {
     }
   };
 
-  // const handleDeletePayment = async (paymentId) => {
-  //   const userId = loginData?.data?._id;
-  //   try {
-  //     const response = await handleDeletePaymentHistory(userId,paymentId);
-  //     console.log("responseeee", response.data)
-  //     if(response?.data?.success){
+  const promptDeletePayment = (paymentId) => {
+    setSelectedPaymentId(paymentId);
+    setDeleteModalVisible(true);
+  };
+  
+  const confirmDeletePayment = async () => {
+    const userId = loginData?.data?._id;
+    if (!selectedPaymentId || !userId) return;
+  
+    setIsLoading(true);
+    try {
+      const response = await handleDeletePaymentHistory(userId, selectedPaymentId);
+      if (response?.success) {
+        successHandler(response?.message)
+        fetchPaymentHistory();
+      } else {
+        ErrorHandler(response?.message)
+      }
+    } catch (error) {
+      console.error("Error in deleting history", error);
+    } finally {
+      setIsLoading(false);
+      setDeleteModalVisible(false);
+      setSelectedPaymentId(null);
+    }
+  };
 
-  //     }
-  //   } catch (error) {
-  //     console.error("Error in deleting history", error);
-  //   }
-  // }
 
   useEffect(() => {
     if (loginData?.data?._id) {
@@ -116,12 +136,12 @@ const PaymentHistoryScreen = () => {
                     </Text>
                   </View>
 
-                  {/* <TouchableOpacity
-                    onPress={() => handleDeletePayment(item._id)}
-                    style={styles.deleteButton}
-                  >
-                    <FeatherIcon name="trash" size={22} color="red" />
-                  </TouchableOpacity> */}
+                  <TouchableOpacity
+  onPress={() => promptDeletePayment(item._id)}
+  style={styles.deleteButton}
+>
+  <FeatherIcon name="trash" size={22} color="red" />
+</TouchableOpacity>
                 </Collapsible>
               </View>
             );
@@ -132,6 +152,37 @@ const PaymentHistoryScreen = () => {
           <Text style={styles.noDataText}>{commonUtils.noDataFound}</Text>
         </View>
       )}
+
+
+<ModalComponent
+  isVisible={isDeleteModalVisible}
+  onClose={() => setDeleteModalVisible(false)}
+  title="Delete Payment History"
+>
+  <Text style={styles.modalText}>
+    Are you sure you want to delete this payment history?
+  </Text>
+
+  <View style={styles.modalButtonContainer}>
+    <TouchableOpacity
+      style={[styles.modalButton, styles.cancelButton]}
+      onPress={() => setDeleteModalVisible(false)}
+    >
+      <Text style={styles.cancelButtonText}>No</Text>
+    </TouchableOpacity>
+
+    {isLoading ? (
+      <Loader visible={isLoading} />
+    ) : (
+      <TouchableOpacity
+        style={[styles.modalButton, styles.confirmButton]}
+        onPress={confirmDeletePayment}
+      >
+        <Text style={styles.confirmButtonText}>Yes</Text>
+      </TouchableOpacity>
+    )}
+  </View>
+</ModalComponent>
     </SafeAreaView>
   );
 };
@@ -193,6 +244,40 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
     padding: 5,
   },
+
+   modalText: {
+        textAlign: "center",
+        fontSize: Responsive.font(3.8),
+        fontFamily: "Ubuntu-Medium",
+        marginVertical: Responsive.heightPx(2),
+      },
+      modalButtonContainer: {
+        flexDirection: "row",
+        justifyContent: "space-around",
+        marginTop: Responsive.heightPx(2),
+        height: Responsive.heightPx(6),
+      },
+      modalButton: {
+        paddingVertical: Responsive.heightPx(1.5),
+        paddingHorizontal: Responsive.widthPx(10),
+        borderRadius: 8,
+      },
+      cancelButton: {
+        backgroundColor: pickColors.cardContentBg,
+      },
+      confirmButton: {
+        backgroundColor: pickColors.brandColor,
+      },
+      cancelButtonText: {
+        color: pickColors.whiteColor,
+        fontSize: Responsive.font(4),
+        fontFamily: "Ubuntu-Medium",
+      },
+      confirmButtonText: {
+        color: pickColors.whiteColor,
+        fontFamily: "Ubuntu-Medium",
+        fontSize: Responsive.font(4),
+      },
 });
 
 export default PaymentHistoryScreen;

@@ -31,6 +31,7 @@ import {
     familyTypeData,
     genderData,
   } from "../../constants/CommonData/CommonData";
+import useCityAndStates from "../../helpers/Hooks/useCityAndStates";
   
   export default function SignupScreen() {
     const navigation = useNavigation();
@@ -54,6 +55,7 @@ import {
     const [secureTextEntryConfirmPassword, setSecureTextEntryConfirmPassword] =
       useState(true);
     const [errors, setErrors] = useState({});
+    const { cities, states } = useCityAndStates();
   
     const togglePasswordVisibility = () => {
       setSecureTextEntry(!secureTextEntry);
@@ -70,7 +72,6 @@ import {
       try {
         setIsLoading(true);
         const result = await handleRegisterUser(formData);
-        console.log("resultrrr", result)
         if (result.success) {
           successHandler(commonUtils.userCreatedSuccess);
           storeLoginData(result.data);
@@ -100,6 +101,19 @@ import {
         phone_no: "",
       }));
     };
+
+
+    const formattedCitiesOptions = cities?.data?.map((item) => ({
+      label: item?.name,
+      value: item?.name?.toLowerCase()?.replace(/\s+/g, "_"),
+    }));
+
+    const formattedStatesOptions = states?.data?.map((item) => ({
+      label: item?.name,
+      value: item?.name?.toLowerCase()?.replace(/\s+/g, "_"),
+    }));
+
+
   
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: pickColors.whiteColor }}>
@@ -225,41 +239,8 @@ import {
                 </View>
               )}
             </View>
-  
-            <View style={styles.formWrapper}>
-              <Text style={styles.label}>
-                City <Text style={{ color: "red" }}>*</Text>
-              </Text>
-              <TextInput
-                placeholder="Enter City"
-                placeholderTextColor={pickColors.subHeadingColor}
-                style={styles.inputStyle}
-                onChangeText={(text) => handleChange(text, "city")}
-              />
-            </View>
-            {errors.city && (
-              <View style={{ paddingLeft: Responsive.widthPx(5) }}>
-                <Text style={styles.errorText}>{errors.city}</Text>
-              </View>
-            )}
-  
-            <View style={styles.formWrapper}>
-              <Text style={styles.label}>
-                State <Text style={{ color: "red" }}>*</Text>
-              </Text>
-              <TextInput
-                placeholder="Enter State"
-                placeholderTextColor={pickColors.subHeadingColor}
-                style={styles.inputStyle}
-                onChangeText={(text) => handleChange(text, "state")}
-              />
-            </View>
-            {errors.state && (
-              <View style={{ paddingLeft: Responsive.widthPx(5) }}>
-                <Text style={styles.errorText}>{errors.state}</Text>
-              </View>
-            )}
-  
+
+
             <View style={styles.formWrapper}>
               <Text style={styles.label}>
                 Occupation <Text style={{ color: "red" }}>*</Text>
@@ -293,6 +274,40 @@ import {
                 <Text style={styles.errorText}>{errors.hobbies}</Text>
               </View>
             )}
+  
+            <View style={styles.formWrapper}>
+  <Text style={styles.label}>
+    City <Text style={{ color: "red" }}>*</Text>
+  </Text>
+  <SelectDropdown
+    options={formattedCitiesOptions}
+    value={formData.city}
+    placeholder="Select City"
+    onChangeValue={(value) => handleChange(value, "city")}
+    dropdownStyle={styles.dropdownStyle}
+    dropdownContainerStyle={styles.dropdownContainerStyle}
+    error={errors.city}
+    errorMessage={errors.city}
+  />
+</View>
+  
+<View style={styles.formWrapper}>
+  <Text style={styles.label}>
+    State <Text style={{ color: "red" }}>*</Text>
+  </Text>
+  <SelectDropdown
+    options={formattedStatesOptions}
+    value={formData.state}
+    placeholder="Select State"
+    onChangeValue={(value) => handleChange(value, "state")}
+    dropdownStyle={styles.dropdownStyle}
+    dropdownContainerStyle={styles.dropdownContainerStyle}
+    error={errors.state}
+    errorMessage={errors.state}
+  />
+</View>
+  
+            
   
             <View style={styles.formWrapper}>
               <Text style={styles.label}>
@@ -462,7 +477,7 @@ import {
     },
   
     dropdownStyle: {
-      borderRadius: 10,
+      borderRadius: 5,
       height: Responsive.heightPx(6),
     },
      phoneContainerStyle: {

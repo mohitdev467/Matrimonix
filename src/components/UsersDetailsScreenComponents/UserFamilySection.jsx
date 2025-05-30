@@ -5,7 +5,6 @@ import { pickColors } from "../../helpers/theme/colors";
 import { commonUtils } from "../../utilities/CommonUtils/CommonUtils";
 
 const UserFamilySection = ({ myDetails }) => {
-  console.log("My detailsss", myDetails)
   return (
     <View>
       <View style={styles.mainWrapper}>
@@ -436,38 +435,6 @@ const UserFamilySection = ({ myDetails }) => {
           </Text>
         </View>
       </View>
-
-      
-      <View style={styles.mainWrapper}>
-        <View style={styles.widthPx40}>
-          <Text
-            style={[
-              styles.newTextStyle,
-              {
-                fontSize: Responsive.font(3.7),
-                color: pickColors.subHeadingColor,
-              },
-            ]}
-          >
-            Whatsapp Number :
-          </Text>
-        </View>
-        <View style={styles.innerWrapper}>
-          <Text
-            style={[
-              styles.newTextStyle,
-              {
-                fontSize: Responsive.font(3.8),
-                color: pickColors.blackColor,
-              },
-            ]}
-          >
-            {myDetails?.whatsapp_no
-              ? myDetails?.whatsapp_no
-              : commonUtils.notAvailable}
-          </Text>
-        </View>
-      </View>
     </View>
   );
 };
@@ -480,7 +447,7 @@ const styles = StyleSheet.create({
     fontSize: Responsive.font(4),
     marginVertical: Responsive.heightPx(0.3),
     width: Responsive.widthPx(50),
-    fontFamily: "SemiBold",
+    fontFamily:"Ubuntu-Medium",
   },
 
   mainWrapper: {

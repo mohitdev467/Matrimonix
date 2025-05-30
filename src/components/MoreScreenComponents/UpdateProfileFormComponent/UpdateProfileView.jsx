@@ -31,7 +31,7 @@ const UpdateProfileView = ({ userData }) => {
               styles.newTextStyle,
               {
                 fontSize: Responsive.font(3.8),
-                fontFamily: "Regular",
+                fontFamily:"Ubuntu-Medium",
                 marginVertical: Responsive.heightPx(1.5),
                 paddingHorizontal: Responsive.widthPx(1),
               },
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
   newTextStyle: {
     color: pickColors.blackColor,
     fontSize: Responsive.font(4.2),
-    fontFamily: "SemiBold",
+    fontFamily:"Ubuntu-Medium",
   },
 
   sectionWrapper: {

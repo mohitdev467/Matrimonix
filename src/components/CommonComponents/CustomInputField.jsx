@@ -68,7 +68,7 @@ const CustomInputField = ({
           secureTextEntry={secureTextEntry}
           placeholder={placeholder}
           style={[styles.textInput, inputStyle]}
-          placeholderTextColor={pickColors.lightGreyColor}
+          placeholderTextColor={"grey"}
         />
         {rightIcon && (
           <TouchableOpacity
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   label: {
     fontSize: Responsive.font(4),
     color: pickColors.lightGreyColor,
-    fontFamily: "SemiBold",
+    fontFamily: "Ubuntu-Medium",
     marginBottom: Responsive.heightPx(0.5),
   },
   inputWrapper: {
@@ -113,8 +113,9 @@ const styles = StyleSheet.create({
     backgroundColor: pickColors.whiteColor,
     borderRadius: Responsive.widthPx(2),
     paddingHorizontal: Responsive.widthPx(2),
-    height: Responsive.heightPx(6.2),
-    color:pickColors.lightGreyColor
+    height: Responsive.heightPx(6.3),
+    color:pickColors.lightGreyColor,
+    fontFamily:"Ubuntu-Medium"
   },
   inputWrapperFocused: {
     borderColor: pickColors.blueColorText,
@@ -124,7 +125,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: Responsive.font(4),
     color: pickColors.blackColor,
-    fontFamily: "Regular",
+    fontFamily:"Ubuntu-Medium"
   },
   iconContainer: {
     marginHorizontal: Responsive.widthPx(1.5),
@@ -135,7 +136,7 @@ const styles = StyleSheet.create({
     marginTop: Responsive.heightPx(0.5),
     fontSize: Responsive.font(3),
     color: pickColors.blackColor,
-    fontFamily: "Regular",
+    fontFamily:"Ubuntu-Regular"
   },
   helperTextError: {
     color: pickColors.errorColor,
