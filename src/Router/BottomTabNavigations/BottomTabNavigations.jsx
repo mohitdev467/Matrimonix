@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 1.5 },
     shadowOpacity: 0.1,
     shadowRadius: 5,
-    paddingBottom: Responsive.heightPx(0.4),
+    paddingBottom: Responsive.heightPx(1.5),
   },
   container1: {
     alignItems: "center",
