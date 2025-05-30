@@ -159,9 +159,9 @@ const UpdateProfileScreen = () => {
                   source={
                     typeof loginData?.data?.image === "string"
                       ? { uri: loginData?.data?.image }
-                      : ImagePicker.dummyUserImage
+                      : ImagePicker.dummyUserImage2
                   }
-                  style={styles.profileImage}
+                  style={[styles.profileImage, !loginData?.data?.image && {resizeMode:"cover"} ]}
                 />
                 <FeatherIcon
                   name="camera"
