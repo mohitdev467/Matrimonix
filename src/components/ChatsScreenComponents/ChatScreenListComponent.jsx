@@ -15,7 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 import screenNames from "../../helpers/ScreenNames/ScreenNames";
 import { createConversation } from "../../services/CommonServices/CommonServices";
 
-const ChatScreenListComponents = ({ usersData }) => {
+const ChatScreenListComponents = ({ usersData,loginData }) => {
   const navigation = useNavigation();
 
   const [conversations, setConversations] = useState([]);
@@ -52,6 +52,7 @@ const ChatScreenListComponents = ({ usersData }) => {
                 onPress={() =>
                   navigation.navigate(screenNames.ChatsDetailsScreen, {
                     data: item,
+                    loginData: loginData,
                   })
                 }
               >

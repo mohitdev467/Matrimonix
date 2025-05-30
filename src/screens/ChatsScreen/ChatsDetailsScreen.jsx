@@ -1,280 +1,261 @@
+import React, { useState, useCallback, useEffect } from "react";
 import {
+  SafeAreaView,
   StyleSheet,
   Text,
   View,
   TextInput,
-  TouchableOpacity,
   FlatList,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableOpacity,
   Image,
-  Alert,
 } from "react-native";
-import React, { useState, useEffect, useRef } from "react";
-import HeaderWithSearchBack from "../../components/CommonComponents/HeaderWithBack";
-import { useRoute, useNavigation } from "@react-navigation/native";
+import io from "socket.io-client";
 import { pickColors } from "../../helpers/theme/colors";
 import Responsive from "../../helpers/ResponsiveDimensions/Responsive";
-import useAuthStorage from "../../helpers/Hooks/useAuthStorage";
-import { createMessages } from "../../services/CommonServices/CommonServices";
-import useGetMessages from "../../helpers/Hooks/useGetMessages";
-import Loader from "../../components/LoaderComponent/Loader";
-import { formattedDate } from "../../helpers/CommonFunctions/CommonFunctions";
 import Feather from "react-native-vector-icons/Feather";
-import io from "socket.io-client";
-import screenNames from "../../helpers/ScreenNames/ScreenNames";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import Icon from "react-native-vector-icons/FontAwesome";
 
-const SOCKET_SERVER_URL = "http://192.168.29.119:5000"; // <-- Change to your IP/server
 
-const ChatsDetailsScreen = () => {
+// MessageBubble Component with Date/Time
+function MessageBubble({ userId, message, dateTime }) {
+  console.log("userId", dateTime);
   const route = useRoute();
-  const navigation = useNavigation();
-  const { data } = route.params || {};
-  const { loginData } = useAuthStorage();
-  const [message, setMessage] = useState("");
-  const [image, setImage] = useState(null);
-  const { messages, isLoading, error, setMessages } = useGetMessages(data._id);
-  const socketRef = useRef();
+  const { loginData } = route.params || {};
+  const isSender = userId === loginData?.data?._id;
 
-  useEffect(() => {
-    const socket = io(SOCKET_SERVER_URL);
-    socketRef.current = socket;
-
-    socket.on("receive_message", (newMessage) => {
-      setMessages((prevMessages) => [newMessage, ...prevMessages]);
-    });
-
-    socket.on("message_status", (updatedMessage) => {
-      setMessages((prevMessages) =>
-        prevMessages.map((msg) =>
-          msg._id === updatedMessage._id ? { ...msg, status: updatedMessage.status } : msg
-        )
-      );
-    });
-
-    socket.on("incoming_call", ({ roomId, senderName }) => {
-      Alert.alert(
-        "Incoming Call",
-        `Video call from ${senderName}`,
-        [
-          {
-            text: "Reject",
-            style: "cancel",
-          },
-          {
-            text: "Accept",
-            onPress: () =>
-              navigation.navigate(screenNames.CallPageScreen, {
-                roomId,
-                isCaller: false,
-              }),
-          },
-        ],
-        { cancelable: false }
-      );
-    });
-
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
-
-  const sendMessage = async () => {
-    if (!message.trim()) return;
-
-    const tempId = Date.now();
-    const newMessage = {
-      id: tempId,
-      message,
-      image,
-      senderId: loginData?.data?._id,
-      status: "sending",
-    };
-
-    setMessages((prevMessages) => [newMessage, ...prevMessages]);
-    socketRef.current.emit("send_message", newMessage);
-    setMessage("");
-
-    try {
-      const response = await createMessages({
-        conversationId: data._id,
-        senderId: loginData?.data?._id,
-        message: message,
-      });
-      if (response.data.success) {
-        const savedMessage = response.data;
-        setMessages((prevMessages) =>
-          prevMessages.map((msg) =>
-            msg.id === newMessage.id
-              ? { ...savedMessage, sender: true, status: "sent" }
-              : msg
-          )
-        );
-        socketRef.current.emit("send_message", savedMessage);
-      }
-    } catch (error) {
-      console.error("Message send error:", error);
-      setMessages((prevMessages) =>
-        prevMessages.map((msg) =>
-          msg.id === newMessage.id ? { ...msg, status: "failed" } : msg
-        )
-      );
-    }
-  };
-
-  const handleStartCall = () => {
-    const roomId = `${Date.now()}`;
-    socketRef.current.emit("start_call", {
-      senderId: loginData?.data?._id,
-      receiverId: data._id,
-      senderName: loginData?.data?.name,
-      roomId,
-    });
-
-    navigation.navigate(screenNames.CallPageScreen, {
-      roomId,
-      isCaller: true,
-    });
-  };
-
-  const renderMessage = ({ item }) => (
-    <View
-      style={[
-        styles.messageContainer,
-        item.senderId == loginData?.data._id ? styles.sent : styles.received,
-      ]}
-    >
-      {item.image && <Image source={{ uri: item.image }} style={styles.image} />}
-      {item.message && <Text style={styles.messageText}>{item.message}</Text>}
-      <View style={styles.meta}>
-        <Text style={styles.statusText}>{formattedDate(item.createdAt)}</Text>
-        {item.senderId == loginData?.data._id && (
-          <Text style={styles.statusText}>✓✓</Text>
-        )}
-      </View>
-    </View>
-  );
+  const istDateTime = new Date(dateTime).toLocaleString("en-GB", {
+    timeZone: "Asia/Kolkata", // Set timezone to IST
+    // day: "2-digit",
+    // month: "2-digit",
+    // year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true, // Use 12-hour format (e.g., 03:30 PM)
+  });
 
   return (
-    <View style={styles.container}>
-      <HeaderWithSearchBack
-        headerTitle={data.name}
-        isBackHeader={true}
-        isChatScreen={true}
-        icon={"arrow-left"}
-        onVideoCallPress={handleStartCall} // Add this to the header
-      />
-      <View style={styles.horizontalLine}></View>
-      {isLoading ? (
-        <Loader visible={isLoading} />
-      ) : (
-        <FlatList
-          data={messages}
-          renderItem={renderMessage}
-          keyExtractor={(item) => item?._id?.toString()}
-          style={styles.messageList}
-        />
-      )}
-      <View style={styles.inputContainer}>
-        <TouchableOpacity>
-          <Feather
-            name="image"
-            size={Responsive.widthPx(7)}
-            color={pickColors.blackColor}
-            style={styles.icon}
-          />
-        </TouchableOpacity>
-        <TextInput
-          style={styles.input}
-          placeholderTextColor={pickColors.blackColor}
-          placeholder="Type a message..."
-          value={message}
-          onChangeText={setMessage}
-        />
-        <TouchableOpacity onPress={sendMessage} style={styles.sendButton}>
-          <Feather name="send" size={Responsive.widthPx(5)} color="white" />
-        </TouchableOpacity>
+    <View style={{ alignItems: isSender ? "flex-end" : "flex-start", marginVertical: 5 }}>
+      <View
+        style={{
+          maxWidth: "80%",
+          borderRadius: 20,
+          padding: 10,
+          backgroundColor: isSender ? pickColors.brandColor : "#F3F2F2", // Red for sender, gray for receiver
+        }}
+      >
+        <Text
+          allowFontScaling={false}
+          style={{
+            color: isSender ? "#fff" : "#000", // White text for sender, black for receiver
+            fontSize: Responsive.font(3.5),
+          }}
+        >
+          {message}
+        </Text>
+        <Text
+        allowFontScaling={false}
+        style={{
+          color: isSender ? "#fff" : "#000",
+          fontSize: Responsive.font(2.5),
+          marginTop: 2,
+        }}
+      >
+       {istDateTime}
+      </Text>
       </View>
+      
     </View>
+  );
+}
+
+const ChatsDetailsScreen = () => {
+  const socket = io("http://143.110.243.199");
+  const [messages, setMessages] = useState([]);
+
+  const route = useRoute();
+  const navigation = useNavigation();
+  const { loginData } = route.params || {};
+
+  const detailss = route.params.data;
+
+  console.log("detailss", detailss);
+
+  const [chat, setChat] = useState({});
+  const [allChat, setAllChat] = useState([]);
+  const [currentChat, setCurrentChat] = useState({});
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [roomId, setRoomId] = useState("");
+
+  const handleMessageUpdate = (data) => {
+    setAllChat(data);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    if (allChat && Array.isArray(allChat)) {
+      let selectedChat = allChat.find((item) => item._id === chat?._id);
+      setCurrentChat(selectedChat?.messages);
+    }
+  }, [allChat]);
+
+  useEffect(() => {
+    if (detailss) {
+      setLoading(true);
+      socket.on("allMessages-in-app", (data) => {
+        handleMessageUpdate(data, chat);
+      });
+      socket.emit(
+        "join-in-app-chat",
+        { userId: loginData?.data?._id, receiverId: detailss },
+        (joinData) => {
+          if (joinData.error) {
+            alert(joinData.error);
+          }
+          setChat(joinData);
+          socket.emit(
+            "fetch-all-in-app-messages",
+            { userId: loginData?.data?._id },
+            (data) => handleMessageUpdate(data, joinData)
+          );
+        }
+      );
+    }
+  }, [route.params]);
+
+  const sendMessage = async (chat) => {
+    socket.emit(
+      "sendMessage-in-app-chat",
+      {
+        message,
+        senderId: loginData?.data?._id,
+        receiverId: detailss,
+      },
+      (data) => {
+        console.log(data, " <==  I am data...");
+      }
+    );
+    setMessage("");
+  };
+
+  const onSend = useCallback((messages = []) => {
+    setMessages((previousMessages) =>
+      GiftedChat.append(previousMessages, messages)
+    );
+  }, []);
+
+  return (
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: "#fff", // White background
+      }}
+    >
+      {/* Header */}
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          paddingVertical: 15,
+          paddingHorizontal: 10,
+          borderBottomWidth: 1,
+          borderBottomColor: "#ccc",
+        }}
+      >
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={{ marginRight: 10 }}
+        >
+            <Icon name={"arrow-left"} style={styles.icon} />
+        </TouchableOpacity>
+        <Text
+          allowFontScaling={false}
+          style={{
+            fontFamily: "Roboto-Bold",
+            fontSize: 20,
+            color: "#000", // Black text for the chat name
+          }}
+        >
+          {detailss?.name || "Chat"}
+        </Text>
+      </View>
+
+      {/* Chat Messages */}
+      <View style={styles.container}>
+        <FlatList
+          data={currentChat}
+          renderItem={({ item }) => <MessageBubble {...item} />}
+          keyExtractor={(_, index) => index.toString()}
+          contentContainerStyle={{
+            paddingHorizontal: 10,
+            paddingVertical: 10,
+            gap: 10,
+            paddingBottom: 70, // Space for input field
+          }}
+          automaticallyAdjustKeyboardInsets
+        />
+
+        {/* Input Field and Send Button */}
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "position" : undefined}
+          keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0}
+        >
+          <View style={styles.inputContainer}>
+            <TextInput
+              allowFontScaling={false}
+              style={styles.input}
+              placeholderTextColor="#888"
+              placeholder="Type a message..."
+              value={message}
+              onChangeText={(text) => setMessage(text)}
+            />
+            <TouchableOpacity onPress={() => sendMessage(chat)} style={styles.sendButton}>
+              <Feather name="send" size={Responsive.widthPx(5)} color="#fff" />
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
+      </View>
+    </SafeAreaView>
   );
 };
 
 export default ChatsDetailsScreen;
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: pickColors.whiteColor },
-  horizontalLine: {
-    height: Responsive.heightPx(0.1),
-    backgroundColor: pickColors.inputFieldBg,
-  },
-  messageList: {
+  container: {
     flex: 1,
-    paddingHorizontal: Responsive.widthPx(2),
-    paddingBottom: Responsive.heightPx(6),
-  },
-  messageContainer: {
-    maxWidth: "75%",
-    padding: 10,
-    borderRadius: 10,
-    marginVertical: 5,
-  },
-  sent: {
-    alignSelf: "flex-end",
-    backgroundColor: pickColors.blackColor,
-  },
-  received: {
-    alignSelf: "flex-start",
-    backgroundColor: pickColors.brandColor,
-    padding: Responsive.heightPx(1.1),
-    paddingHorizontal: Responsive.widthPx(3),
-  },
-  messageText: {
-    color: "white",
-    fontFamily: "SemiBold",
-    fontSize: Responsive.font(4),
-  },
-  meta: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: Responsive.widthPx(1),
-  },
-  statusText: {
-    color: pickColors.whiteColor,
-    fontSize: Responsive.font(3),
-    marginTop: Responsive.heightPx(1),
+    backgroundColor: "#fff",
   },
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: Responsive.heightPx(2),
-    paddingHorizontal: Responsive.widthPx(4),
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    backgroundColor: "#fff",
     borderTopWidth: 1,
-    borderTopColor: pickColors.lightGreyColor,
+    borderTopColor: "#ccc",
   },
   input: {
     flex: 1,
     height: Responsive.heightPx(6),
     borderRadius: 20,
     paddingHorizontal: Responsive.widthPx(4),
-    backgroundColor: pickColors.inputFieldBg,
-    color: pickColors.blackColor,
+    backgroundColor: "#E5E5E5", // Gray background for input
+    color: "#000",
     fontSize: Responsive.font(3.6),
-  },
-  sendButton: {
-    marginLeft: 10,
-    backgroundColor: pickColors.brandColor,
-    borderRadius: 100,
-    paddingHorizontal: Responsive.widthPx(3.2),
-    paddingVertical: Responsive.heightPx(1.6),
-  },
-  icon: {
     marginRight: 10,
   },
-  image: {
-    width: Responsive.widthPx(20),
-    height: Responsive.heightPx(10),
-    borderRadius: 10,
-    marginBottom: Responsive.heightPx(1.1),
+  sendButton: {
+    backgroundColor: pickColors.brandColor, // Red send button
+    borderRadius: 50,
+    padding: Responsive.widthPx(2.5),
+    justifyContent: "center",
+    alignItems: "center",
   },
-  iconClock: {
-    color: pickColors.whiteColor,
-  },
+    icon: {
+      fontSize: Responsive.font(5.5),
+    },
 });

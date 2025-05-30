@@ -22,11 +22,14 @@ import { useNavigation } from "@react-navigation/native";
 import screenNames from "../../helpers/ScreenNames/ScreenNames";
 import FeatherIcon from "react-native-vector-icons/Feather";
 import useGoBack from "../../helpers/Hooks/useGoBack";
-
-
+import io from "socket.io-client";
 
 const ChatsScreen = () => {
+    const socket = io("http://143.110.243.199", {
+    transports: ["websocket"],
+  });
   const { loginData } = useAuthStorage();
+  console.log("loginData", loginData);
   const navigation = useNavigation()
   const { users, isLoading, fetchGetUsers } = useGetUsers();
   const [searchQuery, setSearchQuery] = useState("");
@@ -41,6 +44,22 @@ const ChatsScreen = () => {
   }, [loginData]);
 
   const isExpired = loginData?.data?.membershipStatus === "expired";
+
+    useEffect(() => {
+    // socket.on("allMessages-in-app", (data) =>  setChatsData(data));
+    socket.emit(
+      "fetch-all-in-app-messages",
+      { userId: loginData?.data?._id },
+      (data) => {
+        // console.log('------*********-----------', data)
+        setChatsData(data);
+      }
+    );
+
+    return () => {
+      socket.disconnect();
+    };
+  });
 
 
   return (
@@ -67,7 +86,7 @@ const ChatsScreen = () => {
         ) : (
           <>
             {users ? (
-              <ChatScreenListComponents usersData={users} />
+              <ChatScreenListComponents usersData={users} loginData={loginData} />
             ) : (
               <View style={styles.noDataContainer}>
                 <Text style={styles.noDataText}>{commonUtils.noDataFound}</Text>
