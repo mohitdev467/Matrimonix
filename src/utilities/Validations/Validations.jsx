@@ -50,11 +50,11 @@ export const validateSignUpForm = (formData, setErrors) => {
     isValid = false;
   }
 
-  if (!formData.phone_no.trim()) {
-    errors.phone_no = commonUtils.phoneRequired;
+  if (!formData.mobile.trim()) {
+    errors.mobile = commonUtils.phoneRequired;
     isValid = false;
-  } else if (!validatePhone(formData.phone_no)) {
-    errors.phone_no = commonUtils.validPhoneNumber;
+  } else if (!validatePhone(formData.mobile)) {
+    errors.mobile = commonUtils.validPhoneNumber;
     isValid = false;
   }
 

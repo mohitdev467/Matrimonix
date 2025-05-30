@@ -41,7 +41,7 @@ import useCityAndStates from "../../helpers/Hooks/useCityAndStates";
       password: "",
       confirmPassword: "",
       country_code: "+91",
-      phone_no: "",
+      mobile: "",
       gender: "",
       family_type: null,
       city: "",
@@ -95,10 +95,10 @@ import useCityAndStates from "../../helpers/Hooks/useCityAndStates";
     };
   
     const handlePhoneNumber = (value) => {
-      setFormData({ ...formData, phone_no: value });
+      setFormData({ ...formData, mobile: value });
       setErrors((prevErrors) => ({
         ...prevErrors,
-        phone_no: "",
+        mobile: "",
       }));
     };
 
@@ -170,8 +170,8 @@ import useCityAndStates from "../../helpers/Hooks/useCityAndStates";
                 onChangePhone={handlePhoneNumber}
                 label={"Phone number"}
                 isRequired={true}
-                error={errors?.phone_no}
-                errorMessage={errors?.phone_no}
+                error={errors?.mobile}
+                errorMessage={errors?.mobile}
                 labelStyle={{color:pickColors.blackColor
                   ,marginLeft:Responsive.widthPx(5)}}
                               phoneContainer={styles.phoneContainer}
