@@ -4,16 +4,27 @@ import apiInstance, { API_BASE_URL } from "../../Config/apiInstance";
 import { commonUtils } from "../../utilities/CommonUtils/CommonUtils";
 import ErrorHandler from "../NotificationServices/ErrorHandler";
 
-export const getAllUsers = async (id, search = "") => {
+export const getAllUsers = async (filters = {}) => {
   try {
-    const response = await apiInstance.get(
-      `${apiEndpoints.getUsers}?search=${search}`
+    const cleanFilters = Object.fromEntries(
+      Object.entries(filters).filter(
+        ([_, value]) => value !== undefined && value !== null && value !== ""
+      )
     );
+
+
+    const queryString = new URLSearchParams(cleanFilters).toString();
+
+    const url = `${apiEndpoints.getFilterUsers}${queryString ? `?${queryString}` : ''}`;
+
+    const response = await apiInstance.get(url);
     return response.data;
   } catch (error) {
-    return { success: false, error: error };
+    return { success: false, error };
   }
 };
+
+
 
 export const getUserDetailsById = async (id) => {
   try {

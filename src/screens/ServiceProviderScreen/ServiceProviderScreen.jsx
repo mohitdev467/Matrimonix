@@ -183,7 +183,7 @@ const ServiceProviderScreen = () => {
       </ScrollView>
 
 
-      {!isExpired && (
+      {isExpired && (
         <>
           <BlurView
             style={StyleSheet.absoluteFill}

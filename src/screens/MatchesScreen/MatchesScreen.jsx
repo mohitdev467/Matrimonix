@@ -101,7 +101,7 @@ const MatchesScreen = () => {
         )}
       </ScrollView>
 
-      {!isExpired && (
+      {isExpired && (
         <>
           <BlurView
             style={StyleSheet.absoluteFill}

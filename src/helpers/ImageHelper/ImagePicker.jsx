@@ -6,6 +6,7 @@ const ImagePicker = {
   intro2: require("../../assets/Images/intro2.png"),
   intro3: require("../../assets/Images/intro3.png"),
   dummyUserImage: require("../../assets/Images/user-image-new.jpeg"),
+  dummyUserImage2: require("../../assets/Images/dummyUser2.png"),
   placeholderIMage: require("../../assets/Images/default_error.png"),
   logoImage: require("../../assets/Images/matrimonix-logo.png"),
   dummyUserMale: require("../../assets/Images/dummy_m.png"),

@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     fontSize: Responsive.font(4),
     marginVertical: Responsive.heightPx(0.3),
     width: Responsive.widthPx(50),
-    fontFamily: "SemiBold",
+    fontFamily:"Ubuntu-Medium",
   },
 
   mainWrapper: {

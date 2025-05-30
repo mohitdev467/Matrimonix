@@ -36,9 +36,6 @@ const UpdateProfileScreen = () => {
   const [uploading, setUploading] = useState(false);
   const { data: userData } = useUserDetailsById(loginData?.data?._id);
 
-
-
-
   const handleEditData = async () => {
     setIsLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -49,7 +46,8 @@ const UpdateProfileScreen = () => {
   const handleUpdateData = async (data) => {
     try {
       setIsLoading(true);
-      const result = await handleUpdateUser(data?._id, data);
+      const result = await handleUpdateUser(loginData?.data?._id, data);
+
       if (result?.data?.success) {
         await updateLoginData(result?.data);
         setIsEditData(false);
@@ -161,9 +159,9 @@ const UpdateProfileScreen = () => {
                   source={
                     typeof loginData?.data?.image === "string"
                       ? { uri: loginData?.data?.image }
-                      : ImagePicker.dummyUserImage
+                      : ImagePicker.dummyUserImage2
                   }
-                  style={styles.profileImage}
+                  style={[styles.profileImage, !loginData?.data?.image && {resizeMode:"cover"} ]}
                 />
                 <FeatherIcon
                   name="camera"
@@ -203,7 +201,7 @@ const UpdateProfileScreen = () => {
               <View style={styles.userNameWrapper}>
                 <FeatherIcon name="map-pin" style={styles.newIcon} />
                 <Text style={styles.userNameStyle}>
-                  {`${userData?.address || commonUtils.notAvailable}`}
+                  {`${userData?.family_address || commonUtils.notAvailable}`}
                 </Text>
               </View>
             </View>
@@ -214,7 +212,7 @@ const UpdateProfileScreen = () => {
             <Loader visible={isLoading} />
           </View>
         ) : isEditData ? (
-          <UpdateProfileFormComponent handleUpdateData={handleUpdateData} />
+          <UpdateProfileFormComponent handleUpdateData={handleUpdateData} userData={userData} />
         ) : (
           <UpdateProfileView userData={userData} />
         )}
@@ -251,7 +249,7 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontFamily: "SemiBold",
+    fontFamily:"Ubuntu-Medium",
     fontSize: Responsive.font(4.6),
     color: pickColors.whiteColor,
   },
@@ -267,6 +265,7 @@ const styles = StyleSheet.create({
     marginHorizontal: Responsive.widthPx(6),
     borderRadius: 100,
     resizeMode: "contain",
+    borderWidth:1,
   },
 
   trainerLevelWrp: {
@@ -304,7 +303,7 @@ const styles = StyleSheet.create({
   },
 
   userNameStyle: {
-    fontFamily: "SemiBold",
+    fontFamily:"Ubuntu-Medium",
     fontSize: Responsive.font(4),
   },
 

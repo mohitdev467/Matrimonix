@@ -55,11 +55,9 @@ export default function LoginScreen() {
       ErrorHandler(commonUtils.pleaseFillAllFields);
       return;
     }
-    console.log("Form dataaaaa", formData)
     try {
       setIsLoading(true);
       const result = await handleLoginUser(formData);
-      console.log("resultttt", result)
       if (result?.data?.success) {
         successHandler(commonUtils.loginSuccess);
         storeLoginData(result.data);
@@ -79,7 +77,7 @@ export default function LoginScreen() {
        <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0} // adjust if you have header/navigation
+        keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0} 
       >
         <ScrollView
           contentContainerStyle={{ flexGrow: 1 }}
@@ -264,7 +262,6 @@ const styles = StyleSheet.create({
     marginHorizontal: Responsive.widthPx(2),
     backgroundColor: "transparent",
     fontFamily: "Ubuntu-Medium",
-    color: pickColors.blackColor,
     height: Responsive.heightPx(7),
     color: pickColors.blackColor,
   },
@@ -361,6 +358,7 @@ const styles = StyleSheet.create({
   phoneContainerStyle: {
     backgroundColor: "#fff",
     borderWidth: 1,
+    borderColor:pickColors.brandColor,
     height: Responsive.heightPx(6.2),
     width: "87%",
     borderRadius:5,
@@ -373,7 +371,7 @@ const styles = StyleSheet.create({
   textContainerStyle: {
     backgroundColor: "#fff",
     borderBottomWidth: 0.5,
-    borderColor: pickColors.blackColor,
+    borderColor: pickColors.brandColor,
     paddingVertical: 0,
   },
 
@@ -387,7 +385,7 @@ const styles = StyleSheet.create({
   countryPickerStyle: {
     backgroundColor: "#fff",
     borderBottomWidth: 0.5,
-    borderColor: pickColors.blackColor,
+    borderColor: pickColors.brandColor,
   },
 
 
@@ -397,7 +395,7 @@ flex:1,
   },
   mainContainerStyle:{
     borderWidth:1,
-    borderColor: pickColors.blackColor,
+    borderColor: pickColors.brandColor,
 
   },
   newCodeTextStyle:{

@@ -25,7 +25,7 @@ import useGoBack from "../../helpers/Hooks/useGoBack";
 import io from "socket.io-client";
 
 const ChatsScreen = () => {
-    const socket = io("http://143.110.243.199", {
+    const socket = io("http://143.110.243.199:5001", {
     transports: ["websocket"],
   });
   const { loginData } = useAuthStorage();

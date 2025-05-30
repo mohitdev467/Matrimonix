@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
+
 import Responsive from "../../helpers/ResponsiveDimensions/Responsive";
 import useGoBack from "../../helpers/Hooks/useGoBack";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -32,6 +33,7 @@ import successHandler from "../../services/NotificationServices/SuccessHandler";
 import useShortlistUser from "../../helpers/Hooks/useShortlistUser";
 import { BlurView } from "@react-native-community/blur";
 import FeatherIcon from "react-native-vector-icons/Feather";
+import screenNames from "../../helpers/ScreenNames/ScreenNames";
 
 
 
@@ -134,26 +136,40 @@ const UserDetailsScreen = () => {
                     style={styles.imageWrapperMain}
                   />
                   <View style={styles.imageContent}>
-                    <Text
-                      style={[
-                        styles.textStyle,
-                        { fontFamily: "Bold", fontSize: Responsive.font(5) },
-                      ]}
-                    >
-                      {state?.data?.name
-                        ? state?.data?.name
-                        : commonUtils.notAvailable}
-                    </Text>
-                    <Text
-                      style={[
-                        styles.textStyle,
-                        { fontSize: Responsive.font(3.7) },
-                      ]}
-                    >
-                      {state?.data?.occupation
-                        ? state?.data?.occupation
-                        : commonUtils.notAvailable}
-                    </Text>
+                    <View>
+                      <Text
+                        style={[
+                          styles.textStyle,
+                          { fontFamily: "Bold", fontSize: Responsive.font(5) },
+                        ]}
+                      >
+                        {state?.data?.name
+                          ? state?.data?.name
+                          : commonUtils.notAvailable}
+                      </Text>
+                      <Text
+                        style={[
+                          styles.textStyle,
+                          { fontSize: Responsive.font(3.7) },
+                        ]}
+                      >
+                        {state?.data?.occupation
+                          ? state?.data?.occupation
+                          : commonUtils.notAvailable}
+                      </Text>
+                    </View>
+                    <View style={styles.chatWrapper}>
+                      <FeatherIcon
+                        name="message-square"
+                        color={pickColors.whiteColor}
+                        size={Responsive.font(6.5)}
+                        onPress={() =>
+                          navigation.navigate(screenNames.ChatsDetailsScreen, {
+                            data: state?.data,
+                          })
+                        } style={styles.goBackButton}
+                      />
+                    </View>
                   </View>
                 </View>
               </View>
@@ -314,7 +330,7 @@ const UserDetailsScreen = () => {
         )}
 
 
-        {!isExpired && (
+        {isExpired && (
           <>
             <BlurView
               style={StyleSheet.absoluteFill}
@@ -363,6 +379,9 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingVertical: Responsive.heightPx(1),
     paddingHorizontal: Responsive.widthPx(4),
+    flexDirection: "row",
+    justifyContent: "space-between"
+
   },
   userDetailsContainer: {
     // backgroundColor: pickColors.whiteColor,
@@ -474,4 +493,8 @@ const styles = StyleSheet.create({
     fontSize: Responsive.font(3.8),
     fontFamily: "Ubuntu-Bold",
   },
+
+  chatWrapper: {
+    marginRight: Responsive.widthPx(13)
+  }
 });

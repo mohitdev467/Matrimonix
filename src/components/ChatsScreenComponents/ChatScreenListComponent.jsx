@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { pickColors } from "../../helpers/theme/colors";
 import ImagePicker from "../../helpers/ImageHelper/ImagePicker";
 import Responsive from "../../helpers/ResponsiveDimensions/Responsive";
@@ -14,18 +14,41 @@ import { formattedDate } from "../../helpers/CommonFunctions/CommonFunctions";
 import { useNavigation } from "@react-navigation/native";
 import screenNames from "../../helpers/ScreenNames/ScreenNames";
 import { createConversation } from "../../services/CommonServices/CommonServices";
+import io from "socket.io-client";
+
+const SOCKET_SERVER_URL = "http://192.168.1.4:5000"; 
 
 const ChatScreenListComponents = ({ usersData,loginData }) => {
   const navigation = useNavigation();
-
   const [conversations, setConversations] = useState([]);
+  const [userStatus, setUserStatus] = useState({}); 
+  const socketRef = useRef();
 
   useEffect(() => {
+    const socket = io(SOCKET_SERVER_URL);
+    socketRef.current = socket;
+
+    if (usersData?.length > 0) {
+      usersData.forEach((user) => {
+        socket.emit("register", user._id);
+      });
+    }
+
+    socket.on("user_status", ({ userId, online }) => {
+      setUserStatus((prev) => ({
+        ...prev,
+        [userId]: online,
+      }));
+    });
+
     if (usersData?.length > 0) {
       fetchConversations();
     }
-  }, [usersData]);
 
+    return () => {
+      socket.disconnect();
+    };
+  }, [usersData]);
 
   const fetchConversations = async () => {
     try {
@@ -91,12 +114,24 @@ const styles = StyleSheet.create({
     backgroundColor: pickColors.whiteColor,
     marginVertical: Responsive.heightPx(1.5),
   },
-
+  imageContainer: {
+    position: "relative",
+  },
   imageStyle: {
     height: Responsive.heightPx(8),
     width: Responsive.widthPx(16),
     borderRadius: 100,
     resizeMode: "cover",
+  },
+  statusDot: {
+    width: Responsive.widthPx(3),
+    height: Responsive.widthPx(3),
+    borderRadius: Responsive.widthPx(1.5),
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    borderWidth: 1,
+    borderColor: pickColors.whiteColor,
   },
   innerWrapper: {
     flexDirection: "row",
@@ -130,6 +165,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: Responsive.widthPx(2),
     color: "grey",
     fontFamily: "Ubuntu-Regular",
-
   },
 });

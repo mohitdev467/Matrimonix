@@ -19,13 +19,59 @@ import { getAllUsers } from "../../services/UserServices/UserServices";
 import Loader from "../LoaderComponent/Loader";
 import { pickColors } from "../../helpers/theme/colors";
 import ErrorHandler from "../../services/NotificationServices/ErrorHandler";
-import SearchComponent from "../CommonComponents/SearchComponent";
 import screenNames from "../../helpers/ScreenNames/ScreenNames";
+import useCastes from "../../helpers/Hooks/useCastes";
+import useLanguages from "../../helpers/Hooks/useLanguages";
+import FilterModal from "../FilterModalComponents/FilterModal";
+import useCityAndStates from "../../helpers/Hooks/useCityAndStates";
 
 const SearchUsersListComponents = () => {
   const navigation = useNavigation();
   const { loginData } = useAuthStorage();
-  const [searchQuery, setSearchQuery] = useState("");
+  const { castes } = useCastes();
+  const { languages } = useLanguages()
+  const [casteData, setCasteData] = useState([]);
+  const [languagesData, setLanguagesData] = useState([])
+  const [citiesData, setCitiesData] = useState([])
+  const [statesData, setStatesData] = useState([])
+
+  const [filterVisible, setFilterVisible] = useState(false)
+  const { cities, states } = useCityAndStates();
+  const [loadingFilters, setLoadingFilters] = useState(true);
+
+
+
+
+  const [filters, setFilters] = useState({
+    gender: "",
+    caste: "",
+    language: "",
+    city: "",
+    minAge: 18,
+    maxAge: 60,
+  });
+
+
+  useEffect(() => {
+    const casteList = Array.isArray(castes?.data) ? castes?.data?.map((item) => item.caste) : [];
+    const languageList = Array.isArray(languages?.data) ? languages?.data?.map((item) => item.language) : [];
+    const citiesList = Array.isArray(cities?.data) ? cities?.data?.map((item) => item.name) : [];
+    const statesList = Array.isArray(states?.data) ? states?.data?.map((item) => item.name) : [];
+
+    setCasteData(casteList);
+    setLanguagesData(languageList);
+    setCitiesData(citiesList);
+    setStatesData(statesList);
+
+    if (
+      casteList.length > 0 &&
+      languageList.length > 0 &&
+      citiesList.length > 0 &&
+      statesList.length > 0
+    ) {
+      setLoadingFilters(false);
+    }
+  }, [castes?.data, languages?.data, cities?.data, states?.data]);
   const [state, setState] = useState({
     data: [],
     loading: false,
@@ -39,10 +85,12 @@ const SearchUsersListComponents = () => {
     }));
   };
 
-  const getUsersListData = async () => {
+  const getUsersListData = async (appliedFilters = {}) => {
     updateState("loading", true);
     try {
-      const result = await getAllUsers(searchQuery);
+      const result = await getAllUsers(appliedFilters);
+
+
       if (result?.success) {
         const filteredData = result.data.filter(
           (user) => user._id !== loginData?.data?._id
@@ -60,7 +108,7 @@ const SearchUsersListComponents = () => {
 
   useEffect(() => {
     getUsersListData();
-  }, [loginData, searchQuery]);
+  }, [loginData]);
 
   const onRefresh = useCallback(() => {
     updateState("refreshing", true);
@@ -96,7 +144,7 @@ const SearchUsersListComponents = () => {
           <View style={styles.nameHeartWrp}>
             <Text style={styles.cardName}>{item.name}</Text>
           </View>
-          <Text style={[styles.cardName,{fontFamily:"Ubuntu-Regular", fontSize:Responsive.font(3.5)}]}>
+          <Text style={[styles.cardName, { fontFamily: "Ubuntu-Regular", fontSize: Responsive.font(3.5) }]}>
             {item.occupation || commonUtils.notAvailable}
           </Text>
         </View>
@@ -104,21 +152,140 @@ const SearchUsersListComponents = () => {
     </TouchableOpacity>
   );
 
+
+
   return (
     <View style={styles.container}>
-      <SearchComponent
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        placeholder={"Search..."}
-      />
 
+
+      <View style={styles.filterActionRow}>
+
+        <TouchableOpacity
+          style={styles.filterWrapper}
+          onPress={() => setFilterVisible(true)}
+        >
+          <Text style={styles.filterText}>Filters</Text>
+        </TouchableOpacity>
+
+        {Object.values(filters).some((val) => val !== "" && val !== 18 && val !== 60) && (
+          <TouchableOpacity
+            style={styles.clearBtnInline}
+            onPress={() => {
+              const defaultFilters = {
+                gender: "",
+                caste: "",
+                language: "",
+                city: "",
+                minAge: 18,
+                maxAge: 60,
+              };
+              setFilters(defaultFilters);
+              getUsersListData(defaultFilters);
+            }}
+          >
+            <Text style={styles.clearBtnText}>Clear All Filters</Text>
+          </TouchableOpacity>
+        )}
+
+      </View>
+
+      {Object.values(filters).some((val) => val !== "" && val !== 18 && val !== 60) && (
+        <View style={styles.appliedFiltersWrapper}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            {filters.gender !== "" && (
+              <View style={styles.filterChip}>
+                <Text style={styles.filterChipText}>
+                  Gender: {filters.gender}
+                </Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    const updated = { ...filters, gender: "" };
+                    setFilters(updated);
+                    getUsersListData(updated);
+                  }}
+                >
+                  <Text style={styles.closeIcon}>✕</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+
+            {filters.city !== "" && (
+              <View style={styles.filterChip}>
+                <Text style={styles.filterChipText}>
+                  City: {filters.city}
+                </Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    const updated = { ...filters, city: "" };
+                    setFilters(updated);
+                    getUsersListData(updated);
+                  }}
+                >
+                  <Text style={styles.closeIcon}>✕</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+
+            {filters.caste !== "" && (
+              <View style={styles.filterChip}>
+                <Text style={styles.filterChipText}>
+                  Caste: {filters.caste}
+                </Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    const updated = { ...filters, caste: "" };
+                    setFilters(updated);
+                    getUsersListData(updated);
+                  }}
+                >
+                  <Text style={styles.closeIcon}>✕</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+
+            {filters.language !== "" && (
+              <View style={styles.filterChip}>
+                <Text style={styles.filterChipText}>
+                  Language: {filters.language}
+                </Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    const updated = { ...filters, language: "" };
+                    setFilters(updated);
+                    getUsersListData(updated);
+                  }}
+                >
+                  <Text style={styles.closeIcon}>✕</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+
+            {(filters.minAge !== 18 || filters.maxAge !== 60) && (
+              <View style={styles.filterChip}>
+                <Text style={styles.filterChipText}>
+                  Age: {filters.minAge} - {filters.maxAge}
+                </Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    const updated = { ...filters, minAge: 18, maxAge: 60 };
+                    setFilters(updated);
+                    getUsersListData(updated);
+                  }}
+                >
+                  <Text style={styles.closeIcon}>✕</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          </ScrollView>
+        </View>
+      )}
       {state?.loading ? (
         <Loader visible={state.loading} />
       ) : (
         <>
           {state?.data?.length > 0 ? (
             <FlatList
-              data={state?.data.sort((a, b) => a.name.localeCompare(b.name))}
+              data={state?.data?.sort((a, b) => a?.name?.localeCompare(b?.name))}
               renderItem={renderItem}
               keyExtractor={(item, index) => `${item.id}-${index}`}
               numColumns={2}
@@ -134,6 +301,26 @@ const SearchUsersListComponents = () => {
           )}
         </>
       )}
+
+
+
+      <FilterModal
+        visible={filterVisible}
+        onClose={() => setFilterVisible(false)}
+        onApply={(appliedFilters) => {
+          setFilters(appliedFilters);
+          setFilterVisible(false);
+          getUsersListData(appliedFilters);
+        }}
+        data={{
+          cities: citiesData,
+          states: statesData,
+          castes: casteData,
+          languages: languagesData
+        }}
+        loading={loadingFilters}
+      />
+
     </View>
   );
 };
@@ -163,7 +350,7 @@ const styles = StyleSheet.create({
     height: Responsive.heightPx(20),
     width: Responsive.widthPx(38),
     resizeMode: "cover",
-    borderRadius:10,
+    borderRadius: 10,
   },
   imageContainer: {
     backgroundColor: pickColors.imageBgColor,
@@ -175,7 +362,7 @@ const styles = StyleSheet.create({
   contentWrapper: {
     width: Responsive.widthPx(36),
     paddingVertical: Responsive.heightPx(1.3),
-    paddingHorizontal:Responsive.widthPx(3)
+    paddingHorizontal: Responsive.widthPx(3)
   },
 
   cardName: {
@@ -242,5 +429,90 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+  },
+
+  filterWrapper: {
+    backgroundColor: pickColors.whiteColor,
+    width: Responsive.widthPx(20),
+    borderRadius: 10,
+    paddingHorizontal: Responsive.widthPx(3),
+    paddingVertical: Responsive.heightPx(1),
+    marginHorizontal: Responsive.widthPx(2),
+    marginVertical: Responsive.heightPx(1),
+    alignSelf: "flex-end",
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 0.5,
+    elevation: 5,
+
+  },
+
+  filterText: {
+    color: pickColors.blackColor,
+    fontSize: Responsive.font(4),
+    fontFamily: "Ubuntu-Medium"
+  }
+  ,
+  filterActionRow: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    marginHorizontal: Responsive.widthPx(5),
+    marginVertical: Responsive.heightPx(1),
+    gap: Responsive.widthPx(2),
+  },
+
+  clearBtnInline: {
+    backgroundColor: pickColors.brandColor,
+    paddingHorizontal: Responsive.widthPx(3),
+    paddingVertical: Responsive.heightPx(1.2),
+    borderRadius: 10,
+    elevation: 5,
+  },
+
+  appliedFiltersWrapper: {
+    marginHorizontal: Responsive.widthPx(5),
+    marginBottom: Responsive.heightPx(1),
+    flexDirection: "column",
+    gap: 8,
+  },
+
+  filterChip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: pickColors.brandColor,
+    elevation: 5,
+    paddingHorizontal: Responsive.widthPx(3),
+    paddingVertical: Responsive.heightPx(0.8),
+    borderRadius: 20,
+    marginRight: Responsive.widthPx(3),
+    marginBottom: Responsive.heightPx(2),
+    gap: 8, // space between text and close icon
+  },
+
+  closeIcon: {
+    color: pickColors.whiteColor,
+    fontSize: Responsive.font(3),
+    marginLeft: Responsive.widthPx(1),
+  },
+
+  filterChipText: {
+    color: pickColors.whiteColor,
+    fontSize: Responsive.font(3.2),
+    fontFamily: "Ubuntu-Regular",
+  },
+
+  clearBtn: {
+    alignSelf: "flex-end",
+    backgroundColor: pickColors.redColor || "#ff4d4d",
+    paddingHorizontal: Responsive.widthPx(3),
+    paddingVertical: Responsive.heightPx(1),
+    borderRadius: 10,
+  },
+
+  clearBtnText: {
+    color: pickColors.whiteColor,
+    fontSize: Responsive.font(3.5),
+    fontFamily: "Ubuntu-Medium",
   },
 });

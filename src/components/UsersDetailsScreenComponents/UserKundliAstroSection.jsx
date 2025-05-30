@@ -19,6 +19,26 @@ const UserKundliAstroSection = ({ myDetails }) => {
               },
             ]}
           >
+            Age :
+          </Text>
+        </View>
+        <View style={styles.flexAndWidth60}>
+          <Text style={styles.newTextStyle}>
+            {`${myDetails?.age} Years` || "Not available"}
+          </Text>
+        </View>
+      </View>
+      <View style={styles.mainWrappeer}>
+        <View style={styles.width40px}>
+          <Text
+            style={[
+              styles.newTextStyle,
+              {
+                fontSize: Responsive.font(3.7),
+                color: pickColors.subHeadingColor,
+              },
+            ]}
+          >
             Date of Birth :
           </Text>
         </View>
@@ -145,7 +165,7 @@ const styles = StyleSheet.create({
     color: pickColors.blackColor,
     fontSize: Responsive.font(3.8),
     marginVertical: Responsive.heightPx(0.3),
-    fontFamily: "SemiBold",
+    fontFamily:"Ubuntu-Medium",
   },
 
   mainWrappeer: {
