@@ -1,6 +1,5 @@
 import {
   Image,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -18,6 +17,7 @@ import {
 import { pickColors } from "../../helpers/theme/colors";
 import Responsive from "../../helpers/ResponsiveDimensions/Responsive";
 import Icon from "react-native-vector-icons/Feather";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const NotificationScreen = () => {
   return (

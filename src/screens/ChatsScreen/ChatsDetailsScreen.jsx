@@ -262,7 +262,6 @@
 
 import React, { useState, useCallback, useEffect } from "react";
 import {
-  SafeAreaView,
   StyleSheet,
   Text,
   View,
@@ -279,6 +278,7 @@ import Responsive from "../../helpers/ResponsiveDimensions/Responsive";
 import Feather from "react-native-vector-icons/Feather";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 
 // MessageBubble Component with Date/Time
@@ -343,7 +343,6 @@ const ChatsDetailsScreen = () => {
 
   const detailss = route.params.data;
 
-  console.log("detailss", detailss);
 
   const [chat, setChat] = useState({});
   const [allChat, setAllChat] = useState([]);

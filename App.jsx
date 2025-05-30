@@ -15,7 +15,7 @@ function App(){
   return (
     <View style={styles.mainContainer}>
       <StatusBar
-        barStyle='light-content'
+        barStyle='dark-content'
         backgroundColor={pickColors.brandColor}
       />          
 

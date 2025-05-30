@@ -11,6 +11,7 @@ import { commonUtils } from "../../utilities/CommonUtils/CommonUtils";
 import ImagePicker from "../../helpers/ImageHelper/ImagePicker";
 import { getServieProviderById } from "../../services/ServiceProviderServices/ServiceProviderServices";
 import TextSpliter from "../../helpers/CommonFunctions/TextSpliter";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const ServiceProviderDetailsScreen = () => {
   const route = useRoute();
@@ -50,7 +51,7 @@ const ServiceProviderDetailsScreen = () => {
   }, [id]);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.headerDetails}>
         <Icon
           name="arrow-left"
@@ -147,7 +148,7 @@ const ServiceProviderDetailsScreen = () => {
           </View>
         )}
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 

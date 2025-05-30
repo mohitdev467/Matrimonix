@@ -2,7 +2,6 @@ import {
   ActivityIndicator,
   Alert,
   Image,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -28,6 +27,7 @@ import FeatherIcon from "react-native-vector-icons/Feather";
 import { BlurView } from "@react-native-community/blur";
 import useUserDetailsById from "../../helpers/Hooks/useUserDetailsById";
 import { useFocusEffect } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 
 

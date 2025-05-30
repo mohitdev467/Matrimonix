@@ -1,6 +1,5 @@
 import {
   Image,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -14,6 +13,7 @@ import Responsive from "../../helpers/ResponsiveDimensions/Responsive";
 import { pickColors } from "../../helpers/theme/colors";
 import Icon from "react-native-vector-icons/Feather";
 import ImagePicker from "../../helpers/ImageHelper/ImagePicker";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const ContactScreen = () => {
   return (

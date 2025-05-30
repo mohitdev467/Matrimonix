@@ -24,6 +24,7 @@ import FeatherIcon from "react-native-vector-icons/Feather";
 import useGoBack from "../../helpers/Hooks/useGoBack";
 import io from "socket.io-client";
 import useUserDetailsById from "../../helpers/Hooks/useUserDetailsById";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const ChatsScreen = () => {
     const socket = io("http://143.110.243.199:5001", {
@@ -75,7 +76,7 @@ const ChatsScreen = () => {
 
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <HeaderWithSearchBack
         headerTitle={commonUtils.chatsText}
         isBackHeader={true}
@@ -137,7 +138,7 @@ const ChatsScreen = () => {
           </View>
         </>
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 

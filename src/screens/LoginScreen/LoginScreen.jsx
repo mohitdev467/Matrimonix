@@ -1,7 +1,6 @@
 import {
   View,
   Text,
-  SafeAreaView,
   Image,
   StyleSheet,
   TouchableOpacity,
@@ -32,6 +31,7 @@ import useAuthStorage from "../../helpers/Hooks/useAuthStorage";
 import useBackHandler from "../../helpers/Hooks/useBackHandler";
 import PhoneNumberInput from "../../components/CommonComponents/PhoneInputComponent";
 import CustomInputField from "../../components/CommonComponents/CustomInputField";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function LoginScreen() {
   useBackHandler(true);

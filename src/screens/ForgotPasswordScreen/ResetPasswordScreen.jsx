@@ -22,6 +22,7 @@ import { useNavigation } from "@react-navigation/native";
 import screenNames from "../../helpers/ScreenNames/ScreenNames";
 import Feather from "react-native-vector-icons/Feather";
 import { handleUpdatePassword } from "../../services/AuthServices/AuthServices";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const ResetPasswordScreen = () => {
   const navigation = useNavigation();
@@ -70,7 +71,7 @@ const ResetPasswordScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <HeaderWithSearchBack
         headerTitle={"Reset Password"}
         isBackHeader={true}
@@ -119,7 +120,7 @@ const ResetPasswordScreen = () => {
           />
         )}
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

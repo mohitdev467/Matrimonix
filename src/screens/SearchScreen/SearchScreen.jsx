@@ -11,6 +11,7 @@ import {
   
   import useAuthStorage from "../../helpers/Hooks/useAuthStorage";
   import SearchUsersListComponents from "../../components/SearchScreenComponents/SearchUsersListComponents";
+import { SafeAreaView } from "react-native-safe-area-context";
   
   const SearchScreen = () => {
     const { loginData } = useAuthStorage();
@@ -25,7 +26,7 @@ import {
     }, []);
   
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <CommonHeader />
         <ScrollView
           keyboardShouldPersistTaps="handled"
@@ -35,7 +36,7 @@ import {
         >
           <SearchUsersListComponents loginData={loginData} />
         </ScrollView>
-      </View>
+      </SafeAreaView>
     );
   };
   

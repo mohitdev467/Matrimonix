@@ -17,6 +17,7 @@ import {
   import NewsCardHomeScreen from "../../components/HomeScreenComponents/NewsCardHomeScreen";
   import useStatsData from "../../helpers/Hooks/useStatsData";
   import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
   
   const HomeScreen = () => {
     useBackHandler(true);
@@ -38,7 +39,7 @@ import {
     }, [loginData]);
   
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <CommonHeader />
         <ScrollView
           keyboardShouldPersistTaps="handled"
@@ -54,7 +55,7 @@ import {
   
           <NewsCardHomeScreen loginData={loginData} />
         </ScrollView>
-      </View>
+      </SafeAreaView>
     );
   };
   

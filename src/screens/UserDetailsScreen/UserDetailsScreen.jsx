@@ -1,7 +1,6 @@
 import {
   ActivityIndicator,
   Image,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -35,6 +34,7 @@ import { BlurView } from "@react-native-community/blur";
 import FeatherIcon from "react-native-vector-icons/Feather";
 import screenNames from "../../helpers/ScreenNames/ScreenNames";
 import useUserDetailsById from "../../helpers/Hooks/useUserDetailsById";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 
 

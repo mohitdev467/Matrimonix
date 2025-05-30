@@ -1,7 +1,6 @@
 import {
   Image,
   ImageBackground,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -26,6 +25,7 @@ import { getImageUrl, handleUpdateUser } from "../../services/UserServices/UserS
 import ErrorHandler from "../../services/NotificationServices/ErrorHandler";
 import { launchImageLibrary } from "react-native-image-picker";
 import useUserDetailsById from "../../helpers/Hooks/useUserDetailsById";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 
 const UpdateProfileScreen = () => {

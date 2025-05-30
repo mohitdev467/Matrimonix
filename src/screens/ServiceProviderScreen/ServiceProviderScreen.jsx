@@ -27,6 +27,7 @@ import { BlurView } from "@react-native-community/blur";
 import FeatherIcon from "react-native-vector-icons/Feather";
 import useGoBack from "../../helpers/Hooks/useGoBack";
 import useUserDetailsById from "../../helpers/Hooks/useUserDetailsById";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 
 
@@ -153,7 +154,7 @@ useFocusEffect(
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <HeaderWithSearchBack
         headerTitle={commonUtils.ServiceProvider}
         isBackHeader={true}
@@ -222,7 +223,7 @@ useFocusEffect(
           </View>
         </>
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 

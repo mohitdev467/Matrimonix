@@ -15,6 +15,7 @@ import screenNames from "../../helpers/ScreenNames/ScreenNames";
 import {
   handleForgotPassword,
 } from "../../services/AuthServices/AuthServices";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const ForgotPasswordScreen = () => {
   const navigation = useNavigation();
@@ -54,7 +55,7 @@ const ForgotPasswordScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <HeaderWithSearchBack
         headerTitle={"Forgot Password"}
         isBackHeader={true}
@@ -91,7 +92,7 @@ const ForgotPasswordScreen = () => {
           />
         )}
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

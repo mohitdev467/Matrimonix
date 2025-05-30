@@ -1,7 +1,6 @@
 import {
     View,
     Text,
-    SafeAreaView,
     Image,
     StyleSheet,
     TouchableOpacity,
@@ -32,6 +31,7 @@ import {
     genderData,
   } from "../../constants/CommonData/CommonData";
 import useCityAndStates from "../../helpers/Hooks/useCityAndStates";
+import { SafeAreaView } from "react-native-safe-area-context";
   
   export default function SignupScreen() {
     const navigation = useNavigation();

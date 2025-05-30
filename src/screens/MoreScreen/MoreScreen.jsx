@@ -1,5 +1,4 @@
 import {
-    SafeAreaView,
     ScrollView,
     StyleSheet,
     Text,
@@ -21,6 +20,7 @@ import {
   import screenNames from "../../helpers/ScreenNames/ScreenNames";
   import successHandler from "../../services/NotificationServices/SuccessHandler";
   import ErrorHandler from "../../services/NotificationServices/ErrorHandler";
+import { SafeAreaView } from "react-native-safe-area-context";
   
   const MoreScreen = () => {
     const navigation = useNavigation();

@@ -1,6 +1,5 @@
 import {
   Image,
-  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
@@ -13,6 +12,7 @@ import { pickColors } from "../../helpers/theme/colors";
 import ImagePicker from "../../helpers/ImageHelper/ImagePicker";
 import Responsive from "../../helpers/ResponsiveDimensions/Responsive";
 import { aboutUsScreenData } from "../../constants/CommonData/CommonData";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const AboutusScreen = () => {
   return (

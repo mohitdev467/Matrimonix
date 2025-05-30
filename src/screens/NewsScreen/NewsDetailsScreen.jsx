@@ -10,6 +10,7 @@ import useGoBack from "../../helpers/Hooks/useGoBack";
 import { commonUtils } from "../../utilities/CommonUtils/CommonUtils";
 import { formattedDate } from "../../helpers/CommonFunctions/CommonFunctions";
 import ImagePicker from "../../helpers/ImageHelper/ImagePicker";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const NewsDetailsScreen = () => {
   const route = useRoute();
@@ -49,7 +50,7 @@ const NewsDetailsScreen = () => {
   }, [id]);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.headerDetails}>
         <Icon
           name="arrow-left"
@@ -91,7 +92,7 @@ const NewsDetailsScreen = () => {
           </View>
         </View>
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 

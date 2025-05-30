@@ -5,7 +5,6 @@ import {
   Text,
   View,
   TouchableOpacity,
-  SafeAreaView,
 } from "react-native";
 import { useCallback, useEffect, useState } from "react";
 import useAuthStorage from "../../helpers/Hooks/useAuthStorage";
@@ -17,6 +16,7 @@ import Responsive from "../../helpers/ResponsiveDimensions/Responsive";
 import { commonUtils } from "../../utilities/CommonUtils/CommonUtils";
 import NewsListComponent from "../../components/NewsScreenComponents/NewsListComponent";
 import HeaderWithSearchBack from "../../components/CommonComponents/HeaderWithBack";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const NewsScreen = () => {
   const { loginData } = useAuthStorage();
