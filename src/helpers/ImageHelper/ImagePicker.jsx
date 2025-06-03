@@ -2,6 +2,11 @@ const ImagePicker = {
   loginScreenLogo: require("../../assets/Images/login-screen-logo.png"),
   aboutusScreenLogo: require("../../assets/Images/login-bg.jpg"),
   splashScreenImage: require("../../assets/Images/splash.png"),
+  splashScreenImage2: require("../../assets/Images/splash-screen-2.jpg"),
+  splashScreenImage3: require("../../assets/Images/splash-screen-3-image.png"),
+  splashScreenImage4: require("../../assets/Images/splashscreen-4.jpg"),
+  splashScreenImage5: require("../../assets/Images/Rishtaa.png"),
+
   intro1: require("../../assets/Images/intro1.png"),
   intro2: require("../../assets/Images/intro2.png"),
   intro3: require("../../assets/Images/intro3.png"),

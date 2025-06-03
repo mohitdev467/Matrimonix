@@ -1,4 +1,4 @@
-package com.matrimonix
+package com.samyotech.smmatrimony
 
 import android.app.Application
 import com.facebook.react.PackageList

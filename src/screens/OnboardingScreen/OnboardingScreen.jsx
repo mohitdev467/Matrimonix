@@ -36,7 +36,7 @@ const OnboardingScreen = () => {
     <ImageBackground
       source={item.image}
       style={styles.slideBackground}
-      resizeMode="cover"
+      resizeMode="contain"
     >
       <View style={styles.onboardingContentWrapper}>
         <ButtonComponent
@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor:pickColors.brandColor
   },
   onboardingContentWrapper: {
     position: "absolute",

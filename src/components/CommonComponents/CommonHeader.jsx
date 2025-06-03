@@ -18,7 +18,7 @@ const CommonHeader = () => {
         <View style={styles.logoWrapper}>
           <Image source={ImagePicker.logoImage} style={styles.logoImage} />
 
-          <TextBold style={styles.logoTextStyle}>MATRIMONIX</TextBold>
+          <TextBold style={styles.logoTextStyle}>RISHTAA</TextBold>
         </View>
       </TouchableOpacity>
       <TouchableOpacity

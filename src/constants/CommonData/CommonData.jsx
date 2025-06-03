@@ -227,16 +227,16 @@ export const chatsScreenData = [
 
 export const aboutUsScreenData = {
   description:
-    "Matrimonix is a modern matrimonial platform designed to bring together individuals and families seeking meaningful and lasting relationships. Our mission is to make match-making simple, safe, and personal by blending traditional values with cutting-edge technology. Whether you're looking for love, companionship, or a life partner, Matrimonix offers a trusted space where your preferences, privacy, and beliefs are respected. We cater to diverse communities, cultures, and lifestyles, helping you find your perfect match from the comfort of your home.",
+    "Rishtaa is a modern matrimonial platform designed to bring together individuals and families seeking meaningful and lasting relationships. Our mission is to make match-making simple, safe, and personal by blending traditional values with cutting-edge technology. Whether you're looking for love, companionship, or a life partner, Rishtaa offers a trusted space where your preferences, privacy, and beliefs are respected. We cater to diverse communities, cultures, and lifestyles, helping you find your perfect match from the comfort of your home.",
   description2:
-    "With advanced search filters, verified profiles, and an intuitive user experience, Matrimonix stands apart as a reliable partner in your journey to marriage. Join thousands of happy members who have found their soulmates through Matrimonix. Your perfect match is just a click away.",
+    "With advanced search filters, verified profiles, and an intuitive user experience, Rishtaa stands apart as a reliable partner in your journey to marriage. Join thousands of happy members who have found their soulmates through Rishtaa. Your perfect match is just a click away.",
 };
 
 export const contactusScreenData = {
   getIntouchHeading: "Get in Touch",
   subtitle: "If you have any inquiries get in touch with us.",
   subTitle2: "We'll be happy to help you.",
-  mobileNumber: "+91-1234567890",
-  email: "example@matrimonix.com",
+  mobileNumber: "+91-7869999639",
+  email: "amit@samyotech.com",
   address: "1st Floor Pramukh Plaza, near Vijay Nagar Indore, M.P., India",
 };

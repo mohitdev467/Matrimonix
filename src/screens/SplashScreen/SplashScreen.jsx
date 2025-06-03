@@ -7,7 +7,7 @@ const SplashScreen = () => {
   return (
     <SafeAreaView style={Styles.splashScreenContainer}>
       <ImageBackground
-        source={ImagePicker.splashScreenImage}
+        source={ImagePicker.splashScreenImage5}
         style={Styles.splashImage}
         resizeMode="cover"
       ></ImageBackground>
@@ -21,7 +21,7 @@ const Styles = StyleSheet.create({
   splashScreenContainer: {
     flex: 1,
     justifyContent: "center",
-    backgroundColor: pickColors.blackColor,
+    backgroundColor: pickColors.whiteColor,
   },
 
   splashImage: {

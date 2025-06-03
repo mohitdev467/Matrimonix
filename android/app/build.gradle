@@ -79,13 +79,13 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.matrimonix"
+    namespace "com.samyotech.smmatrimony"
     defaultConfig {
-        applicationId "com.matrimonix"
+        applicationId "com.samyotech.smmatrimony"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 9       
+        versionName "1.0.5"
     }
     signingConfigs {
         debug {

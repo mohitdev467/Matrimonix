@@ -1,6 +1,7 @@
 
 import React from 'react';
 import {
+  LogBox,
   StatusBar,
   StyleSheet,
 
@@ -10,6 +11,9 @@ import { pickColors } from './src/helpers/theme/colors';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import FlashMessage from 'react-native-flash-message';
 import MainRoutes from './src/Router/MainRoutes';
+
+LogBox.ignoreAllLogs();
+
 
 function App(){
   return (

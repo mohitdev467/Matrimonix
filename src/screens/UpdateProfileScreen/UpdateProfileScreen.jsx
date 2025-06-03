@@ -6,7 +6,8 @@ import {
   Text,
   TouchableOpacity,
   View,
-  StatusBar
+  StatusBar,
+  SafeAreaView
 } from "react-native";
 import React, { useState } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -25,7 +26,6 @@ import { getImageUrl, handleUpdateUser } from "../../services/UserServices/UserS
 import ErrorHandler from "../../services/NotificationServices/ErrorHandler";
 import { launchImageLibrary } from "react-native-image-picker";
 import useUserDetailsById from "../../helpers/Hooks/useUserDetailsById";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 
 const UpdateProfileScreen = () => {
