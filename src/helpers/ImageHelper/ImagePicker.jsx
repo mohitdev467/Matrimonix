@@ -1,5 +1,7 @@
 const ImagePicker = {
   loginScreenLogo: require("../../assets/Images/login-screen-logo.png"),
+  loginScreenLogo2: require("../../assets/Images/ristaa2.png"),
+
   aboutusScreenLogo: require("../../assets/Images/login-bg.jpg"),
   splashScreenImage: require("../../assets/Images/splash.png"),
   splashScreenImage2: require("../../assets/Images/splash-screen-2.jpg"),
@@ -14,6 +16,8 @@ const ImagePicker = {
   dummyUserImage2: require("../../assets/Images/dummyUser2.png"),
   placeholderIMage: require("../../assets/Images/default_error.png"),
   logoImage: require("../../assets/Images/matrimonix-logo.png"),
+  logoImage2: require("../../assets/Images/header-log.png"),
+
   dummyUserMale: require("../../assets/Images/dummy_m.png"),
   dummyUserGirl: require("../../assets/Images/dummy_f.png"),
   matchedIcon: require("../../assets/Images/matched-icon.png"),

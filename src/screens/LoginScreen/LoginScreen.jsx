@@ -87,7 +87,7 @@ export default function LoginScreen() {
       <View>
         <View style={styles.imageLogoWrp}>
           <Image
-            source={ImagePicker.loginScreenLogo}
+            source={ImagePicker.loginScreenLogo2}
             tintColor={pickColors.brandColor}
             style={styles.logoImage}
           />
@@ -95,7 +95,7 @@ export default function LoginScreen() {
         <View style={styles.logoHeadings}>
           <Text style={styles.welcomeText}>Welcome</Text>
           <Text style={styles.subTitle}>
-            Enter your email id and password below to get access!
+            Enter your phone number and password below to get access!
           </Text>
         </View>
         <View style={styles.inputContainer}>
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
   },
 
   welcomeText: {
-    bottom: Responsive.heightPx(3),
+    bottom: Responsive.heightPx(4),
     fontSize: Responsive.font(5.3),
     fontFamily: "Ubuntu-Bold",
     color: pickColors.headingColor,

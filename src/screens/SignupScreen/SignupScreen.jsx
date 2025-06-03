@@ -121,7 +121,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
           <View>
             <View style={styles.imageLogoWrp}>
               <Image
-                source={ImagePicker.loginScreenLogo}
+                source={ImagePicker.loginScreenLogo2}
                 tintColor={pickColors.brandColor}
                 style={styles.logoImage}
               />
