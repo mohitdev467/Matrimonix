@@ -37,6 +37,7 @@
     "react-native-swipe-list-view": "^3.2.9",
     "react-native-swiper": "^1.6.0",
     "react-native-vector-icons": "^10.2.0",
+    "react-native-webview": "^13.14.1",
     "socket.io-client": "^4.8.1",
     "uuid": "^11.1.0",
     "yup": "^1.6.1"

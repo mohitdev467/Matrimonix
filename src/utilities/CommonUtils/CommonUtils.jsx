@@ -62,6 +62,9 @@ export const commonUtils = {
   chatsText: "Chats",
   lastSeenToday: "Online",
   aboutUsText: "About Us",
+  refundText: "Refund Policy",
+  privacyPolicyText: "Privacy Policy",
+  termsAndConditionsText: "Terms and Conditions",
   contactUstext: "Contact Us",
   userUpateSuccess: "User updated successfully",
 

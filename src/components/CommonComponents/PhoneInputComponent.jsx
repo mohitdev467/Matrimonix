@@ -9,7 +9,7 @@ const PhoneNumberInput = ({
   label,
   labelStyle,
   error,
-  exisitingPhoneNumber = "",
+  existingPhoneNumber = "",
   errorMessage,
   phoneContainerStyle,
   textContainerStyle,
@@ -19,17 +19,31 @@ const PhoneNumberInput = ({
   phoneContainer,
   newCodeTextStyle,
 }) => {
-
   const phoneInputRef = useRef(null);
-  const [phoneNumber, setPhoneNumber] = useState(exisitingPhoneNumber || "");
-  const [formattedValue, setFormattedValue] = useState("");
+  
+  // Clean the phone number and remove country code if present
+  const cleanPhoneNumber = (number) => {
+    if (!number) return "";
+    // Remove any non-numeric characters
+    const cleaned = number.toString().replace(/\D/g, '');
+    // Remove country code (91) if present at the start
+    return cleaned.startsWith('91') ? cleaned.substring(2) : cleaned;
+  };
+
+  const [phoneNumber, setPhoneNumber] = useState(cleanPhoneNumber(existingPhoneNumber));
 
   useEffect(() => {
-    setPhoneNumber(exisitingPhoneNumber);
-  }, [exisitingPhoneNumber]);
+    const cleaned = cleanPhoneNumber(existingPhoneNumber);
+    setPhoneNumber(cleaned);
+  }, [existingPhoneNumber]);
+
+  const handleChangeText = (text) => {
+    setPhoneNumber(text);
+    onChangePhone(text);
+  };
 
   return (
-    <View style={[styles.container,phoneContainer]}>
+    <View style={[styles.container, phoneContainer]}>
       {label && (
         <Text style={[styles.label, labelStyle]}>
           {label} {isRequired && <Text style={{ color: "red" }}>*</Text>}
@@ -41,22 +55,20 @@ const PhoneNumberInput = ({
         defaultValue={phoneNumber}
         defaultCode="IN"
         layout="second"
-        onChangeText={(text) => {
-          setPhoneNumber(text), onChangePhone(text);
-        }}
+        onChangeText={handleChangeText}
         onChangeFormattedText={(text) => {
-          setFormattedValue(text);
+          // Handle formatted text if needed
         }}
         placeholder="Enter phone number"
         containerStyle={[styles.phoneContainer, phoneContainerStyle]}
         textContainerStyle={[styles.textContainer, textContainerStyle]}
         textInputStyle={[styles.textInputStyle, textInputStyleNew]}
         codeTextStyle={[styles.codeTextStyle, newCodeTextStyle]}
-        countryPickerButtonStyle={[styles.countryPickerStyle, countryPickerStyle ]}
+        countryPickerButtonStyle={[styles.countryPickerStyle, countryPickerStyle]}
         textInputProps={{
-          placeholderTextColor: 'grey', // customize as needed
+          placeholderTextColor: 'grey',
+          maxLength: 10, // Ensure maximum length for Indian phone numbers
         }}
-      
       />
       {error ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
     </View>
@@ -96,7 +108,7 @@ const styles = StyleSheet.create({
   codeTextStyle: {
     backgroundColor: pickColors.inputFieldBg,
     fontFamily: "Ubuntu-Medium",
-  
+
   },
   textContainer: {
     borderRadius: 8,
@@ -106,9 +118,11 @@ const styles = StyleSheet.create({
     fontFamily: "Ubuntu-Medium",
   },
   errorText: {
-    color: "red",
     marginTop: Responsive.heightPx(1),
-    fontSize: Responsive.font(3),
+    color: pickColors.brandColor,
+    fontSize: Responsive.font(3.3),
+    marginLeft:Responsive.heightPx(2.5)
+
   },
 });
 

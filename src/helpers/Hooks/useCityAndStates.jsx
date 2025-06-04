@@ -1,44 +1,37 @@
-import { useEffect, useState } from 'react';
-import apiInstance from '../../Config/apiInstance';
-import { apiEndpoints } from '../../Config/apiEndpoints';
-
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const useCityAndStates = () => {
-  const [cities, setCities] = useState([]);
-  const [states, setStates] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [states, setStates] = useState({ data: [], loading: false, error: null });
+  const [cities, setCities] = useState({ data: [], loading: false, error: null });
 
-  const fetchData = async () => {
+  useEffect(() => {
+    const fetchStates = async () => {
+      setStates({ ...states, loading: true });
+      try {
+        const response = await axios.get('https://countriesnow.space/api/v0.1/countries/states');
+        setStates({ data: response.data.data.find(country => country.name === 'India')?.states || [], loading: false, error: null });
+      } catch (error) {
+        setStates({ data: [], loading: false, error: 'Failed to fetch states' });
+      }
+    };
+    fetchStates();
+  }, []);
+
+  const fetchCities = async (country, state) => {
+    setCities({ ...cities, loading: true });
     try {
-      setLoading(true);
-
-      const [citiesRes, statesRes] = await Promise.all([
-        apiInstance.get(apiEndpoints.getAllCities),
-        apiInstance.get(apiEndpoints.getAllStates)
-      ]);
-
-
-      setCities(citiesRes.data);
-      setStates(statesRes.data);
-    } catch (err) {
-      setError(err.message || 'Something went wrong');
-    } finally {
-      setLoading(false);
+      const response = await axios.post('https://countriesnow.space/api/v0.1/countries/state/cities', {
+        country: country || 'India',
+        state,
+      });
+      setCities({ data: response.data.data, loading: false, error: null });
+    } catch (error) {
+      setCities({ data: [], loading: false, error: 'Failed to fetch cities' });
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  return {
-    cities,
-    states,
-    loading,
-    error,
-    refetch: fetchData,
-  };
+  return { states, cities, fetchCities };
 };
 
 export default useCityAndStates;

@@ -84,6 +84,30 @@ export const moreScreenOptonsList = [
     iconName: "info",
     link: screenNames.AboutusScreen,
   },
+  {
+    id: 10,
+    title: "Refund Policy",
+    isMore: true,
+    isFeather: true,
+    iconName: "info",
+    link: screenNames.RefundPolicyScreen,
+  },
+  {
+    id: 10,
+    title: "Privacy Policy",
+    isMore: true,
+    isFeather: true,
+    iconName: "info",
+    link: screenNames.PrivacyPolicyScreen,
+  },
+  {
+    id: 10,
+    title: "Terms & Conditions",
+    isMore: true,
+    isFeather: true,
+    iconName: "info",
+    link: screenNames.TermsAndConditionsScreen,
+  },
 ];
 
 export const updateProfileContent = {

@@ -30,6 +30,9 @@ import ChatsScreen from '../screens/ChatsScreen/ChatsScreen';
 import ChatsDetailsScreen from '../screens/ChatsScreen/ChatsDetailsScreen';
 import ForgotPasswordScreen from '../screens/ForgotPasswordScreen/ForgotPasswordScreen';
 import ResetPasswordScreen from '../screens/ForgotPasswordScreen/ResetPasswordScreen';
+import RefundPolicyScreen from '../screens/PolicyScreens/RefundPolicyScreen';
+import PrivacyPolicyScreen from '../screens/PolicyScreens/PrivacyPolicyScreen';
+import TermsAndConditionScreen from '../screens/PolicyScreens/TermsAndConditionScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -68,89 +71,94 @@ const MainRoutes = () => {
     return (
         <NavigationContainer>
             <Stack.Navigator initialRouteName={
-          loginData?.accessToken
-            ? screenNames.HomeScreen
-            : showOnboarding
-            ? screenNames.OnboardingScreen
-            : screenNames.LoginScreen
-        } screenOptions={{ headerShown: false }}>
-                    { showOnboarding && (
-                        <Stack.Screen name={screenNames.OnboardingScreen}>
-                            {(props) => (
-                                <OnboardingScreen
-                                    {...props}
-                                    onFinish={() => setShowOnboarding(false)}
-                                />
-                            )}
-                        </Stack.Screen>
-
+                loginData?.accessToken
+                    ? screenNames.HomeScreen
+                    : showOnboarding
+                        ? screenNames.OnboardingScreen
+                        : screenNames.LoginScreen
+            } screenOptions={{ headerShown: false }}>
+                {showOnboarding && (
+                    <Stack.Screen name={screenNames.OnboardingScreen}>
+                        {(props) => (
+                            <OnboardingScreen
+                                {...props}
+                                onFinish={() => setShowOnboarding(false)}
+                            />
                         )}
-
-                    <Stack.Screen name={screenNames.LoginScreen} component={LoginScreen} />
-                    <Stack.Screen name={screenNames.SignUpScreen} component={SignupScreen} />
-
-                    <Stack.Screen name={screenNames.HomeScreen} component={MainTabs} />
-
-                    <Stack.Screen name={screenNames.ForgotPassword} component={ForgotPasswordScreen} />
-                    <Stack.Screen name={screenNames.ResetPassword} component={ResetPasswordScreen} />
-                    <Stack.Screen name={screenNames.MainTabs}>
-                        {(props) => <MainTabs {...props} loginData={loginData} />}
                     </Stack.Screen>
 
+                )}
 
-                    <Stack.Screen name={screenNames.NewsScreen} component={NewsScreen} />
-                    <Stack.Screen name={screenNames.NewsDetailsScreen} component={NewsDetailsScreen} />
-                    <Stack.Screen
-                        name={screenNames.DetailsScreen}
-                        component={UserDetailsScreen}
-                    />
-                    <Stack.Screen
-                        name={screenNames.UpdateProfileScreen}
-                        component={UpdateProfileScreen}
-                    />
+                <Stack.Screen name={screenNames.LoginScreen} component={LoginScreen} />
+                <Stack.Screen name={screenNames.SignUpScreen} component={SignupScreen} />
 
-                    <Stack.Screen
-                        name={screenNames.ServieProviderScreen}
-                        component={ServiceProviderScreen}
-                    />
-                    <Stack.Screen
-                        name={screenNames.ServieProviderDetailsScreen}
-                        component={ServiceProviderDetailsScreen}
-                    />
-                    <Stack.Screen
-                        name={screenNames.SubscriptionScreen}
-                        component={SubscriptionScreen}
-                    />
-                    <Stack.Screen
-                        name={screenNames.NotificationScreen}
-                        component={NotificationScreen}
-                    />
+                <Stack.Screen name={screenNames.HomeScreen} component={MainTabs} />
 
-                    <Stack.Screen
-                        name={screenNames.AboutusScreen}
-                        component={AboutusScreen}
-                    />
-                    <Stack.Screen
-                        name={screenNames.ContactScreen}
-                        component={ContactScreen}
-                    />
+                <Stack.Screen name={screenNames.ForgotPassword} component={ForgotPasswordScreen} />
+                <Stack.Screen name={screenNames.ResetPassword} component={ResetPasswordScreen} />
+                <Stack.Screen name={screenNames.MainTabs}>
+                    {(props) => <MainTabs {...props} loginData={loginData} />}
+                </Stack.Screen>
 
-                    <Stack.Screen
-                        name={screenNames.ShortlistedScreen}
-                        component={ShortlistedScreen}
-                    />
 
-                    <Stack.Screen
-                        name={screenNames.ChatsScreen}
-                        component={ChatsScreen}
-                    />
-                    <Stack.Screen
-                        name={screenNames.ChatsDetailsScreen}
-                        component={ChatsDetailsScreen}
-                    />
-                    <Stack.Screen name={screenNames.PaymentHistoryScreen} component={PaymentHistoryScreen} />
+                <Stack.Screen name={screenNames.NewsScreen} component={NewsScreen} />
+                <Stack.Screen name={screenNames.NewsDetailsScreen} component={NewsDetailsScreen} />
+                <Stack.Screen
+                    name={screenNames.DetailsScreen}
+                    component={UserDetailsScreen}
+                />
+                <Stack.Screen
+                    name={screenNames.UpdateProfileScreen}
+                    component={UpdateProfileScreen}
+                />
 
-                
+                <Stack.Screen
+                    name={screenNames.ServieProviderScreen}
+                    component={ServiceProviderScreen}
+                />
+                <Stack.Screen
+                    name={screenNames.ServieProviderDetailsScreen}
+                    component={ServiceProviderDetailsScreen}
+                />
+                <Stack.Screen
+                    name={screenNames.SubscriptionScreen}
+                    component={SubscriptionScreen}
+                />
+                <Stack.Screen
+                    name={screenNames.NotificationScreen}
+                    component={NotificationScreen}
+                />
+
+                <Stack.Screen
+                    name={screenNames.AboutusScreen}
+                    component={AboutusScreen}
+                />
+                <Stack.Screen
+                    name={screenNames.ContactScreen}
+                    component={ContactScreen}
+                />
+
+                <Stack.Screen
+                    name={screenNames.ShortlistedScreen}
+                    component={ShortlistedScreen}
+                />
+
+                <Stack.Screen
+                    name={screenNames.ChatsScreen}
+                    component={ChatsScreen}
+                />
+                <Stack.Screen
+                    name={screenNames.ChatsDetailsScreen}
+                    component={ChatsDetailsScreen}
+                />
+                <Stack.Screen name={screenNames.PaymentHistoryScreen} component={PaymentHistoryScreen} />
+                <Stack.Screen name={screenNames.RefundPolicyScreen} component={RefundPolicyScreen} />
+                <Stack.Screen name={screenNames.PrivacyPolicyScreen} component={PrivacyPolicyScreen} />
+                <Stack.Screen name={screenNames.TermsAndConditionsScreen} component={TermsAndConditionScreen} />
+
+
+
+
 
             </Stack.Navigator>
         </NavigationContainer>

@@ -28,8 +28,7 @@ import useCityAndStates from "../../../helpers/Hooks/useCityAndStates";
 const UpdateProfileFormComponent = ({ handleUpdateData, userData }) => {
   const { loginData } = useAuthStorage();
   const { data } = useEntities();
-  const { cities, states } = useCityAndStates();
-
+  const { cities, states, fetchCities } = useCityAndStates();
 
   const normalizeDropdownValue = (value, options) => {
     if (!value || !options) return null;
@@ -43,7 +42,7 @@ const UpdateProfileFormComponent = ({ handleUpdateData, userData }) => {
     name: "",
     email: "",
     country_code: "",
-    mobile: null,
+    mobile: "",
     about_me: "",
     image: null,
     address: "",
@@ -52,7 +51,7 @@ const UpdateProfileFormComponent = ({ handleUpdateData, userData }) => {
     state: null,
     pinCode: null,
     dob: "",
-    age:"",
+    age: "",
     birth_time: "",
     birth_place: "",
     marital_status: null,
@@ -91,11 +90,43 @@ const UpdateProfileFormComponent = ({ handleUpdateData, userData }) => {
 
   const [errors, setErrors] = useState({});
 
-  const handleInputChange = (name, value) => {
-    setFormState((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+  const handleInputChange = (fieldName, value) => {
+    if (fieldName === 'state') {
+      const selectedState = formattedStatesOptions.find(
+        (option) => option.value === value || option.label === value
+      );
+      const stateName = selectedState ? selectedState.label : value;
+
+      setFormState((prev) => ({ ...prev, [fieldName]: stateName }));
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [fieldName]: null,
+      }));
+
+      if (stateName) {
+        fetchCities('India', stateName);
+        if (!formState.initialLoad) {
+          setFormState((prev) => ({ ...prev, city: '' }));
+        }
+      }
+    } else if (fieldName === 'city') {
+      const selectedCity = formattedCitiesOptions?.find(
+        (option) => option.value === value || option.label === value
+      );
+      const cityName = selectedCity ? selectedCity.label : value;
+      
+      setFormState((prev) => ({ ...prev, [fieldName]: cityName }));
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [fieldName]: null,
+      }));
+    } else {
+      setFormState((prev) => ({ ...prev, [fieldName]: value }));
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [fieldName]: null,
+      }));
+    }
   };
 
 
@@ -121,8 +152,8 @@ const UpdateProfileFormComponent = ({ handleUpdateData, userData }) => {
   );
 
   const formattedCitiesOptions = cities?.data?.map((item) => ({
-    label: item?.name,
-    value: item?.name?.toLowerCase()?.replace(/\s+/g, "_"),
+    label: item,
+    value: item?.toLowerCase()?.replace(/\s+/g, "_"),
   }));
 
   const formattedStatesOptions = states?.data?.map((item) => ({
@@ -131,22 +162,29 @@ const UpdateProfileFormComponent = ({ handleUpdateData, userData }) => {
   }));
 
   useEffect(() => {
-    // Prioritize userData, fallback to loginData
     const dataSource = userData || loginData?.data;
 
     if (dataSource) {
+      const stateValue = dataSource.state;
+      if (stateValue) {
+        fetchCities('India', stateValue);
+      }
+
+      const mobileNumber = dataSource.mobile ? dataSource.mobile.toString() : "";
+
       setFormState((prevState) => ({
         ...prevState,
+        initialLoad: true,
         name: dataSource.name || "",
         email: dataSource.email || "",
         country_code: dataSource.country_code || "",
-        mobile: dataSource.mobile || null,
+        mobile: mobileNumber,
         about_me: dataSource.about_me || "",
         image: dataSource.image || null,
         address: dataSource.family_address || "",
-        city: normalizeDropdownValue(dataSource.city, formattedCitiesOptions),
+        city: dataSource.city || "",
         district: dataSource.district || "",
-        state: normalizeDropdownValue(dataSource.state, formattedStatesOptions),
+        state: dataSource.state || "",
         pinCode: dataSource.pinCode || null,
         dob: dataSource.dob || "",
         age: dataSource.age || "",
@@ -184,10 +222,19 @@ const UpdateProfileFormComponent = ({ handleUpdateData, userData }) => {
         family_income: normalizeDropdownValue(dataSource.family_income, formattedIncomeData),
         aadhaar: dataSource.aadhaar || "",
       }));
+
+      setTimeout(() => {
+        setFormState(prev => ({ ...prev, initialLoad: false }));
+      }, 1000);
     }
   }, [
     userData,
-    loginData,
+    loginData
+    // fetchCities,
+    // formattedCasteData,
+    // formattedIncomeData,
+    // formattedLanguageData,
+    // formattedOccupationData
   ]);
 
   return (
@@ -227,7 +274,7 @@ const UpdateProfileFormComponent = ({ handleUpdateData, userData }) => {
         <PhoneNumberInput
           onChangePhone={handlePhoneNumber}
           label="Phone number"
-          exisitingPhoneNumber={formState.mobile}
+          existingPhoneNumber={formState.mobile}
           error={errors?.mobile}
           errorMessage={errors?.mobile}
           isRequired={true}
@@ -238,6 +285,26 @@ const UpdateProfileFormComponent = ({ handleUpdateData, userData }) => {
           textContainerStyle={styles.textContainerStyle}
           textInputStyleNew={styles.textInputStyleNew}
           countryPickerStyle={styles.countryPickerStyle}
+        />
+        <SelectDropdown
+          options={formattedStatesOptions || []}
+          label="State"
+          value={formattedStatesOptions?.find(option => option.label === formState.state)?.value || formState.state}
+          placeholder="Select state"
+          onChangeValue={(value) => handleInputChange("state", value)}
+          dropdownStyle={styles.dropdownStyle}
+          error={errors.state}
+          errorMessage={errors.state}
+        />
+        <SelectDropdown
+          options={formattedCitiesOptions || []}
+          label="City"
+          value={formattedCitiesOptions?.find(option => option.label === formState.city)?.value || formState.city}
+          placeholder="Select city"
+          onChangeValue={(value) => handleInputChange("city", value)}
+          dropdownStyle={styles.dropdownStyle}
+          error={errors.city}
+          errorMessage={errors.city}
         />
         <CustomInputField
           name="about_me"
@@ -265,16 +332,6 @@ const UpdateProfileFormComponent = ({ handleUpdateData, userData }) => {
           labelStyle={styles.labelStyle}
           inputStyle={styles.inputStyle}
         />
-        <SelectDropdown
-          options={formattedCitiesOptions || []}
-          label="City"
-          value={formState.city}
-          placeholder="Select city"
-          onChangeValue={(value) => handleInputChange("city", value)}
-          dropdownStyle={styles.dropdownStyle}
-          error={errors.city}
-          errorMessage={errors.city}
-        />
         <CustomInputField
           name="pinCode"
           label="Pin Code"
@@ -288,16 +345,7 @@ const UpdateProfileFormComponent = ({ handleUpdateData, userData }) => {
           labelStyle={styles.labelStyle}
           inputStyle={styles.inputStyle}
         />
-        <SelectDropdown
-          options={formattedStatesOptions || []}
-          label="State"
-          value={formState.state}
-          placeholder="Select state"
-          onChangeValue={(value) => handleInputChange("state", value)}
-          dropdownStyle={styles.dropdownStyle}
-          error={errors.state}
-          errorMessage={errors.state}
-        />
+
         <CustomInputField
           name="age"
           label="Age"

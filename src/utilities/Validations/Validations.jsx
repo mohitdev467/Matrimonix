@@ -2,13 +2,15 @@ import { commonUtils } from "../CommonUtils/CommonUtils";
 import * as yup from "yup";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const phoneRegex = /^[0-9]{10,15}$/;
+const phoneRegex = /^[6-9][0-9]{9}$/;
 
 const validateEmail = (email) => emailRegex.test(email);
 const validatePhone = (phone) => phoneRegex.test(phone);
-
-const validatePassword = (password) =>
-  password.length >= 6 && password.length <= 10;
+const validatePassword = (password) => {
+  // At least 8 characters, 1 uppercase, 1 lowercase, 1 number, 1 special character
+const passwordRegex = /^(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  return passwordRegex.test(password);
+};
 
 export const validateLoginForm = (formData, setFormErrors) => {
   let errors = {};
