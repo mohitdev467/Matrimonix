@@ -19,50 +19,8 @@ import io from "socket.io-client";
 const SOCKET_SERVER_URL = "http://192.168.1.4:5000"; 
 
 const ChatScreenListComponents = ({ usersData,loginData }) => {
+   console.log("usersData", usersData);
   const navigation = useNavigation();
-  const [conversations, setConversations] = useState([]);
-  const [userStatus, setUserStatus] = useState({}); 
-  const socketRef = useRef();
-
-  useEffect(() => {
-    const socket = io(SOCKET_SERVER_URL);
-    socketRef.current = socket;
-
-    if (usersData?.length > 0) {
-      usersData.forEach((user) => {
-        socket.emit("register", user._id);
-      });
-    }
-
-    socket.on("user_status", ({ userId, online }) => {
-      setUserStatus((prev) => ({
-        ...prev,
-        [userId]: online,
-      }));
-    });
-
-    if (usersData?.length > 0) {
-      fetchConversations();
-    }
-
-    return () => {
-      socket.disconnect();
-    };
-  }, [usersData]);
-
-  const fetchConversations = async () => {
-    try {
-      const userIds = usersData.map((user) => user._id);
-      const newConversations = await createConversation(userIds);
-      if (newConversations) {
-        setConversations(newConversations);
-      } else {
-        Alert.alert("Error", "Failed to fetch conversations");
-      }
-    } catch (error) {
-      Alert.alert("Error", "Something went wrong. Please try again.");
-    }
-  };
 
   return (
     <>
@@ -93,7 +51,7 @@ const ChatScreenListComponents = ({ usersData,loginData }) => {
                   <View style={styles.nameAndTimeWrapper}>
                     <Text style={styles.nameStyle}>{item.name}</Text>
                     <Text style={styles.dateStyle}>
-                      {formattedDate(item.createdAt)}
+                      {item?.updatedAt}
                     </Text>
                   </View>
                   <Text style={styles.descriptionText}>{item?.email}</Text>

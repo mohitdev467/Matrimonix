@@ -6,9 +6,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { Fragment, useCallback, useEffect, useState } from "react";
 import { pickColors } from "../../helpers/theme/colors";
-
 import useAuthStorage from "../../helpers/Hooks/useAuthStorage";
 import Loader from "../../components/LoaderComponent/Loader";
 import SearchComponent from "../../components/CommonComponents/SearchComponent";
@@ -27,15 +26,16 @@ import useUserDetailsById from "../../helpers/Hooks/useUserDetailsById";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const ChatsScreen = () => {
-    const socket = io("http://143.110.243.199:5001", {
+  const socket = io("http://143.110.243.199:5001", {
     transports: ["websocket"],
   });
   const { loginData } = useAuthStorage();
   const { data: userData, refetch } = useUserDetailsById(loginData?.data?._id);
-
+  const [chatsData, setChatsData] = useState([]);
 
   const navigation = useNavigation()
   const { users, isLoading, fetchGetUsers } = useGetUsers();
+
   const [searchQuery, setSearchQuery] = useState("");
   const goBack = useGoBack()
 
@@ -48,19 +48,21 @@ const ChatsScreen = () => {
   }, [loginData]);
 
 
-    useEffect(() => {
+  useEffect(() => {
     socket.emit(
       "fetch-all-in-app-messages",
       { userId: loginData?.data?._id },
       (data) => {
+        console.log("Fetched all in-app messages:", data);
         setChatsData(data);
       }
     );
-
     return () => {
       socket.disconnect();
     };
-  });
+  }, [loginData]);
+
+
 
   useFocusEffect(
     useCallback(() => {
@@ -72,6 +74,43 @@ const ChatsScreen = () => {
 
 
   const isExpired = userData?.membershipStatus === "expired";
+
+
+
+  const combinedUserList = users.map((u) => {
+
+    const convo = chatsData.find((c) =>
+      c.senderId._id === u._id || c.receiverId._id === u._id);
+
+    let lastMessage = "";
+    let lastMessageTime = new Date(0);
+
+    if (convo) {
+      if (convo.updatedAt) {
+        lastMessageTime = new Date(convo.updatedAt);
+      }
+      if (convo.messages?.length > 0) {
+        lastMessage = convo.messages[convo.messages.length - 1].message;
+        console.log("Last message:", lastMessage);
+      }
+    }
+
+    return {
+      ...u,
+      lastMessage,
+      lastMessageTime,
+      updatedAt:lastMessageTime.toLocaleString()
+    };
+  });
+
+  console.log("Combined User List:", combinedUserList);
+
+
+  const sortedUsers = combinedUserList.sort(
+    (a, b) => b.lastMessageTime - a.lastMessageTime
+  );
+
+  
 
 
 
@@ -98,13 +137,27 @@ const ChatsScreen = () => {
           <Loader visible={isLoading} />
         ) : (
           <>
-            {users ? (
-              <ChatScreenListComponents usersData={users} loginData={loginData} />
-            ) : (
-              <View style={styles.noDataContainer}>
-                <Text style={styles.noDataText}>{commonUtils.noDataFound}</Text>
-              </View>
-            )}
+            {sortedUsers && sortedUsers.length > 0 ? (
+                <ChatScreenListComponents
+                  usersData={sortedUsers}
+                  loginData={loginData}
+                  currentUserId={loginData?.data?._id}
+                />
+              ) : (
+                <View style={styles.noDataContainer}>
+                  <Text style={styles.noDataText}>{commonUtils.noDataFound}</Text>
+                </View>
+              )}
+
+            {/* {sortedUsers?.map((userItem, idx) => (
+              <Fragment key={idx}>
+                <ChatScreenListComponents
+                  usersData={userItem}
+                  loginData={loginData}
+                   currentUserId={loginData?.data?._id}
+                />
+              </Fragment>
+            ))} */}
           </>
         )}
       </ScrollView>
@@ -119,7 +172,7 @@ const ChatsScreen = () => {
             reducedTransparencyFallbackColor="white"
           />
           <View style={styles.popupContainer}>
-            <TouchableOpacity style={{ position: 'absolute', top: Responsive.heightPx(5), left: Responsive.widthPx(5) , zIndex:99}}  onPress={goBack}>
+            <TouchableOpacity style={{ position: 'absolute', top: Responsive.heightPx(5), left: Responsive.widthPx(5), zIndex: 99 }} onPress={goBack}>
               <FeatherIcon
                 name="arrow-left"
                 color={pickColors.blackColor}

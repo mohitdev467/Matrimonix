@@ -283,7 +283,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 // MessageBubble Component with Date/Time
 function MessageBubble({ userId, message, dateTime }) {
-  console.log("userId", dateTime);
   const route = useRoute();
   const { loginData } = route.params || {};
   const isSender = userId === loginData?.data?._id;
