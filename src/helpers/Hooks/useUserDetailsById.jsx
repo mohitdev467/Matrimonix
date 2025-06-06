@@ -29,7 +29,6 @@ const useUserDetailsById = (id) => {
   useEffect(() => {
     fetchUserDetails();
   }, [fetchUserDetails]);
-
   return { data, loading, error, refetch: fetchUserDetails };
 };
 

@@ -20,27 +20,29 @@ const PhoneNumberInput = ({
   newCodeTextStyle,
 }) => {
   const phoneInputRef = useRef(null);
-  
-  // Clean the phone number and remove country code if present
+  const [phoneNumber, setPhoneNumber] = useState(existingPhoneNumber || "");
+  const [formattedValue, setFormattedValue] = useState("");
+
+  // Clean the phone number to remove country code or non-numeric characters
   const cleanPhoneNumber = (number) => {
     if (!number) return "";
-    // Remove any non-numeric characters
-    const cleaned = number.toString().replace(/\D/g, '');
-    // Remove country code (91) if present at the start
-    return cleaned.startsWith('91') ? cleaned.substring(2) : cleaned;
+    // Convert to string and remove non-numeric characters
+    const cleaned = number.toString().replace(/\D/g, "");
+    // Remove country code (e.g., '91' for India) if present
+    return cleaned.startsWith("91") ? cleaned.substring(2) : cleaned;
   };
-
-  const [phoneNumber, setPhoneNumber] = useState(cleanPhoneNumber(existingPhoneNumber));
 
   useEffect(() => {
-    const cleaned = cleanPhoneNumber(existingPhoneNumber);
-    setPhoneNumber(cleaned);
-  }, [existingPhoneNumber]);
+    console.log("Existing Phone Number:", existingPhoneNumber);
+    const cleanedNumber = cleanPhoneNumber(existingPhoneNumber);
+    console.log("Cleaned Phone Number:", cleanedNumber);
+    setPhoneNumber(cleanedNumber);
 
-  const handleChangeText = (text) => {
-    setPhoneNumber(text);
-    onChangePhone(text);
-  };
+    // Explicitly update PhoneInput's internal state
+    if (phoneInputRef.current && cleanedNumber) {
+      phoneInputRef.current.setState({ number: cleanedNumber });
+    }
+  }, [existingPhoneNumber]);
 
   return (
     <View style={[styles.container, phoneContainer]}>
@@ -51,13 +53,17 @@ const PhoneNumberInput = ({
       )}
       <PhoneInput
         ref={phoneInputRef}
-        value={phoneNumber}
-        defaultValue={phoneNumber}
+        value={phoneNumber} // Controlled input
         defaultCode="IN"
         layout="second"
-        onChangeText={handleChangeText}
+        onChangeText={(text) => {
+          console.log("OnChangeText:", text);
+          setPhoneNumber(text);
+          onChangePhone(text);
+        }}
         onChangeFormattedText={(text) => {
-          // Handle formatted text if needed
+          console.log("Formatted Text:", text);
+          setFormattedValue(text);
         }}
         placeholder="Enter phone number"
         containerStyle={[styles.phoneContainer, phoneContainerStyle]}
@@ -66,8 +72,8 @@ const PhoneNumberInput = ({
         codeTextStyle={[styles.codeTextStyle, newCodeTextStyle]}
         countryPickerButtonStyle={[styles.countryPickerStyle, countryPickerStyle]}
         textInputProps={{
-          placeholderTextColor: 'grey',
-          maxLength: 10, // Ensure maximum length for Indian phone numbers
+          placeholderTextColor: "grey",
+          maxLength: 10, // Restrict to 10 digits for Indian numbers
         }}
       />
       {error ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
@@ -81,7 +87,6 @@ const styles = StyleSheet.create({
     marginVertical: Responsive.heightPx(1.3),
     marginHorizontal: Responsive.widthPx(4),
   },
-
   label: {
     fontSize: Responsive.font(3.8),
     color: pickColors.blackColor,
@@ -108,7 +113,6 @@ const styles = StyleSheet.create({
   codeTextStyle: {
     backgroundColor: pickColors.inputFieldBg,
     fontFamily: "Ubuntu-Medium",
-
   },
   textContainer: {
     borderRadius: 8,
@@ -118,11 +122,9 @@ const styles = StyleSheet.create({
     fontFamily: "Ubuntu-Medium",
   },
   errorText: {
+    color: "red",
     marginTop: Responsive.heightPx(1),
-    color: pickColors.brandColor,
-    fontSize: Responsive.font(3.3),
-    marginLeft:Responsive.heightPx(2.5)
-
+    fontSize: Responsive.font(3),
   },
 });
 

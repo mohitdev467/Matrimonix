@@ -26,6 +26,7 @@ import { getImageUrl, handleUpdateUser } from "../../services/UserServices/UserS
 import ErrorHandler from "../../services/NotificationServices/ErrorHandler";
 import { launchImageLibrary } from "react-native-image-picker";
 import useUserDetailsById from "../../helpers/Hooks/useUserDetailsById";
+import { useFocusEffect } from "@react-navigation/native";
 
 
 const UpdateProfileScreen = () => {
@@ -34,7 +35,9 @@ const UpdateProfileScreen = () => {
   const [isEditData, setIsEditData] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
-  const { data: userData } = useUserDetailsById(loginData?.data?._id);
+  const { data: userData, refetch } = useUserDetailsById(loginData?.data?._id);
+
+  console.log("userData", userData);
 
   const handleEditData = async () => {
     setIsLoading(true);
@@ -42,6 +45,7 @@ const UpdateProfileScreen = () => {
     setIsEditData(true);
     setIsLoading(false);
   };
+
 
   const handleUpdateData = async (data) => {
     try {
@@ -51,6 +55,7 @@ const UpdateProfileScreen = () => {
       if (result?.data?.success) {
         await updateLoginData(result?.data);
         setIsEditData(false);
+        refetch()
         successHandler(
           result.data.message || commonUtils.userUpateSuccess,
           "bottom"
@@ -161,7 +166,7 @@ const UpdateProfileScreen = () => {
                       ? { uri: loginData?.data?.image }
                       : ImagePicker.dummyUserImage2
                   }
-                  style={[styles.profileImage, !loginData?.data?.image && {resizeMode:"cover"} ]}
+                  style={[styles.profileImage, !loginData?.data?.image && { resizeMode: "cover" }]}
                 />
                 <FeatherIcon
                   name="camera"
@@ -201,7 +206,7 @@ const UpdateProfileScreen = () => {
               <View style={styles.userNameWrapper}>
                 <FeatherIcon name="map-pin" style={styles.newIcon} />
                 <Text style={styles.userNameStyle}>
-                  {`${userData?.family_address || commonUtils.notAvailable}`}
+                  {`${userData?.city || commonUtils.notAvailable}`}
                 </Text>
               </View>
             </View>
@@ -249,7 +254,7 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontFamily:"Ubuntu-Medium",
+    fontFamily: "Ubuntu-Medium",
     fontSize: Responsive.font(4.6),
     color: pickColors.whiteColor,
   },
@@ -265,7 +270,7 @@ const styles = StyleSheet.create({
     marginHorizontal: Responsive.widthPx(6),
     borderRadius: 100,
     resizeMode: "contain",
-    borderWidth:1,
+    borderWidth: 1,
   },
 
   trainerLevelWrp: {
@@ -303,7 +308,7 @@ const styles = StyleSheet.create({
   },
 
   userNameStyle: {
-    fontFamily:"Ubuntu-Medium",
+    fontFamily: "Ubuntu-Medium",
     fontSize: Responsive.font(4),
   },
 

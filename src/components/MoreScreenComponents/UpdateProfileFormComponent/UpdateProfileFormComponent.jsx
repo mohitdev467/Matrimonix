@@ -24,13 +24,15 @@ import useAuthStorage from "../../../helpers/Hooks/useAuthStorage";
 import useEntities from "../../../helpers/Hooks/useEntities";
 import { formatData } from "../../../helpers/CommonFunctions/CommonFunctions";
 import useCityAndStates from "../../../helpers/Hooks/useCityAndStates";
+import DateTimePicker from "@react-native-community/datetimepicker"
 
 const UpdateProfileFormComponent = ({ handleUpdateData, userData }) => {
   const { loginData } = useAuthStorage();
   const { data } = useEntities();
   const { cities, states, fetchCities } = useCityAndStates();
-
+  const [showDatePicker, setShowDatePicker] = useState(false);
   const normalizeDropdownValue = (value, options) => {
+    console.log("Normalizing value:", value, "with options:", options);
     if (!value || !options) return null;
     const formattedValue = value?.toLowerCase()?.replace(/\s+/g, "_");
     return options.find(
@@ -81,6 +83,7 @@ const UpdateProfileFormComponent = ({ handleUpdateData, userData }) => {
     sister: "",
     family_city: "",
     family_district: "",
+    family_address: "",
     gotra: "",
     gotra_nanihal: "",
     manglik: "",
@@ -114,7 +117,7 @@ const UpdateProfileFormComponent = ({ handleUpdateData, userData }) => {
         (option) => option.value === value || option.label === value
       );
       const cityName = selectedCity ? selectedCity.label : value;
-      
+
       setFormState((prev) => ({ ...prev, [fieldName]: cityName }));
       setErrors((prevErrors) => ({
         ...prevErrors,
@@ -170,6 +173,8 @@ const UpdateProfileFormComponent = ({ handleUpdateData, userData }) => {
         fetchCities('India', stateValue);
       }
 
+      console.log("Data Source:", dataSource);
+
       const mobileNumber = dataSource.mobile ? dataSource.mobile.toString() : "";
 
       setFormState((prevState) => ({
@@ -181,7 +186,7 @@ const UpdateProfileFormComponent = ({ handleUpdateData, userData }) => {
         mobile: mobileNumber,
         about_me: dataSource.about_me || "",
         image: dataSource.image || null,
-        address: dataSource.family_address || "",
+        address: dataSource.address || "",
         city: dataSource.city || "",
         district: dataSource.district || "",
         state: dataSource.state || "",
@@ -199,7 +204,7 @@ const UpdateProfileFormComponent = ({ handleUpdateData, userData }) => {
         gender: normalizeDropdownValue(dataSource.gender, genderData),
         special_case: dataSource.special_case || "",
         qualification: dataSource.qualification || "",
-        occupation: normalizeDropdownValue(dataSource.occupation, formattedOccupationData),
+        occupation: dataSource.occupation || "",
         drinking: normalizeDropdownValue(dataSource.drinking, drinkingData),
         dietary: normalizeDropdownValue(dataSource.dietary, dietaryHabitsData),
         smoking: normalizeDropdownValue(dataSource.smoking, smokingData),
@@ -207,7 +212,7 @@ const UpdateProfileFormComponent = ({ handleUpdateData, userData }) => {
         hobbies: dataSource.hobbies || "",
         family_status: normalizeDropdownValue(dataSource.family_status, familyClassData),
         family_type: normalizeDropdownValue(dataSource.family_type, familyTypeData),
-        income: normalizeDropdownValue(dataSource.income, formattedIncomeData),
+        income: dataSource.income || "",
         father_name: dataSource.father_name || "",
         father_occupation: normalizeDropdownValue(dataSource.father_occupation, formattedOccupationData),
         mother_name: dataSource.mother_name || "",
@@ -216,10 +221,11 @@ const UpdateProfileFormComponent = ({ handleUpdateData, userData }) => {
         sister: normalizeDropdownValue(dataSource.sister, brothersSistersData),
         family_city: dataSource.family_city || "",
         family_district: dataSource.family_district || "",
+        family_address: dataSource.family_address || "",
         gotra: dataSource.gotra || "",
         gotra_nanihal: dataSource.gotra_nanihal || "",
         manglik: normalizeDropdownValue(dataSource.manglik, manglikData),
-        family_income: normalizeDropdownValue(dataSource.family_income, formattedIncomeData),
+        family_income: dataSource.family_income || "",
         aadhaar: dataSource.aadhaar || "",
       }));
 
@@ -230,12 +236,15 @@ const UpdateProfileFormComponent = ({ handleUpdateData, userData }) => {
   }, [
     userData,
     loginData
-    // fetchCities,
-    // formattedCasteData,
-    // formattedIncomeData,
-    // formattedLanguageData,
-    // formattedOccupationData
   ]);
+
+  const handleDateChange = (event, selectedDate) => {
+    setShowDatePicker(false);
+    if (selectedDate) {
+      const formattedDate = selectedDate.toLocaleDateString("en-GB").split("/").map(num => num.padStart(2, "0")).join("/");
+      handleInputChange("dob", formattedDate);
+    }
+  };
 
   return (
     <ScrollView
@@ -307,6 +316,19 @@ const UpdateProfileFormComponent = ({ handleUpdateData, userData }) => {
           errorMessage={errors.city}
         />
         <CustomInputField
+          name="occupation"
+          label="Occupation"
+          value={formState.occupation}
+          onTextChange={handleInputChange}
+          placeholder="Enter Occupation"
+          error={errors.occupation}
+          helperText={errors.occupation}
+          containerStyle={styles.containerStyle}
+          mainContainerStyle={styles.mainContainer}
+          labelStyle={styles.labelStyle}
+          inputStyle={styles.inputStyle}
+        />
+        <CustomInputField
           name="about_me"
           label="About Myself"
           value={formState?.about_me}
@@ -321,7 +343,7 @@ const UpdateProfileFormComponent = ({ handleUpdateData, userData }) => {
         />
         <CustomInputField
           name="address"
-          label="Address"
+          label="Current Address"
           value={formState.address}
           onTextChange={handleInputChange}
           placeholder="Enter address"
@@ -345,7 +367,6 @@ const UpdateProfileFormComponent = ({ handleUpdateData, userData }) => {
           labelStyle={styles.labelStyle}
           inputStyle={styles.inputStyle}
         />
-
         <CustomInputField
           name="age"
           label="Age"
@@ -366,13 +387,23 @@ const UpdateProfileFormComponent = ({ handleUpdateData, userData }) => {
           onTextChange={handleInputChange}
           placeholder="DD/MM/YYYY"
           error={errors.dob}
-          helperText={errors.dob && commonUtils.DateofBirthRequired}
+          helperText={errors.dob}
           containerStyle={styles.containerStyle}
           mainContainerStyle={styles.mainContainer}
           labelStyle={styles.labelStyle}
           inputStyle={styles.inputStyle}
+          isRequired={true}
+          rightIcon={<Text>📅</Text>}
+          onRightIconPress={() => setShowDatePicker(true)}
         />
-
+        {showDatePicker && (
+          <DateTimePicker
+            value={formState.dob ? new Date(formState.dob.split("/").reverse().join("-")) : new Date()}
+            mode="date"
+            display="default"
+            onChange={handleDateChange}
+          />
+        )}
         <CustomInputField
           name="birth_time"
           label="Birth Time"
@@ -489,16 +520,6 @@ const UpdateProfileFormComponent = ({ handleUpdateData, userData }) => {
           inputStyle={styles.inputStyle}
         />
         <SelectDropdown
-          options={formattedOccupationData || []}
-          label="Occupation"
-          value={formState.occupation}
-          placeholder="Select occupation"
-          onChangeValue={(value) => handleInputChange("occupation", value)}
-          dropdownStyle={styles.dropdownStyle}
-          error={errors.occupation}
-          errorMessage={errors.occupation}
-        />
-        <SelectDropdown
           options={drinkingData}
           label="Drinking Habits"
           value={formState.drinking}
@@ -571,15 +592,18 @@ const UpdateProfileFormComponent = ({ handleUpdateData, userData }) => {
           error={errors.family_type}
           errorMessage={errors.family_type && commonUtils.familyTypeRquired}
         />
-        <SelectDropdown
-          options={formattedIncomeData || []}
+        <CustomInputField
+          name="income"
           label="Annual Income (in Rs.)"
           value={formState.income}
-          placeholder="Select income"
-          onChangeValue={(value) => handleInputChange("income", value)}
-          dropdownStyle={styles.dropdownStyle}
+          onTextChange={handleInputChange}
+          placeholder="Enter father name"
           error={errors.income}
-          errorMessage={errors.income}
+          helperText={errors.income && commonUtils.fatherNamerequired}
+          containerStyle={styles.containerStyle}
+          mainContainerStyle={styles.mainContainer}
+          labelStyle={styles.labelStyle}
+          inputStyle={styles.inputStyle}
         />
         <CustomInputField
           name="father_name"
@@ -709,15 +733,18 @@ const UpdateProfileFormComponent = ({ handleUpdateData, userData }) => {
           error={errors.manglik}
           errorMessage={errors.manglik}
         />
-        <SelectDropdown
-          options={formattedIncomeData || []}
+        <CustomInputField
+          name="family_income"
           label="Family Income"
           value={formState.family_income}
-          placeholder="Select family income"
-          onChangeValue={(value) => handleInputChange("family_income", value)}
-          dropdownStyle={styles.dropdownStyle}
+          onTextChange={handleInputChange}
+          placeholder="Enter Family Income"
           error={errors.family_income}
-          errorMessage={errors.family_income && commonUtils.familyIncomeRquired}
+          helperText={errors.family_income}
+          containerStyle={styles.containerStyle}
+          mainContainerStyle={styles.mainContainer}
+          labelStyle={styles.labelStyle}
+          inputStyle={styles.inputStyle}
         />
         <CustomInputField
           name="aadhaar"
