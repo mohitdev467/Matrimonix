@@ -18,7 +18,7 @@ import io from "socket.io-client";
 
 const SOCKET_SERVER_URL = "http://192.168.1.4:5000"; 
 
-const ChatScreenListComponents = ({ usersData,loginData }) => {
+const ChatScreenListComponents = ({ usersData,loginData ,allChat}) => {
   const navigation = useNavigation();
   const [conversations, setConversations] = useState([]);
   const [userStatus, setUserStatus] = useState({}); 
@@ -54,7 +54,7 @@ const ChatScreenListComponents = ({ usersData,loginData }) => {
     try {
       const userIds = usersData.map((user) => user._id);
       const newConversations = await createConversation(userIds);
-      if (newConversations) {
+      if (newConversations) { 
         setConversations(newConversations);
       } else {
         Alert.alert("Error", "Failed to fetch conversations");
@@ -67,14 +67,18 @@ const ChatScreenListComponents = ({ usersData,loginData }) => {
   return (
     <>
       <View style={styles.mainWrapper}>
-        {usersData &&
-          usersData?.map((item, index) => {
+        {allChat &&
+          allChat?.map((item, index) => {
+            const lastMessage = item?.messages?.length > 0 ? item.messages[item.messages.length - 1].message : "No messages";
+            const lastMessageDate = item?.messages?.length > 0 
+        ? formattedDate(item.messages[item.messages.length - 1].dateTime) 
+        : formattedDate(item.createdAt);
             return (
               <TouchableOpacity
                 style={styles.innerWrapper}
                 onPress={() =>
                   navigation.navigate(screenNames.ChatsDetailsScreen, {
-                    data: item,
+                    data: item.otherUser,
                     loginData: loginData,
                   })
                 }
@@ -82,8 +86,8 @@ const ChatScreenListComponents = ({ usersData,loginData }) => {
                 <View>
                   <Image
                     source={
-                      typeof item.image === "string"
-                        ? { uri: item.image }
+                      typeof item?.otherUser?.image === "string"
+                        ? { uri: item?.otherUser?.image }
                         : ImagePicker.placeholderIMage
                     }
                     style={styles.imageStyle}
@@ -91,12 +95,12 @@ const ChatScreenListComponents = ({ usersData,loginData }) => {
                 </View>
                 <View style={styles.nameTimeAndDescWrapper}>
                   <View style={styles.nameAndTimeWrapper}>
-                    <Text style={styles.nameStyle}>{item.name}</Text>
+                    <Text style={styles.nameStyle}>{item?.otherUser?.name}</Text>
                     <Text style={styles.dateStyle}>
-                      {formattedDate(item.createdAt)}
+                      {lastMessageDate || "Just now"}
                     </Text>
                   </View>
-                  <Text style={styles.descriptionText}>{item?.email}</Text>
+                  <Text style={styles.descriptionText}>{lastMessage}</Text>
                 </View>
               </TouchableOpacity>
             );

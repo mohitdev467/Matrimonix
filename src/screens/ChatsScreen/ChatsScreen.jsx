@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
 import { pickColors } from "../../helpers/theme/colors";
-
 import useAuthStorage from "../../helpers/Hooks/useAuthStorage";
 import Loader from "../../components/LoaderComponent/Loader";
 import SearchComponent from "../../components/CommonComponents/SearchComponent";
@@ -27,40 +26,46 @@ import useUserDetailsById from "../../helpers/Hooks/useUserDetailsById";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const ChatsScreen = () => {
-    const socket = io("http://143.110.243.199:5001", {
+  const socket = io("http://143.110.243.199:5001", {
     transports: ["websocket"],
   });
   const { loginData } = useAuthStorage();
   const { data: userData, refetch } = useUserDetailsById(loginData?.data?._id);
-
-
   const navigation = useNavigation()
   const { users, isLoading, fetchGetUsers } = useGetUsers();
   const [searchQuery, setSearchQuery] = useState("");
   const goBack = useGoBack()
+    const [allChat, setAllChat] = useState([]);
+
+
+const handleMessageUpdate = (data, loginId) => {
+  const processedChats = data.map(chat => {
+    const otherUser =
+      chat.senderId._id === loginData?.data?._id
+        ? chat.receiverId 
+        : chat.receiverId._id === loginData?.data?._id
+        ? chat.senderId 
+        : null;
+    return {
+      ...chat,
+      otherUser: otherUser
+        ? otherUser
+        : null,
+    };
+  }).filter(chat => chat.otherUser !== null);
+
+  setAllChat(processedChats);
+};
 
   useEffect(() => {
-    fetchGetUsers();
-  }, [loginData, searchQuery]);
-
-  const onRefresh = useCallback(() => {
-    fetchGetUsers();
-  }, [loginData]);
-
-
-    useEffect(() => {
     socket.emit(
       "fetch-all-in-app-messages",
       { userId: loginData?.data?._id },
       (data) => {
-        setChatsData(data);
+        handleMessageUpdate(data)
       }
     );
-
-    return () => {
-      socket.disconnect();
-    };
-  });
+  }, [loginData]);
 
   useFocusEffect(
     useCallback(() => {
@@ -73,8 +78,6 @@ const ChatsScreen = () => {
 
   const isExpired = userData?.membershipStatus === "expired";
 
-
-
   return (
     <SafeAreaView style={styles.container}>
       <HeaderWithSearchBack
@@ -85,7 +88,7 @@ const ChatsScreen = () => {
       <ScrollView
         keyboardShouldPersistTaps="handled"
         refreshControl={
-          <RefreshControl refreshing={isLoading} onRefresh={onRefresh} />
+          <RefreshControl refreshing={isLoading} />
         }
       >
         <SearchComponent
@@ -99,7 +102,7 @@ const ChatsScreen = () => {
         ) : (
           <>
             {users ? (
-              <ChatScreenListComponents usersData={users} loginData={loginData} />
+              <ChatScreenListComponents usersData={users} loginData={loginData} allChat={allChat} />
             ) : (
               <View style={styles.noDataContainer}>
                 <Text style={styles.noDataText}>{commonUtils.noDataFound}</Text>
@@ -119,7 +122,7 @@ const ChatsScreen = () => {
             reducedTransparencyFallbackColor="white"
           />
           <View style={styles.popupContainer}>
-            <TouchableOpacity style={{ position: 'absolute', top: Responsive.heightPx(5), left: Responsive.widthPx(5) , zIndex:99}}  onPress={goBack}>
+            <TouchableOpacity style={{ position: 'absolute', top: Responsive.heightPx(5), left: Responsive.widthPx(5), zIndex: 99 }} onPress={goBack}>
               <FeatherIcon
                 name="arrow-left"
                 color={pickColors.blackColor}

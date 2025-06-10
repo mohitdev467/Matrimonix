@@ -178,6 +178,7 @@ useFocusEffect(
                         onPress={() =>
                           navigation.navigate(screenNames.ChatsDetailsScreen, {
                             data: state?.data,
+                            loginData: loginData,
                           })
                         } style={styles.goBackButton}
                       />
