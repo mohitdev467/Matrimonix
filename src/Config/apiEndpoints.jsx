@@ -2,14 +2,10 @@ export const apiEndpoints = {
   signupUser: "admin/add-user",
   getUsers: "admin/users",
   getFilterUsers: "user/filter-users",
-
   getAllCastes:"admin/caste",
   getAllLanguages:"admin/language",
   getAllCities:"admin/cities",
   getAllStates:"admin/states",
-
-
-
   forgotPassword: "admin/request-password-reset",
   updatePassword: (token) => `admin/reset-password/${token}`,
   getStatsData: (userId) => `admin/stats-data/${userId}`,
@@ -31,4 +27,5 @@ export const apiEndpoints = {
   getPackages: `admin/packages`,
   getRecentUserById: (email, gender) =>
     `user/recent-users?email=${email}&gender=${gender}`,
+  getSendMessage: "/send-notification"
 };

@@ -27,11 +27,15 @@ import { useNavigation } from "@react-navigation/native";
 import { getPaymentStatus } from "../../services/UserServices/UserServices";
 import LinearGradient from "react-native-linear-gradient";
 import successHandler from "../../services/NotificationServices/SuccessHandler";
+import messaging from '@react-native-firebase/messaging';
+import { getMessageNotification } from "../../services/NotificationServices/Notification";
+
 
 const SubscriptionScreen = () => {
-  const { loginData,updateLoginData } = useAuthStorage();
+  const { loginData, updateLoginData } = useAuthStorage();
   const { data } = usePackages();
-  const navigation = useNavigation()
+  const navigation = useNavigation();
+  const [FCMToken, setFCMToken] = useState("");
 
   const [subscriptionState, setSubscriptionState] = useState({
     subscriptionData: [],
@@ -72,7 +76,7 @@ const SubscriptionScreen = () => {
       customer_email: loginData?.data?.email,
       customer_name: loginData?.data?.name,
       customer_id: loginData?.data?._id,
-      customer_phone:loginData?.data?.mobile,
+      customer_phone: loginData?.data?.mobile,
       customer_uid: loginData?.data?._id,
       amount: item?.price || 0,
       version: Date.now(),
@@ -80,14 +84,12 @@ const SubscriptionScreen = () => {
     try {
       const com_url = `${API_BASE_URL}user/order`;
       const res = await axios.post(com_url, data);
-     
+
       return res.data;
     } catch (err) {
       console.error('Error fetching session ID:', err);
     }
   };
-
-  
 
   const startCheckout = async (sessionId, orderId) => {
     try {
@@ -118,7 +120,7 @@ const SubscriptionScreen = () => {
 
       setTimeout(async () => {
         const paymentStatus = await getPaymentStatus(orderId);
-        
+
         if (paymentStatus?.data?.paymentStatus === 'SUCCESS') {
           successHandler(paymentStatus?.message)
           updateLoginData(paymentStatus?.data?.customer)
@@ -133,59 +135,58 @@ const SubscriptionScreen = () => {
   };
 
   const handlePurchase = async () => {
-    const sessionId = await getSessionId(selectedSubscriptionDetails);
-    await startCheckout(sessionId?.payment_session_id, sessionId?.order_id)
+  const sessionId = await getSessionId(selectedSubscriptionDetails);
+  await startCheckout(sessionId?.payment_session_id, sessionId?.order_id)
+}
 
+const renderItem = ({ item, index }) => {
+  const isSelected = selectedSubscriptionId === item._id;
+
+  let monthlyPriceResult = 0;
+
+  if (item.price && !isNaN(item.price)) {
+    const price = parseFloat(item.price);
+    if (item.subscriptionType === "Yearly") {
+      monthlyPriceResult = price / 12;
+    } else if (item.subscriptionType === "Quarterly") {
+      monthlyPriceResult = price / 3;
+    } else if (item.subscriptionType === "Monthly") {
+      monthlyPriceResult = price;
+    }
   }
 
-  const renderItem = ({ item, index }) => {
-    const isSelected = selectedSubscriptionId === item._id;
+  monthlyPriceResult = monthlyPriceResult.toFixed(2);
 
-    let monthlyPriceResult = 0;
-
-    if (item.price && !isNaN(item.price)) {
-      const price = parseFloat(item.price);
-      if (item.subscriptionType === "Yearly") {
-        monthlyPriceResult = price / 12;
-      } else if (item.subscriptionType === "Quarterly") {
-        monthlyPriceResult = price / 3;
-      } else if (item.subscriptionType === "Monthly") {
-        monthlyPriceResult = price;
-      }
-    }
-
-    monthlyPriceResult = monthlyPriceResult.toFixed(2);
-
-    const handleSubscription = async (item) => {
-      setSelectedSubscriptionId(item._id)
-      setSelectedSubscriptionDetails(item)
-    }
-    return (
-      <TouchableOpacity onPress={() => handleSubscription(item)}>
-        <View
-          style={[
-            styles.card,
-            isSelected && {
-              backgroundColor: pickColors.brandColor,
-            },
-          ]}
-        >
-          <View style={styles.leftSideContent}>
-            <View style={styles.topSection}>
-              <View style={styles.topSectionInner}>
-                <View>
-                  <Text
-                    style={[
-                      styles.durationtext,
-                      isSelected && {
-                        color: pickColors.whiteColor,
-                      },
-                    ]}
-                  >
-                    {item.subscriptionType}
-                  </Text>
-                </View>
-                <View>
+  const handleSubscription = async (item) => {
+    setSelectedSubscriptionId(item._id)
+    setSelectedSubscriptionDetails(item)
+  }
+  return (
+    <TouchableOpacity onPress={() => handleSubscription(item)}>
+      <View
+        style={[
+          styles.card,
+          isSelected && {
+            backgroundColor: pickColors.brandColor,
+          },
+        ]}
+      >
+        <View style={styles.leftSideContent}>
+          <View style={styles.topSection}>
+            <View style={styles.topSectionInner}>
+              <View>
+                <Text
+                  style={[
+                    styles.durationtext,
+                    isSelected && {
+                      color: pickColors.whiteColor,
+                    },
+                  ]}
+                >
+                  {item.subscriptionType}
+                </Text>
+              </View>
+              <View>
                 {item.subscriptionType === "Yearly" && (
                   <LinearGradient
                     start={{ x: 0, y: 0 }}
@@ -197,131 +198,131 @@ const SubscriptionScreen = () => {
                   </LinearGradient>
                 )}
               </View>
-              </View>
             </View>
-            <View style={styles.bottomSection}>
-              <View style={styles.cardContentWrapper}>
-                <Text
-                  style={[
-                    styles.cardContentTitleValue,
-                    isSelected && {
-                      color: pickColors.whiteColor,
-                      fontSize: Responsive.font(3.8),
-                    },
-                  ]}
-                >
-                  {item.title || commonUtils.notAvailable}
-                </Text>
-                <Text
-                  style={[
-                    styles.cardContentValue,
-                    isSelected && {
-                      color: pickColors.whiteColor,
-                    },
-                    {
-                      fontFamily: "Ubuntu-Bold",
-                      fontSize: Responsive.font(6),
-                      position: "relative",
-                      top: Responsive.heightPx(-1),
-                    },
-                  ]}
-                >
-                  <FeatherIcon
-                    name="rupee"
-                    style={{
-                      fontSize: Responsive.font(5),
-                      fontFamily: "Ubuntu-Bold",
-
-                    }}
-                  />{" "}
-                  {`${item.price}`}
-                </Text>
-              </View>
-              <View
-                style={[styles.cardContentWrapper, { alignItems: "flex-start" }]}
+          </View>
+          <View style={styles.bottomSection}>
+            <View style={styles.cardContentWrapper}>
+              <Text
+                style={[
+                  styles.cardContentTitleValue,
+                  isSelected && {
+                    color: pickColors.whiteColor,
+                    fontSize: Responsive.font(3.8),
+                  },
+                ]}
               >
-                <Text
-                  style={[
-                    styles.bottomSubTitle,
-                    isSelected && {
-                      color: pickColors.whiteColor,
-                    },
-                  ]}
-                >
-                  {item.description}{"  "}
-                  <FeatherIcon
-                    name="rupee"
-                    style={{
-                      fontSize: Responsive.font(3.5),
-                      position: "relative",
-                      marginTop: Responsive.heightPx(10),
-                      fontFamily: "Ubuntu-Bold",
+                {item.title || commonUtils.notAvailable}
+              </Text>
+              <Text
+                style={[
+                  styles.cardContentValue,
+                  isSelected && {
+                    color: pickColors.whiteColor,
+                  },
+                  {
+                    fontFamily: "Ubuntu-Bold",
+                    fontSize: Responsive.font(6),
+                    position: "relative",
+                    top: Responsive.heightPx(-1),
+                  },
+                ]}
+              >
+                <FeatherIcon
+                  name="rupee"
+                  style={{
+                    fontSize: Responsive.font(5),
+                    fontFamily: "Ubuntu-Bold",
 
-                    }}
-                  />
-                  {` ${Math.floor(monthlyPriceResult)}`}
-                </Text>
-                <Text
-                  style={[
-                    styles.cardContentValue,
-                    isSelected && {
-                      color: pickColors.whiteColor,
-                    },
-                  ]}
-                >
-                  {item.subscriptionType || commonUtils.notAvailable}
-                </Text>
-              </View>
+                  }}
+                />{" "}
+                {`${item.price}`}
+              </Text>
+            </View>
+            <View
+              style={[styles.cardContentWrapper, { alignItems: "flex-start" }]}
+            >
+              <Text
+                style={[
+                  styles.bottomSubTitle,
+                  isSelected && {
+                    color: pickColors.whiteColor,
+                  },
+                ]}
+              >
+                {item.description}{"  "}
+                <FeatherIcon
+                  name="rupee"
+                  style={{
+                    fontSize: Responsive.font(3.5),
+                    position: "relative",
+                    marginTop: Responsive.heightPx(10),
+                    fontFamily: "Ubuntu-Bold",
+
+                  }}
+                />
+                {` ${Math.floor(monthlyPriceResult)}`}
+              </Text>
+              <Text
+                style={[
+                  styles.cardContentValue,
+                  isSelected && {
+                    color: pickColors.whiteColor,
+                  },
+                ]}
+              >
+                {item.subscriptionType || commonUtils.notAvailable}
+              </Text>
             </View>
           </View>
         </View>
-      </TouchableOpacity>
-    );
-  };
-
-  return (
-    <SafeAreaView style={styles.container}>
-      <HeaderWithSearchBack
-        headerTitle={commonUtils.subscriptionheading}
-        isBackHeader={true}
-        icon={"arrow-left"}
-      />
-
-      {subscriptionState?.loading ? (
-        <Loader visible={subscriptionState.loading} />
-      ) : subscriptionState?.subscriptionData?.length > 0 ? (
-        <>
-          <FlatList
-            data={subscriptionState?.subscriptionData}
-            renderItem={renderItem}
-            keyExtractor={(item) => item?._id?.toString()}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={styles.flatListContent}
-            refreshing={subscriptionState.refreshing}
-            onRefresh={onRefresh}
-          />
-
-          <View style={styles.infoWrapper}>
-            <Text style={styles.infoText}>
-              {subscriptionScreenData.informationDescription}
-            </Text>
-          </View>
-
-
-          <ButtonComponent
-            title={commonUtils.continuePurchase}
-            onPress={handlePurchase}
-            style={[styles.buttonStyle,selectedSubscriptionDetails === null && styles.disabledButton]}
-            disabled={selectedSubscriptionDetails === null && true}
-          />
-        </>
-      ) : (
-        <View style={styles.noDataContainer}>
-          <Text style={styles.noDataText}>{commonUtils.noDataFound}</Text>
-        </View>
-      )}
-    </SafeAreaView>
+      </View>
+    </TouchableOpacity>
   );
+};
+
+return (
+  <SafeAreaView style={styles.container}>
+    <HeaderWithSearchBack
+      headerTitle={commonUtils.subscriptionheading}
+      isBackHeader={true}
+      icon={"arrow-left"}
+    />
+
+    {subscriptionState?.loading ? (
+      <Loader visible={subscriptionState.loading} />
+    ) : subscriptionState?.subscriptionData?.length > 0 ? (
+      <>
+        <FlatList
+          data={subscriptionState?.subscriptionData}
+          renderItem={renderItem}
+          keyExtractor={(item) => item?._id?.toString()}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.flatListContent}
+          refreshing={subscriptionState.refreshing}
+          onRefresh={onRefresh}
+        />
+
+        <View style={styles.infoWrapper}>
+          <Text style={styles.infoText}>
+            {subscriptionScreenData.informationDescription}
+          </Text>
+        </View>
+
+
+        <ButtonComponent
+          title={commonUtils.continuePurchase}
+          onPress={handlePurchase}
+          style={[styles.buttonStyle, selectedSubscriptionDetails === null && styles.disabledButton]}
+          disabled={selectedSubscriptionDetails === null && true}
+        />
+      </>
+    ) : (
+      <View style={styles.noDataContainer}>
+        <Text style={styles.noDataText}>{commonUtils.noDataFound}</Text>
+      </View>
+    )}
+  </SafeAreaView>
+);
 };
 
 export default SubscriptionScreen;
@@ -330,6 +331,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: pickColors.whiteColor,
+    // paddingTop: Responsive.heightPx(2),
   },
 
   flatListContent: {
@@ -451,7 +453,7 @@ const styles = StyleSheet.create({
     color: pickColors.lightGreyColor,
     fontFamily: "SemiBold",
   },
-  disabledButton:{
-    backgroundColor:pickColors.lightGreyColor
+  disabledButton: {
+    backgroundColor: pickColors.lightGreyColor
   }
 });
