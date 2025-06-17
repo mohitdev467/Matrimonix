@@ -85,7 +85,7 @@ export const moreScreenOptonsList = [
     link: screenNames.AboutusScreen,
   },
   {
-    id: 10,
+    id: 11,
     title: "Refund Policy",
     isMore: true,
     isFeather: true,
@@ -93,7 +93,7 @@ export const moreScreenOptonsList = [
     link: screenNames.RefundPolicyScreen,
   },
   {
-    id: 10,
+    id: 12,
     title: "Privacy Policy",
     isMore: true,
     isFeather: true,
@@ -101,12 +101,20 @@ export const moreScreenOptonsList = [
     link: screenNames.PrivacyPolicyScreen,
   },
   {
-    id: 10,
+    id: 13,
     title: "Terms & Conditions",
     isMore: true,
     isFeather: true,
     iconName: "info",
     link: screenNames.TermsAndConditionsScreen,
+  },
+  {
+    id: 14,
+    title: "Delete Account",
+    isMore: true,
+    isFeather: true,
+    iconName: "trash",
+    link: screenNames.DeleteAccountScreen,
   },
 ];
 

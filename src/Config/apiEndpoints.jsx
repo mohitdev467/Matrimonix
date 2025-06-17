@@ -4,10 +4,11 @@ export const apiEndpoints = {
   getFilterUsers: "user/filter-users",
 
   getAllCastes:"admin/caste",
+  getAllOccupations:"admin/occupation",
   getAllLanguages:"admin/language",
   getAllCities:"admin/cities",
   getAllStates:"admin/states",
-
+  deleteRequest: `admin/delete-request`,
 
 
   forgotPassword: "admin/request-password-reset",

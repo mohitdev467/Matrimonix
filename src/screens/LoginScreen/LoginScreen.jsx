@@ -9,8 +9,6 @@ import {
   ScrollView,
 } from "react-native";
 import React, { useState } from "react";
-
-import { TextInput as PaperTextInput } from "react-native-paper";
 import Feather from "react-native-vector-icons/Feather";
 import { useNavigation } from "@react-navigation/native";
 import ImagePicker from "../../helpers/ImageHelper/ImagePicker";
@@ -64,7 +62,7 @@ export default function LoginScreen() {
         setIsLoading(false);
         navigation.navigate(screenNames.HomeScreen);
       } else {
-        ErrorHandler(result.data?.message ?? commonUtils.unexpectedError);
+        ErrorHandler(result?.error?.response?.data?.message ?? commonUtils.unexpectedError);
         setIsLoading(false);
       }
     } catch (error) {

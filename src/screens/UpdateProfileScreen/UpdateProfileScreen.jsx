@@ -186,7 +186,7 @@ const UpdateProfileScreen = () => {
               <View style={styles.userNameWrapper}>
                 <FeatherIcon name="user" style={styles.newIcon} />
                 <Text style={styles.userNameStyle}>
-                  {userData?.name || commonUtils.notAvailable}
+                  {userData?.firstName && userData?.lastName ? `${userData?.firstName} ${userData.lastName}` : commonUtils.notAvailable}
                 </Text>
               </View>
               <View style={styles.userNameWrapper}>

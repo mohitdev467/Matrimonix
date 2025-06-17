@@ -32,6 +32,7 @@ const screenNames = {
   ResetPassword: "ResetPassword",
   VideoCallScreen: "VideoCallScreen",
   PaymentHistoryScreen: "PaymentHistoryScreen",
+  DeleteAccountScreen:'DeleteAccountScreen'
 
 };
 

@@ -33,6 +33,7 @@ import ResetPasswordScreen from '../screens/ForgotPasswordScreen/ResetPasswordSc
 import RefundPolicyScreen from '../screens/PolicyScreens/RefundPolicyScreen';
 import PrivacyPolicyScreen from '../screens/PolicyScreens/PrivacyPolicyScreen';
 import TermsAndConditionScreen from '../screens/PolicyScreens/TermsAndConditionScreen';
+import DeleteAccountScreen from '../screens/DeleteAccountScreen/DeleteAccountScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -155,6 +156,7 @@ const MainRoutes = () => {
                 <Stack.Screen name={screenNames.RefundPolicyScreen} component={RefundPolicyScreen} />
                 <Stack.Screen name={screenNames.PrivacyPolicyScreen} component={PrivacyPolicyScreen} />
                 <Stack.Screen name={screenNames.TermsAndConditionsScreen} component={TermsAndConditionScreen} />
+                <Stack.Screen name={screenNames.DeleteAccountScreen} component={DeleteAccountScreen} />
 
 
 

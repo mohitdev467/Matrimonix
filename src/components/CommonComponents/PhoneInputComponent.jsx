@@ -48,7 +48,7 @@ const PhoneNumberInput = ({
     <View style={[styles.container, phoneContainer]}>
       {label && (
         <Text style={[styles.label, labelStyle]}>
-          {label} {isRequired && <Text style={{ color: "red" }}>*</Text>}
+          {isRequired && <Text style={{ color: "red" }}>*</Text>} {label} 
         </Text>
       )}
       <PhoneInput

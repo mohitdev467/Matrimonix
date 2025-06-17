@@ -42,8 +42,12 @@ export const validateSignUpForm = (formData, setErrors) => {
   let errors = {};
   let isValid = true;
 
-  if (!formData.name.trim()) {
-    errors.name = commonUtils.nameRequired;
+  if (!formData.firstName.trim()) {
+    errors.firstName = commonUtils.firstNameRequired;
+    isValid = false;
+  }
+  if (!formData.lastName.trim()) {
+    errors.lastName = commonUtils.lastNameRequired;
     isValid = false;
   }
 

@@ -14,7 +14,8 @@ export const commonUtils = {
   passwordRequired: "Password is required",
   phoneRequired: "Phone number is required",
   confirmPasswordRequired: "Confirm password is required",
-  nameRequired: "Name is required",
+  firstNameRequired: "First name is required",
+  lastNameRequired: "Last name is required",
   validPassword: "Password must be between 6 to 10 characters long",
   validPhoneNumber: "Please enter a valid phone number",
   confirmValidPassword:

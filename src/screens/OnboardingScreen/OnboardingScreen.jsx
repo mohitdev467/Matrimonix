@@ -7,6 +7,7 @@ import { commonUtils } from "../../utilities/CommonUtils/CommonUtils";
 import screenNames from "../../helpers/ScreenNames/ScreenNames";
 import { pickColors } from "../../helpers/theme/colors";
 import ButtonComponent from "../../components/CommonComponents/ButtonComponent";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const OnboardingScreen = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -36,7 +37,7 @@ const OnboardingScreen = () => {
     <ImageBackground
       source={item.image}
       style={styles.slideBackground}
-      resizeMode="contain"
+      resizeMode="cover"
     >
       <View style={styles.onboardingContentWrapper}>
         <ButtonComponent
@@ -51,7 +52,7 @@ const OnboardingScreen = () => {
   );
 
   return (
-    <View style={styles.container}>{renderSlide(data[currentIndex])}</View>
+    <SafeAreaView style={styles.container}>{renderSlide(data[currentIndex])}</SafeAreaView>
   );
 };
 
@@ -64,7 +65,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor:pickColors.brandColor
+    backgroundColor:pickColors.brandColor,
   },
   onboardingContentWrapper: {
     position: "absolute",

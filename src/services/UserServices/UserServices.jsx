@@ -172,3 +172,14 @@ export const handleDeletePaymentHistory = async (userId,paymentId) => {
   }
 };
 
+
+
+export const handleDeleteAccountRequest = async (data) => {
+  try {
+    const response = await apiInstance.post(apiEndpoints.deleteRequest, data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};

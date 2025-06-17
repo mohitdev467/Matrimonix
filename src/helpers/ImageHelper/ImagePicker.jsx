@@ -17,7 +17,7 @@ const ImagePicker = {
   placeholderIMage: require("../../assets/Images/default_error.png"),
   logoImage: require("../../assets/Images/matrimonix-logo.png"),
   logoImage2: require("../../assets/Images/header-log.png"),
-
+  contactPageBanner: require("../../assets/Images/contact-page-banner.png"),
   dummyUserMale: require("../../assets/Images/dummy_m.png"),
   dummyUserGirl: require("../../assets/Images/dummy_f.png"),
   matchedIcon: require("../../assets/Images/matched-icon.png"),

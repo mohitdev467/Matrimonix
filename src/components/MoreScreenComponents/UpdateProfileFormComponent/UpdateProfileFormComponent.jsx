@@ -31,8 +31,9 @@ const UpdateProfileFormComponent = ({ handleUpdateData, userData }) => {
   const { data } = useEntities();
   const { cities, states, fetchCities } = useCityAndStates();
   const [showDatePicker, setShowDatePicker] = useState(false);
+
+
   const normalizeDropdownValue = (value, options) => {
-    console.log("Normalizing value:", value, "with options:", options);
     if (!value || !options) return null;
     const formattedValue = value?.toLowerCase()?.replace(/\s+/g, "_");
     return options.find(
@@ -41,7 +42,8 @@ const UpdateProfileFormComponent = ({ handleUpdateData, userData }) => {
   };
 
   const [formState, setFormState] = useState({
-    name: "",
+    firstName: "",
+    lastName: "",
     email: "",
     country_code: "",
     mobile: "",
@@ -142,7 +144,6 @@ const UpdateProfileFormComponent = ({ handleUpdateData, userData }) => {
   };
 
   const formattedCasteData = formatData(data?.caste, "caste", "caste");
-  const formattedIncomeData = formatData(data?.income, "income", "income");
   const formattedOccupationData = formatData(
     data?.occupation,
     "occupation",
@@ -173,14 +174,14 @@ const UpdateProfileFormComponent = ({ handleUpdateData, userData }) => {
         fetchCities('India', stateValue);
       }
 
-      console.log("Data Source:", dataSource);
 
       const mobileNumber = dataSource.mobile ? dataSource.mobile.toString() : "";
 
       setFormState((prevState) => ({
         ...prevState,
         initialLoad: true,
-        name: dataSource.name || "",
+        firstName: dataSource.firstName || "",
+        lastName: dataSource.lastName || "",
         email: dataSource.email || "",
         country_code: dataSource.country_code || "",
         mobile: mobileNumber,
@@ -252,14 +253,28 @@ const UpdateProfileFormComponent = ({ handleUpdateData, userData }) => {
       showsVerticalScrollIndicator={false}
     >
       <View style={styles.loginInputWrapper}>
-        <CustomInputField
-          name="name"
-          label="Full Name"
-          value={formState.name}
+      <CustomInputField
+          name="firstName"
+          label="First Name"
+          value={formState.firstName}
           onTextChange={handleInputChange}
-          placeholder="Enter full Name"
-          error={errors.name}
-          helperText={errors.name}
+          placeholder="Enter first name"
+          error={errors.firstName}
+          helperText={errors.firstName}
+          containerStyle={styles.containerStyle}
+          mainContainerStyle={styles.mainContainer}
+          isRequired={true}
+          labelStyle={styles.labelStyle}
+          inputStyle={styles.inputStyle}
+        />
+        <CustomInputField
+          name="lastName"
+          label="Last Name"
+          value={formState.lastName}
+          onTextChange={handleInputChange}
+          placeholder="Enter last name"
+          error={errors.lastName}
+          helperText={errors.lastName}
           containerStyle={styles.containerStyle}
           mainContainerStyle={styles.mainContainer}
           isRequired={true}

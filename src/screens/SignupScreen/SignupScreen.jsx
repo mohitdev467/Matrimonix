@@ -26,17 +26,17 @@ import PhoneNumberInput from "../../components/CommonComponents/PhoneInputCompon
 import useAuthStorage from "../../helpers/Hooks/useAuthStorage";
 import SelectDropdown from "../../components/CommonComponents/SelectDropdown";
 import {
-  bodyTypeData,
-  familyTypeData,
   genderData,
 } from "../../constants/CommonData/CommonData";
 import useCityAndStates from "../../helpers/Hooks/useCityAndStates";
 import { SafeAreaView } from "react-native-safe-area-context";
+import useOccupations from "../../helpers/Hooks/useOccupoations";
 
 export default function SignupScreen() {
   const navigation = useNavigation();
   const [formData, setFormData] = useState({
-    name: "",
+    firstName: "",
+    lastName:"",
     email: "",
     password: "",
     confirmPassword: "",
@@ -47,7 +47,6 @@ export default function SignupScreen() {
     city: "",
     state: "",
     occupation: "",
-    hobbies: "",
   });
   const { storeLoginData } = useAuthStorage();
   const [secureTextEntry, setSecureTextEntry] = useState(true);
@@ -56,6 +55,8 @@ export default function SignupScreen() {
     useState(true);
   const [errors, setErrors] = useState({});
   const { cities, states, fetchCities } = useCityAndStates();
+  const { occupations } = useOccupations();
+
   const togglePasswordVisibility = () => {
     setSecureTextEntry(!secureTextEntry);
   };
@@ -133,6 +134,11 @@ const formattedCitiesOptions = cities?.data?.map((item) => ({
     value: item?.name?.toLowerCase()?.replace(/\s+/g, "_"),
   }));
 
+  const formattedOccupationsOptions = occupations?.data?.map((item) => ({
+    label: item?.occupation,
+    value: item?.occupation?.toLowerCase()?.replace(/\s+/g, "_"),
+  }));
+
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: pickColors.whiteColor }}>
@@ -155,18 +161,35 @@ const formattedCitiesOptions = cities?.data?.map((item) => ({
           <View style={styles.formContainer}>
             <View style={styles.formWrapper}>
               <Text style={styles.label}>
-                Full Name <Text style={{ color: "red" }}>*</Text>
+                First Name <Text style={{ color: "red" }}>*</Text>
               </Text>
               <TextInput
-                placeholder="Enter Name"
+                placeholder="Enter first name"
                 placeholderTextColor={pickColors.subHeadingColor}
                 style={styles.inputStyle}
-                onChangeText={(text) => handleChange(text, "name")}
+                onChangeText={(text) => handleChange(text, "firstName")}
               />
             </View>
-            {errors.name && (
+            {errors.firstName && (
               <View style={{ paddingLeft: Responsive.widthPx(5) }}>
-                <Text style={styles.errorText}>{errors.name}</Text>
+                <Text style={styles.errorText}>{errors.firstName}</Text>
+              </View>
+            )}
+
+<View style={styles.formWrapper}>
+              <Text style={styles.label}>
+                Last Name <Text style={{ color: "red" }}>*</Text>
+              </Text>
+              <TextInput
+                placeholder="Enter last name"
+                placeholderTextColor={pickColors.subHeadingColor}
+                style={styles.inputStyle}
+                onChangeText={(text) => handleChange(text, "lastName")}
+              />
+            </View>
+            {errors.lastName && (
+              <View style={{ paddingLeft: Responsive.widthPx(5) }}>
+                <Text style={styles.errorText}>{errors.lastName}</Text>
               </View>
             )}
             <View style={styles.formWrapper}>
@@ -208,6 +231,22 @@ const formattedCitiesOptions = cities?.data?.map((item) => ({
               }}
             />
 
+<View style={styles.formWrapper}>
+            <Text style={styles.label}>
+              Gender <Text style={{ color: "red" }}>*</Text>
+            </Text>
+            <SelectDropdown
+              options={genderData}
+              label=""
+              value={formData.gender}
+              placeholder="Select gender"
+              onChangeValue={(value) => handleChange(value, "gender")}
+              dropdownStyle={styles.dropdownStyle}
+              dropdownContainerStyle={styles.dropdownContainerStyle}
+              error={errors.gender}
+              errorMessage={errors.gender}
+            />
+          </View>
             <View style={styles.formWrapper}>
               <Text style={styles.label}>
                 Password <Text style={{ color: "red" }}>*</Text>
@@ -269,37 +308,21 @@ const formattedCitiesOptions = cities?.data?.map((item) => ({
 
           <View style={styles.formWrapper}>
             <Text style={styles.label}>
-              Occupation <Text style={{ color: "red" }}>*</Text>
+              Occupations <Text style={{ color: "red" }}>*</Text>
             </Text>
-            <TextInput
-              placeholder="Enter Occupation"
-              placeholderTextColor={pickColors.subHeadingColor}
-              style={styles.inputStyle}
-              onChangeText={(text) => handleChange(text, "occupation")}
+            <SelectDropdown
+              options={formattedOccupationsOptions}
+              value={formData.occupation}
+              placeholder="Select Occupation"
+              onChangeValue={(value) => handleChange(value, "occupation")}
+              dropdownStyle={styles.dropdownStyle}
+              dropdownContainerStyle={styles.dropdownContainerStyle}
+              error={errors.occupation}
+              errorMessage={errors.occupation}
             />
           </View>
-          {errors.occupation && (
-            <View style={{ paddingLeft: Responsive.widthPx(5) }}>
-              <Text style={styles.errorText}>{errors.occupation}</Text>
-            </View>
-          )}
 
-          <View style={styles.formWrapper}>
-            <Text style={styles.label}>
-              Hobbies <Text style={{ color: "red" }}>*</Text>
-            </Text>
-            <TextInput
-              placeholder="Enter hobbies"
-              placeholderTextColor={pickColors.subHeadingColor}
-              style={styles.inputStyle}
-              onChangeText={(text) => handleChange(text, "hobbies")}
-            />
-          </View>
-          {errors.hobbies && (
-            <View style={{ paddingLeft: Responsive.widthPx(5) }}>
-              <Text style={styles.errorText}>{errors.hobbies}</Text>
-            </View>
-          )}
+         
 
 
           <View style={styles.formWrapper}>
@@ -340,38 +363,8 @@ const formattedCitiesOptions = cities?.data?.map((item) => ({
 
 
 
-          <View style={styles.formWrapper}>
-            <Text style={styles.label}>
-              Gender <Text style={{ color: "red" }}>*</Text>
-            </Text>
-            <SelectDropdown
-              options={genderData}
-              label=""
-              value={formData.gender}
-              placeholder="Select gender"
-              onChangeValue={(value) => handleChange(value, "gender")}
-              dropdownStyle={styles.dropdownStyle}
-              dropdownContainerStyle={styles.dropdownContainerStyle}
-              error={errors.gender}
-              errorMessage={errors.gender}
-            />
-          </View>
-          <View style={styles.formWrapper}>
-            <Text style={styles.label}>
-              Family Type <Text style={{ color: "red" }}>*</Text>
-            </Text>
-            <SelectDropdown
-              options={familyTypeData}
-              label=""
-              value={formData.family_type}
-              placeholder="Select family type"
-              onChangeValue={(value) => handleChange(value, "family_type")}
-              dropdownStyle={styles.dropdownStyle}
-              dropdownContainerStyle={styles.dropdownContainerStyle}
-              error={errors.family_type}
-              errorMessage={errors.family_type}
-            />
-          </View>
+          
+          
 
           <View>
             {isLoading ? (
