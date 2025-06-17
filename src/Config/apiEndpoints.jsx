@@ -2,7 +2,6 @@ export const apiEndpoints = {
   signupUser: "admin/add-user",
   getUsers: "admin/users",
   getFilterUsers: "user/filter-users",
-
   getAllCastes:"admin/caste",
   getAllOccupations:"admin/occupation",
   getAllLanguages:"admin/language",
@@ -32,4 +31,5 @@ export const apiEndpoints = {
   getPackages: `admin/packages`,
   getRecentUserById: (email, gender) =>
     `user/recent-users?email=${email}&gender=${gender}`,
+  getSendMessage: "/send-notification"
 };

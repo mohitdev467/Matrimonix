@@ -35,16 +35,15 @@ const ChatsScreen = () => {
   const { users, isLoading, fetchGetUsers } = useGetUsers();
   const [searchQuery, setSearchQuery] = useState("");
   const goBack = useGoBack()
-    const [allChat, setAllChat] = useState([]);
+  const [allChat, setAllChat] = useState([]);
 
-
-const handleMessageUpdate = (data, loginId) => {
+const handleMessageUpdate = (data) => {
   const processedChats = data.map(chat => {
     const otherUser =
       chat.senderId._id === loginData?.data?._id
-        ? chat.receiverId 
+        ? chat.receiverId
         : chat.receiverId._id === loginData?.data?._id
-        ? chat.senderId 
+        ? chat.senderId
         : null;
     return {
       ...chat,
@@ -53,15 +52,14 @@ const handleMessageUpdate = (data, loginId) => {
         : null,
     };
   }).filter(chat => chat.otherUser !== null);
-
   setAllChat(processedChats);
 };
-
   useEffect(() => {
     socket.emit(
       "fetch-all-in-app-messages",
       { userId: loginData?.data?._id },
       (data) => {
+       console.log("Fetched all in-app messages:", data);
         handleMessageUpdate(data)
       }
     );
@@ -75,9 +73,8 @@ const handleMessageUpdate = (data, loginId) => {
     }, [loginData?.data?._id])
   );
 
-
   const isExpired = userData?.membershipStatus === "expired";
-
+  
   return (
     <SafeAreaView style={styles.container}>
       <HeaderWithSearchBack
@@ -96,7 +93,6 @@ const handleMessageUpdate = (data, loginId) => {
           setSearchQuery={setSearchQuery}
           placeholder={"Search...."}
         />
-
         {isLoading ? (
           <Loader visible={isLoading} />
         ) : (
@@ -111,8 +107,6 @@ const handleMessageUpdate = (data, loginId) => {
           </>
         )}
       </ScrollView>
-
-
       {isExpired && (
         <>
           <BlurView
@@ -144,15 +138,12 @@ const handleMessageUpdate = (data, loginId) => {
     </SafeAreaView>
   );
 };
-
 export default ChatsScreen;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: pickColors.whiteColor,
   },
-
   noDataContainer: {
     justifyContent: "center",
     alignItems: "center",
