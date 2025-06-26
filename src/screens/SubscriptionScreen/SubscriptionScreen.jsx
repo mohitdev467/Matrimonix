@@ -93,7 +93,7 @@ const SubscriptionScreen = () => {
 
   const startCheckout = async (sessionId, orderId) => {
     try {
-      const session = new CFSession(sessionId, orderId, CFEnvironment.SANDBOX);
+      const session = new CFSession(sessionId, orderId, CFEnvironment.PRODUCTION);
       const paymentModes = new CFPaymentComponentBuilder()
         .add(CFPaymentModes.CARD)
         .add(CFPaymentModes.UPI)
