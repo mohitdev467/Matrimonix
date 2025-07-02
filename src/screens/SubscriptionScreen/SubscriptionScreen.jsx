@@ -46,6 +46,21 @@ const SubscriptionScreen = () => {
   const [selectedSubscriptionId, setSelectedSubscriptionId] = useState(null);
 
 
+  useEffect(() => {
+    CFPaymentGatewayService.setCallback({
+      onVerify: (orderID) => {
+        console.log("Payment successful, order ID:", orderID);
+        // Navigate to success page
+      },
+      onError: (error, orderID) => {
+        console.error("Payment failed:", JSON.stringify(error), "Order ID:", orderID);
+        // Navigate to failure page
+      },
+    });
+    return () => CFPaymentGatewayService.removeCallback();
+  }, []);
+
+
   const updateSubscriptionState = (name, value) => {
     setSubscriptionState((prevState) => ({
       ...prevState,
@@ -85,6 +100,8 @@ const SubscriptionScreen = () => {
       const com_url = `${API_BASE_URL}user/order`;
       const res = await axios.post(com_url, data);
 
+      console.log('Session ID Response:', res.data);
+
       return res.data;
     } catch (err) {
       console.error('Error fetching session ID:', err);
@@ -92,8 +109,9 @@ const SubscriptionScreen = () => {
   };
 
   const startCheckout = async (sessionId, orderId) => {
+    console.log('Session ID:', sessionId,orderId);
     try {
-      const session = new CFSession(sessionId, orderId, CFEnvironment.SANDBOX);
+      const session = new CFSession(sessionId, orderId, CFEnvironment.PRODUCTION);
       const paymentModes = new CFPaymentComponentBuilder()
         .add(CFPaymentModes.CARD)
         .add(CFPaymentModes.UPI)
@@ -120,6 +138,7 @@ const SubscriptionScreen = () => {
 
       setTimeout(async () => {
         const paymentStatus = await getPaymentStatus(orderId);
+        console.log('Payment Status:', paymentStatus);
 
         if (paymentStatus?.data?.paymentStatus === 'SUCCESS') {
           successHandler(paymentStatus?.message)
@@ -134,8 +153,9 @@ const SubscriptionScreen = () => {
     }
   };
 
-  const handlePurchase = async () => {
+const handlePurchase = async () => {
   const sessionId = await getSessionId(selectedSubscriptionDetails);
+
   await startCheckout(sessionId?.payment_session_id, sessionId?.order_id)
 }
 
