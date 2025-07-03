@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, ImageBackground, SafeAreaView } from "react-native";
+import { View, Text, StyleSheet, ImageBackground } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Responsive from "../../helpers/ResponsiveDimensions/Responsive";
 import ImagePicker from "../../helpers/ImageHelper/ImagePicker";
@@ -7,6 +7,7 @@ import { commonUtils } from "../../utilities/CommonUtils/CommonUtils";
 import screenNames from "../../helpers/ScreenNames/ScreenNames";
 import { pickColors } from "../../helpers/theme/colors";
 import ButtonComponent from "../../components/CommonComponents/ButtonComponent";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const OnboardingScreen = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -36,7 +37,7 @@ const OnboardingScreen = () => {
     <ImageBackground
       source={item.image}
       style={styles.slideBackground}
-      resizeMode="contain"
+      resizeMode="cover"
     >
       <View style={styles.onboardingContentWrapper}>
         <ButtonComponent
@@ -51,7 +52,7 @@ const OnboardingScreen = () => {
   );
 
   return (
-    <View style={styles.container}>{renderSlide(data[currentIndex])}</View>
+    <SafeAreaView style={styles.container}>{renderSlide(data[currentIndex])}</SafeAreaView>
   );
 };
 
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
   },
   onboardingContentWrapper: {
     position: "absolute",
-    bottom: 50,
+    bottom: 0,
     paddingHorizontal: Responsive.widthPx(6),
     alignSelf: "center",
   },
