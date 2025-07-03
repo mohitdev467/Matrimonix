@@ -235,10 +235,9 @@ const styles = StyleSheet.create({
   accordianHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center"
-
-  }
-  ,
+    alignItems: "center",
+   marginHorizontal:Responsive.widthPx(3.5)
+  },
   deleteButton: {
     marginTop: Responsive.heightPx(2),
     alignSelf: "flex-end",
