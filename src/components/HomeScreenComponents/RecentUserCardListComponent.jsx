@@ -75,7 +75,7 @@ const RecentUserCardListComponent = ({ loginData }) => {
         />
       </View>
       <TextSemiBold style={styles.cardText}>
-        {item.name || commonUtils.notAvailable}
+        {`${item.firstName} ${item.lastName}` || commonUtils.notAvailable}
       </TextSemiBold>
       <TextSemiBold style={styles.cardSubTitle}>
         {item.occupation

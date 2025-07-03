@@ -142,7 +142,8 @@ const SearchUsersListComponents = () => {
       <View style={styles.contentWrapper}>
         <View style={styles.cardNameUpperWrp}>
           <View style={styles.nameHeartWrp}>
-            <Text style={styles.cardName}>{item.name}</Text>
+            <Text style={styles.cardName}>{`${item.firstName} ${item.lastName}`}</Text>
+
           </View>
           <Text style={[styles.cardName, { fontFamily: "Ubuntu-Regular", fontSize: Responsive.font(3.5) }]}>
             {item.occupation || commonUtils.notAvailable}

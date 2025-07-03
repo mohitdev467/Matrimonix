@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, ImageBackground } from "react-native";
+import { View, Text, StyleSheet, ImageBackground, SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Responsive from "../../helpers/ResponsiveDimensions/Responsive";
 import ImagePicker from "../../helpers/ImageHelper/ImagePicker";

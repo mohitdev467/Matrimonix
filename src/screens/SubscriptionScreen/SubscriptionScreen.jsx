@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
 import Responsive from "../../helpers/ResponsiveDimensions/Responsive";
 import { commonUtils } from "../../utilities/CommonUtils/CommonUtils";
@@ -108,13 +108,29 @@ const SubscriptionScreen = () => {
     }
   };
 
-  const startCheckout = async (sessionId, orderId) => {
-    console.log('Session ID:', sessionId,orderId);
+  const handlePaymentCallBacks = useCallback(()=>{
+    CFPaymentGatewayService.setCallback({
+      onVerify(orderID){
+        Alert.alert("Payment Success", `Order ID : ${orderID}`)
+      },
+      onError(error, orderID){
+        Alert.alert("Payment Failed",`Error : ${JSON.stringify(error)}\nOrderID:${orderID}`)
+      }
+    })
+
+    return () =>{
+      CFPaymentGatewayService.removeCallback()
+    }
+  },[])
+
+  const startCheckout = async (payment_session_id, order_id) => {
     try {
-      const session = new CFSession(sessionId, orderId, CFEnvironment.PRODUCTION);
+      const session = new CFSession(payment_session_id, order_id, CFEnvironment.PRODUCTION);
       const paymentModes = new CFPaymentComponentBuilder()
         .add(CFPaymentModes.CARD)
         .add(CFPaymentModes.UPI)
+        .add(CFPaymentModes.WALLET)
+        .add(CFPaymentModes.PAYPAL)
         .add(CFPaymentModes.NB)
         .add(CFPaymentModes.WALLET)
         .add(CFPaymentModes.PAY_LATER)
@@ -137,7 +153,7 @@ const SubscriptionScreen = () => {
       CFPaymentGatewayService.doPayment(dropPayment);
 
       setTimeout(async () => {
-        const paymentStatus = await getPaymentStatus(orderId);
+        const paymentStatus = await getPaymentStatus(order_id);
         console.log('Payment Status:', paymentStatus);
 
         if (paymentStatus?.data?.paymentStatus === 'SUCCESS') {
@@ -152,6 +168,11 @@ const SubscriptionScreen = () => {
       console.log('Payment error:', e);
     }
   };
+
+
+  useEffect(()=>{
+handlePaymentCallBacks()
+  },[handlePaymentCallBacks])
 
 const handlePurchase = async () => {
   const sessionId = await getSessionId(selectedSubscriptionDetails);
