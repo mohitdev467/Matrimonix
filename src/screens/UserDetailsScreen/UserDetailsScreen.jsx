@@ -155,8 +155,8 @@ useFocusEffect(
                           { fontFamily: "Bold", fontSize: Responsive.font(5) },
                         ]}
                       >
-                        {state?.data?.name
-                          ? state?.data?.name
+                        {state?.data?.firstName
+                          ? `${state?.data?.firstName} ${state?.data?.lastName}`
                           : commonUtils.notAvailable}
                       </Text>
                       <Text
