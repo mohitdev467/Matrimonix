@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   },
   onboardingContentWrapper: {
     position: "absolute",
-    bottom: 50,
+    bottom: 0,
     paddingHorizontal: Responsive.widthPx(6),
     alignSelf: "center",
   },

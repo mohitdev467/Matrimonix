@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
 import Responsive from "../../helpers/ResponsiveDimensions/Responsive";
 import { commonUtils } from "../../utilities/CommonUtils/CommonUtils";
@@ -27,15 +27,13 @@ import { useNavigation } from "@react-navigation/native";
 import { getPaymentStatus } from "../../services/UserServices/UserServices";
 import LinearGradient from "react-native-linear-gradient";
 import successHandler from "../../services/NotificationServices/SuccessHandler";
-import messaging from '@react-native-firebase/messaging';
-import { getMessageNotification } from "../../services/NotificationServices/Notification";
 
 
 const SubscriptionScreen = () => {
   const { loginData, updateLoginData } = useAuthStorage();
   const { data } = usePackages();
   const navigation = useNavigation();
-  const [FCMToken, setFCMToken] = useState("");
+  // const [FCMToken, setFCMToken] = useState("");
 
   const [subscriptionState, setSubscriptionState] = useState({
     subscriptionData: [],
@@ -44,6 +42,21 @@ const SubscriptionScreen = () => {
   });
   const [selectedSubscriptionDetails, setSelectedSubscriptionDetails] = useState(null)
   const [selectedSubscriptionId, setSelectedSubscriptionId] = useState(null);
+
+
+  // useEffect(() => {
+  //   CFPaymentGatewayService.setCallback({
+  //     onVerify: (orderID) => {
+  //       console.log("Payment successful, order ID:", orderID);
+  //       // Navigate to success page
+  //     },
+  //     onError: (error, orderID) => {
+  //       console.error("Payment failed:", JSON.stringify(error), "Order ID:", orderID);
+  //       // Navigate to failure page
+  //     },
+  //   });
+  //   return () => CFPaymentGatewayService.removeCallback();
+  // }, []);
 
 
   const updateSubscriptionState = (name, value) => {
@@ -85,18 +98,37 @@ const SubscriptionScreen = () => {
       const com_url = `${API_BASE_URL}user/order`;
       const res = await axios.post(com_url, data);
 
+      console.log('Session ID Response:', res.data);
+
       return res.data;
     } catch (err) {
       console.error('Error fetching session ID:', err);
     }
   };
 
-  const startCheckout = async (sessionId, orderId) => {
+  // const handlePaymentCallBacks = useCallback(()=>{
+  //   CFPaymentGatewayService.setCallback({
+  //     onVerify(orderID){
+  //       Alert.alert("Payment Success", `Order ID : ${orderID}`)
+  //     },
+  //     onError(error, orderID){
+  //       Alert.alert("Payment Failed",`Error : ${JSON.stringify(error)}\nOrderID:${orderID}`)
+  //     }
+  //   })
+
+  //   return () =>{
+  //     CFPaymentGatewayService.removeCallback()
+  //   }
+  // },[])
+
+  const startCheckout = async (payment_session_id, order_id) => {
     try {
-      const session = new CFSession(sessionId, orderId, CFEnvironment.PRODUCTION);
+      const session = new CFSession(payment_session_id, order_id, CFEnvironment.PRODUCTION);
       const paymentModes = new CFPaymentComponentBuilder()
         .add(CFPaymentModes.CARD)
         .add(CFPaymentModes.UPI)
+        .add(CFPaymentModes.WALLET)
+        .add(CFPaymentModes.PAYPAL)
         .add(CFPaymentModes.NB)
         .add(CFPaymentModes.WALLET)
         .add(CFPaymentModes.PAY_LATER)
@@ -119,8 +151,7 @@ const SubscriptionScreen = () => {
       CFPaymentGatewayService.doPayment(dropPayment);
 
       setTimeout(async () => {
-        const paymentStatus = await getPaymentStatus(orderId);
-
+        const paymentStatus = await getPaymentStatus(order_id);
         if (paymentStatus?.data?.paymentStatus === 'SUCCESS') {
           successHandler(paymentStatus?.message)
           updateLoginData(paymentStatus?.data?.customer)
@@ -134,8 +165,14 @@ const SubscriptionScreen = () => {
     }
   };
 
-  const handlePurchase = async () => {
+
+  // useEffect(()=>{
+  //     handlePaymentCallBacks()
+  // },[handlePaymentCallBacks])
+
+const handlePurchase = async () => {
   const sessionId = await getSessionId(selectedSubscriptionDetails);
+
   await startCheckout(sessionId?.payment_session_id, sessionId?.order_id)
 }
 

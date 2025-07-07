@@ -57,12 +57,10 @@ const PhoneNumberInput = ({
         defaultCode="IN"
         layout="second"
         onChangeText={(text) => {
-          console.log("OnChangeText:", text);
           setPhoneNumber(text);
           onChangePhone(text);
         }}
         onChangeFormattedText={(text) => {
-          console.log("Formatted Text:", text);
           setFormattedValue(text);
         }}
         placeholder="Enter phone number"

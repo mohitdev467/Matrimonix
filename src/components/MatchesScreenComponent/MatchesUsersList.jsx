@@ -93,7 +93,7 @@ const SliderItem = ({ item }) => {
 
         <View style={styles.innerContainer}>
           <View style={styles.contentWrapper}>
-            <Text style={styles.nameStyle}>{item.name}</Text>
+            <Text style={styles.nameStyle}>{`${item.firstName} ${item.lastName}`}</Text>
             <Text
               style={[
                 styles.nameStyle,
