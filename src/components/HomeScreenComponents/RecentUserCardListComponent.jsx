@@ -52,7 +52,12 @@ const RecentUserCardListComponent = ({ loginData }) => {
     fetchRecentUser();
   }, []);
 
+
+
+
   const renderItem = ({ item, index }) => (
+
+
     <TouchableOpacity
       style={styles.card}
       onPress={() =>
@@ -78,8 +83,8 @@ const RecentUserCardListComponent = ({ loginData }) => {
         {`${item.firstName} ${item.lastName}` || commonUtils.notAvailable}
       </TextSemiBold>
       <TextSemiBold style={styles.cardSubTitle}>
-        {item.occupation
-          ? item?.occupation
+        {item.age
+          ? `Age: ${item?.age}`
           : commonUtils.notAvailable}
       </TextSemiBold>
     </TouchableOpacity>
