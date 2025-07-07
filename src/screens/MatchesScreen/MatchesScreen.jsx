@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     gap: Responsive.widthPx(1),
     marginHorizontal: Responsive.widthPx(5),
     marginBottom: Responsive.heightPx(1),
-    marginTop: Responsive.heightPx(2),
+    marginTop: Responsive.heightPx(1),
   },
   findYourText: {
     fontSize: Responsive.font(6.2),

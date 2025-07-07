@@ -108,7 +108,7 @@ const SliderItem = ({ item }) => {
                 { fontSize: Responsive.font(4), fontFamily: "Ubuntu-Regular",marginVertical:Responsive.heightPx(0.5) },
               ]}
             >
-              {item.occupation}
+              {item.occupation ? item.occupation : "Not available"}
             </Text>
           </View>
 
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginHorizontal: Responsive.widthPx(1),
-    marginVertical: Responsive.heightPx(2),
+    marginVertical: Responsive.heightPx(0),
   },
   card: {
     backgroundColor: "white",
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     width: "100%",
     alignItems: "center",
-    marginTop:Responsive.heightPx(4)
+    marginTop:Responsive.heightPx(0.5)
   },
   image: {
     width: "100%",
@@ -199,6 +199,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
     justifyContent: "space-between",
+    minHeight:Responsive.heightPx(20)
   },
   iconWrapper: {
     alignSelf: "flex-end",
@@ -213,12 +214,13 @@ const styles = StyleSheet.create({
   contentWrapper: {
     alignItems: "flex-start",
     marginTop: Responsive.heightPx(1),
+    width:Responsive.widthPx(50)
   },
   nameStyle: {
     color: "black",
     fontFamily:"Ubuntu-Medium",
     fontSize: Responsive.font(6.5),
-    letterSpacing: 1.5,
+    letterSpacing: 1,
   },
   percentWrapper: {
     flexDirection: "row",
