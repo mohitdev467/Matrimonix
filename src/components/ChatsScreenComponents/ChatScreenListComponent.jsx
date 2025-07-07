@@ -73,6 +73,7 @@ const ChatScreenListComponents = ({ usersData,loginData ,allChat}) => {
             const lastMessageDate = item?.messages?.length > 0 
         ? formattedDate(item.messages[item.messages.length - 1].dateTime) 
         : formattedDate(item.createdAt);
+
             return (
               <TouchableOpacity
                 style={styles.innerWrapper}
@@ -95,7 +96,7 @@ const ChatScreenListComponents = ({ usersData,loginData ,allChat}) => {
                 </View>
                 <View style={styles.nameTimeAndDescWrapper}>
                   <View style={styles.nameAndTimeWrapper}>
-                    <Text style={styles.nameStyle}>{item?.otherUser?.name}</Text>
+                    <Text style={styles.nameStyle}>{`${item?.otherUser?.firstName} ${item?.otherUser?.lastName}`}</Text>
                     <Text style={styles.dateStyle}>
                       {lastMessageDate || "Just now"}
                     </Text>

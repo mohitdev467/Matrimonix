@@ -176,7 +176,7 @@ const ChatsDetailsScreen = () => {
             color: "#000", // Black text for the chat name
           }}
         >
-          {detailss?.name || "Chat"}
+        {detailss?.firstName ? `${detailss?.firstName} ${detailss?.lastName}` : "Chat"}
         </Text>
       </View>
 
