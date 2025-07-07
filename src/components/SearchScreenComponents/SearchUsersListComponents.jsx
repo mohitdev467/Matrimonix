@@ -146,7 +146,7 @@ const SearchUsersListComponents = () => {
 
           </View>
           <Text style={[styles.cardName, { fontFamily: "Ubuntu-Regular", fontSize: Responsive.font(3.5) }]}>
-            {item.occupation || commonUtils.notAvailable}
+            {`Age : ${item.age}` || commonUtils.notAvailable}
           </Text>
         </View>
       </View>
