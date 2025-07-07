@@ -134,7 +134,7 @@ const SearchUsersListComponents = () => {
           }
           style={[
             styles.imageStyle,
-            item.image ?? { resizeMode: "cover", borderRadius: 10 },
+            item.image ?? { resizeMode: "contain", borderRadius: 10 },
           ]}
         />
       </View>
@@ -350,7 +350,7 @@ const styles = StyleSheet.create({
   imageStyle: {
     height: Responsive.heightPx(20),
     width: Responsive.widthPx(38),
-    resizeMode: "cover",
+    resizeMode: "contain",
     borderRadius: 10,
   },
   imageContainer: {
