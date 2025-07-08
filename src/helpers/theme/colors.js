@@ -15,7 +15,7 @@ export const pickColors = {
   lightBrandColor: "rgba(217, 2, 55, 0.2)",
   lightPinkColor: "#FFA2B9",
   userProfileCircleColor: "#318CE7",
-  cardContentBg: "rgba(0, 0, 0, 0.6)",
+  cardContentBg: "rgba(0, 0, 0, 0.4)",
   noRecordAvailableIcon: "#13274F",
   shriGaneshColor: "#8B0000",
   linearGradientCream: "#FAD5A5",

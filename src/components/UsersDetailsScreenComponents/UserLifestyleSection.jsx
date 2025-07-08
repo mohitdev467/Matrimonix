@@ -6,7 +6,7 @@ import { commonUtils } from "../../utilities/CommonUtils/CommonUtils";
 
 const UserLifestyleSection = ({ myDetails }) => {
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1,flexDirection:"column", gap:Responsive.heightPx(1.5)}}>
       <View style={styles.mainWrapper}>
         <View style={styles.widthPx40}>
           <Text
@@ -29,6 +29,7 @@ const UserLifestyleSection = ({ myDetails }) => {
                 fontSize: Responsive.font(3.8),
                 color: pickColors.blackColor,
                 textAlign: "left",
+                textTransform:"capitalize"
               },
             ]}
           >
@@ -153,6 +154,122 @@ const UserLifestyleSection = ({ myDetails }) => {
           </Text>
         </View>
       </View>
+
+      <View style={styles.mainWrapper}>
+              <View style={styles.widthPx40}>
+                <Text
+                  style={[
+                    styles.newTextStyle,
+                    {
+                      fontSize: Responsive.font(3.7),
+                      color: pickColors.subHeadingColor,
+                    },
+                  ]}
+                >
+                  Address :
+                </Text>
+              </View>
+              <View style={styles.innerWrapper}>
+                <Text
+                  style={[
+                    styles.newTextStyle,
+                    {
+                      fontSize: Responsive.font(3.8),
+                      color: pickColors.blackColor,
+                    },
+                  ]}
+                >
+                  {myDetails?.address ? myDetails?.address : commonUtils.notAvailable}
+                </Text>
+              </View>
+            </View>
+            <View style={styles.mainWrapper}>
+              <View style={styles.widthPx40}>
+                <Text
+                  style={[
+                    styles.newTextStyle,
+                    {
+                      fontSize: Responsive.font(3.7),
+                      color: pickColors.subHeadingColor,
+                    },
+                  ]}
+                >
+                  City :
+                </Text>
+              </View>
+              <View style={styles.innerWrapper}>
+                <Text
+                  style={[
+                    styles.newTextStyle,
+                    {
+                      fontSize: Responsive.font(3.8),
+                      color: pickColors.blackColor,
+                    },
+                  ]}
+                >
+                  {myDetails?.city ? myDetails?.city : commonUtils.notAvailable}
+                </Text>
+              </View>
+            </View>
+            <View style={styles.mainWrapper}>
+              <View style={styles.widthPx40}>
+                <Text
+                  style={[
+                    styles.newTextStyle,
+                    {
+                      fontSize: Responsive.font(3.7),
+                      color: pickColors.subHeadingColor,
+                    },
+                  ]}
+                >
+                  State :
+                </Text>
+              </View>
+              <View style={styles.innerWrapper}>
+                <Text
+                  style={[
+                    styles.newTextStyle,
+                    {
+                      fontSize: Responsive.font(3.8),
+                      color: pickColors.blackColor,
+                    },
+                  ]}
+                >
+                  {myDetails?.state ? myDetails.state : commonUtils.notAvailable}
+                </Text>
+              </View>
+            </View>
+
+      <View style={styles.mainWrapper}>
+              <View style={styles.widthPx40}>
+                <Text
+                  style={[
+                    styles.newTextStyle,
+                    {
+                      fontSize: Responsive.font(3.7),
+                      color: pickColors.subHeadingColor,
+                    },
+                  ]}
+                >
+                  Pincode :
+                </Text>
+              </View>
+              <View style={styles.innerWrapper}>
+                <Text
+                  style={[
+                    styles.newTextStyle,
+                    {
+                      fontSize: Responsive.font(3.8),
+                      color: pickColors.blackColor,
+                    },
+                  ]}
+                >
+                  {myDetails?.pinCode
+                    ? myDetails?.pinCode
+                    : commonUtils.notAvailable}
+                </Text>
+              </View>
+            </View>
     </View>
   );
 };

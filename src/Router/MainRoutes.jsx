@@ -34,6 +34,7 @@ import RefundPolicyScreen from '../screens/PolicyScreens/RefundPolicyScreen';
 import PrivacyPolicyScreen from '../screens/PolicyScreens/PrivacyPolicyScreen';
 import TermsAndConditionScreen from '../screens/PolicyScreens/TermsAndConditionScreen';
 import DeleteAccountScreen from '../screens/DeleteAccountScreen/DeleteAccountScreen';
+import UserDetailsScreen2 from '../screens/UserDetailsScreen/UserDetailsScreen2';
 
 const Tab = createBottomTabNavigator();
 
@@ -107,6 +108,10 @@ const MainRoutes = () => {
                 <Stack.Screen
                     name={screenNames.DetailsScreen}
                     component={UserDetailsScreen}
+                />
+                <Stack.Screen
+                    name={screenNames.DetailsScreen2}
+                    component={UserDetailsScreen2}
                 />
                 <Stack.Screen
                     name={screenNames.UpdateProfileScreen}

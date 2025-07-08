@@ -7,7 +7,7 @@ import { commonUtils } from "../../utilities/CommonUtils/CommonUtils";
 
 const UserKundliAstroSection = ({ myDetails }) => {
   return (
-    <View>
+    <View style={{flexDirection:"column", gap:Responsive.heightPx(1.5)}}>
       <View style={styles.mainWrappeer}>
         <View style={styles.width40px}>
           <Text

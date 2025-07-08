@@ -6,7 +6,7 @@ import { commonUtils } from "../../utilities/CommonUtils/CommonUtils";
 
 const UserFamilySection = ({ myDetails }) => {
   return (
-    <View>
+    <View style={{flexDirection:"column", gap:Responsive.heightPx(1.5)}}>
       <View style={styles.mainWrapper}>
         <View style={styles.widthPx40}>
           <Text
@@ -238,203 +238,13 @@ const UserFamilySection = ({ myDetails }) => {
           </Text>
         </View>
       </View>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-          paddingRight: Responsive.widthPx(35),
-        }}
-      >
-        <View style={styles.widthPx40}>
-          <Text
-            style={[
-              styles.newTextStyle,
-              {
-                fontSize: Responsive.font(3.7),
-                color: pickColors.subHeadingColor,
-              },
-            ]}
-          >
-            City :
-          </Text>
-        </View>
+     
+      
+     
+      
+      
 
-        <View style={styles.innerWrapper}>
-          <Text
-            style={[
-              styles.newTextStyle,
-              {
-                fontSize: Responsive.font(3.8),
-                color: pickColors.blackColor,
-              },
-            ]}
-          >
-            {myDetails?.city ? myDetails?.city : commonUtils.notAvailable}
-          </Text>
-        </View>
-      </View>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-          paddingRight: Responsive.widthPx(35),
-        }}
-      >
-        <View style={styles.widthPx40}>
-          <Text
-            style={[
-              styles.newTextStyle,
-              {
-                fontSize: Responsive.font(3.7),
-                color: pickColors.subHeadingColor,
-              },
-            ]}
-          >
-            District :
-          </Text>
-        </View>
-
-        <View style={styles.innerWrapper}>
-          <Text
-            style={[
-              styles.newTextStyle,
-              {
-                fontSize: Responsive.font(3.8),
-                color: pickColors.blackColor,
-              },
-            ]}
-          >
-            {myDetails?.district
-              ? myDetails?.district
-              : commonUtils.notAvailable}
-          </Text>
-        </View>
-      </View>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "flex-start",
-          justifyContent: "space-between",
-        }}
-      >
-        <View style={styles.widthPx40}>
-          <Text
-            style={[
-              styles.newTextStyle,
-              {
-                fontSize: Responsive.font(3.7),
-                color: pickColors.subHeadingColor,
-              },
-            ]}
-          >
-            State :
-          </Text>
-        </View>
-        <View style={styles.innerWrapper}>
-          <Text
-            style={[
-              styles.newTextStyle,
-              {
-                fontSize: Responsive.font(3.8),
-                color: pickColors.blackColor,
-              },
-            ]}
-          >
-            {myDetails?.state ? myDetails?.state : commonUtils.notAvailable}
-          </Text>
-        </View>
-      </View>
-      <View style={styles.mainWrapper}>
-        <View style={styles.widthPx40}>
-          <Text
-            style={[
-              styles.newTextStyle,
-              {
-                fontSize: Responsive.font(3.7),
-                color: pickColors.subHeadingColor,
-              },
-            ]}
-          >
-            Address :
-          </Text>
-        </View>
-        <View style={styles.innerWrapper}>
-          <Text
-            style={[
-              styles.newTextStyle,
-              {
-                fontSize: Responsive.font(3.8),
-                color: pickColors.blackColor,
-              },
-            ]}
-          >
-            {myDetails?.family_address
-              ? myDetails?.family_address
-              : commonUtils.notAvailable}
-          </Text>
-        </View>
-      </View>
-      <View style={styles.mainWrapper}>
-        <View style={styles.widthPx40}>
-          <Text
-            style={[
-              styles.newTextStyle,
-              {
-                fontSize: Responsive.font(3.7),
-                color: pickColors.subHeadingColor,
-              },
-            ]}
-          >
-            Pincode :
-          </Text>
-        </View>
-        <View style={styles.innerWrapper}>
-          <Text
-            style={[
-              styles.newTextStyle,
-              {
-                fontSize: Responsive.font(3.8),
-                color: pickColors.blackColor,
-              },
-            ]}
-          >
-            {myDetails?.pinCode
-              ? myDetails?.pinCode
-              : commonUtils.notAvailable}
-          </Text>
-        </View>
-      </View>
-
-      <View style={styles.mainWrapper}>
-        <View style={styles.widthPx40}>
-          <Text
-            style={[
-              styles.newTextStyle,
-              {
-                fontSize: Responsive.font(3.7),
-                color: pickColors.subHeadingColor,
-              },
-            ]}
-          >
-            Email :
-          </Text>
-        </View>
-        <View style={styles.innerWrapper}>
-          <Text
-            style={[
-              styles.newTextStyle,
-              {
-                fontSize: Responsive.font(3.8),
-                color: pickColors.blackColor,
-              },
-            ]}
-          >
-            {myDetails?.email ? myDetails?.email : commonUtils.notAvailable}
-          </Text>
-        </View>
-      </View>
+      
     </View>
   );
 };

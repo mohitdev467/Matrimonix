@@ -6,35 +6,7 @@ import { commonUtils } from "../../utilities/CommonUtils/CommonUtils";
 
 const UserImportantDetailsSection = ({ myDetails }) => {
   return (
-    <View>
-      <View style={styles.mainWrapper}>
-        <View style={{ width: Responsive.widthPx(40) }}>
-          <Text
-            style={[
-              styles.newTextStyle,
-              {
-                fontSize: Responsive.font(3.7),
-                color: pickColors.subHeadingColor,
-              },
-            ]}
-          >
-            Gender :
-          </Text>
-        </View>
-        <View style={styles.innerWrapper}>
-          <Text
-            style={[
-              styles.newTextStyle,
-              {
-                fontSize: Responsive.font(3.8),
-                color: pickColors.blackColor,
-              },
-            ]}
-          >
-            {myDetails?.gender ? myDetails?.gender : commonUtils.notAvailable}
-          </Text>
-        </View>
-      </View>
+    <View style={{flexDirection:"column", gap:Responsive.heightPx(1.5)}}>
       <View style={styles.mainWrapper}>
         <View style={{ width: Responsive.widthPx(40) }}>
           <Text

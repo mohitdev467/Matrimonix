@@ -6,7 +6,7 @@ import { commonUtils } from "../../utilities/CommonUtils/CommonUtils";
 
 const UserOverviewSection = ({ myDetails }) => {
   return (
-    <View>
+    <View style={{flexDirection:"column", gap:Responsive.heightPx(1.5)}}>
       <View style={styles.gotraWrapper}>
         <View style={styles.width40}>
           <Text
@@ -35,151 +35,11 @@ const UserOverviewSection = ({ myDetails }) => {
           </Text>
         </View>
       </View>
-      <View style={styles.gotraWrapper}>
-        <View style={styles.width40}>
-          <Text
-            style={[
-              styles.newTextStyle,
-              {
-                fontSize: Responsive.font(3.7),
-                color: pickColors.subHeadingColor,
-              },
-            ]}
-          >
-            Gotra (Nanihal) :
-          </Text>
-        </View>
-        <View style={styles.flexAndWidth60}>
-          <Text
-            style={[
-              styles.newTextStyle,
-              {
-                fontSize: Responsive.font(3.8),
-                color: pickColors.blackColor,
-              },
-            ]}
-          >
-            {myDetails?.gotra_nanihal
-              ? myDetails?.gotra_nanihal
-              : commonUtils.notAvailable}
-          </Text>
-        </View>
-      </View>
-      <View style={styles.gotraWrapper}>
-        <View style={styles.width40}>
-          <Text
-            style={[
-              styles.newTextStyle,
-              {
-                fontSize: Responsive.font(3.7),
-                color: pickColors.subHeadingColor,
-              },
-            ]}
-          >
-            Annual Income :
-          </Text>
-        </View>
-        <View style={styles.flexAndWidth60}>
-          <Text
-            style={[
-              styles.newTextStyle,
-              {
-                fontSize: Responsive.font(3.8),
-                color: pickColors.blackColor,
-              },
-            ]}
-          >
-            {myDetails?.income ? myDetails?.income : commonUtils.notAvailable}
-          </Text>
-        </View>
-      </View>
+    
 
-      <View style={styles.gotraWrapper}>
-        <View style={styles.width40}>
-          <Text
-            style={[
-              styles.newTextStyle,
-              {
-                fontSize: Responsive.font(3.7),
-                color: pickColors.subHeadingColor,
-              },
-            ]}
-          >
-            Address :
-          </Text>
-        </View>
-        <View style={styles.flexAndWidth60}>
-          <Text
-            style={[
-              styles.newTextStyle,
-              {
-                fontSize: Responsive.font(3.8),
-                color: pickColors.blackColor,
-              },
-            ]}
-          >
-            {myDetails?.address ? myDetails?.address : commonUtils.notAvailable}
-          </Text>
-        </View>
-      </View>
-      <View style={styles.gotraWrapper}>
-        <View style={styles.width40}>
-          <Text
-            style={[
-              styles.newTextStyle,
-              {
-                fontSize: Responsive.font(3.7),
-                color: pickColors.subHeadingColor,
-              },
-            ]}
-          >
-            City :
-          </Text>
-        </View>
-        <View style={styles.flexAndWidth60}>
-          <Text
-            style={[
-              styles.newTextStyle,
-              {
-                fontSize: Responsive.font(3.8),
-                color: pickColors.blackColor,
-              },
-            ]}
-          >
-            {myDetails?.city ? myDetails?.city : commonUtils.notAvailable}
-          </Text>
-        </View>
-      </View>
-      <View style={styles.gotraWrapper}>
-        <View style={styles.width40}>
-          <Text
-            style={[
-              styles.newTextStyle,
-              {
-                fontSize: Responsive.font(3.7),
-                color: pickColors.subHeadingColor,
-              },
-            ]}
-          >
-            District :
-          </Text>
-        </View>
-        <View style={styles.flexAndWidth60}>
-          <Text
-            style={[
-              styles.newTextStyle,
-              {
-                fontSize: Responsive.font(3.8),
-                color: pickColors.blackColor,
-              },
-            ]}
-          >
-            {myDetails?.district
-              ? myDetails?.district
-              : commonUtils.notAvailable}
-          </Text>
-        </View>
-      </View>
+     
+      
+      
       <View style={styles.gotraWrapper}>
         <View style={styles.width40}>
           <Text
@@ -236,6 +96,248 @@ const UserOverviewSection = ({ myDetails }) => {
           </Text>
         </View>
       </View>
+      <View style={styles.gotraWrapper}>
+        <View style={styles.width40}>
+          <Text
+            style={[
+              styles.newTextStyle,
+              {
+                fontSize: Responsive.font(3.7),
+                color: pickColors.subHeadingColor,
+              },
+            ]}
+          >
+            Height :
+          </Text>
+        </View>
+        <View style={styles.flexAndWidth60}>
+          <Text
+            style={[
+              styles.newTextStyle,
+              {
+                fontSize: Responsive.font(3.8),
+                color: pickColors.blackColor,
+              },
+            ]}
+          >
+            {myDetails?.height
+              ? `${myDetails?.height}`
+              : commonUtils.notAvailable}
+          </Text>
+        </View>
+      </View>
+      <View style={styles.gotraWrapper}>
+        <View style={styles.width40}>
+          <Text
+            style={[
+              styles.newTextStyle,
+              {
+                fontSize: Responsive.font(3.7),
+                color: pickColors.subHeadingColor,
+              },
+            ]}
+          >
+            Weight :
+          </Text>
+        </View>
+        <View style={styles.flexAndWidth60}>
+          <Text
+            style={[
+              styles.newTextStyle,
+              {
+                fontSize: Responsive.font(3.8),
+                color: pickColors.blackColor,
+              },
+            ]}
+          >
+            {myDetails?.weight
+              ? `${myDetails?.weight}KG`
+              : commonUtils.notAvailable}
+          </Text>
+        </View>
+      </View>
+      <View style={styles.gotraWrapper}>
+        <View style={styles.width40}>
+          <Text
+            style={[
+              styles.newTextStyle,
+              {
+                fontSize: Responsive.font(3.7),
+                color: pickColors.subHeadingColor,
+              },
+            ]}
+          >
+            Blood Group:
+          </Text>
+        </View>
+        <View style={styles.flexAndWidth60}>
+          <Text
+            style={[
+              styles.newTextStyle,
+              {
+                fontSize: Responsive.font(3.8),
+                color: pickColors.blackColor,
+              },
+            ]}
+          >
+            {myDetails?.blood_group
+              ? myDetails?.blood_group
+              : commonUtils.notAvailable}
+          </Text>
+        </View>
+      </View>
+      
+
+<View style={styles.gotraWrapper}>
+        <View style={styles.width40}>
+          <Text
+            style={[
+              styles.newTextStyle,
+              {
+                fontSize: Responsive.font(3.7),
+                color: pickColors.subHeadingColor,
+              },
+            ]}
+          >
+            Age :
+          </Text>
+        </View>
+        <View style={styles.flexAndWidth60}>
+          <Text style={styles.newTextStyle}>
+            {`${myDetails?.age} Years` || "Not available"}
+          </Text>
+        </View>
+      </View>
+      <View style={styles.gotraWrapper}>
+        <View style={styles.width40}>
+          <Text
+            style={[
+              styles.newTextStyle,
+              {
+                fontSize: Responsive.font(3.7),
+                color: pickColors.subHeadingColor,
+              },
+            ]}
+          >
+            Date of Birth :
+          </Text>
+        </View>
+        <View style={styles.flexAndWidth60}>
+          <Text style={styles.newTextStyle}>
+            {myDetails?.dob || "Not available"}
+          </Text>
+        </View>
+      </View>
+      <View style={styles.gotraWrapper}>
+        <View style={styles.width40}>
+          <Text
+            style={[
+              styles.newTextStyle,
+              {
+                fontSize: Responsive.font(3.7),
+                color: pickColors.subHeadingColor,
+              },
+            ]}
+          >
+            Birth Time :
+          </Text>
+        </View>
+        <View style={styles.flexAndWidth60}>
+          <Text style={styles.newTextStyle}>
+            {myDetails?.birth_time
+              ? myDetails?.birth_time
+              : commonUtils.notAvailable}
+          </Text>
+        </View>
+      </View>
+      <View style={styles.gotraWrapper}>
+        <View style={styles.width40}>
+          <Text
+            style={[
+              styles.newTextStyle,
+              {
+                fontSize: Responsive.font(3.7),
+                color: pickColors.subHeadingColor,
+              },
+            ]}
+          >
+            Birth Place :
+          </Text>
+        </View>
+        <View style={styles.flexAndWidth60}>
+          <Text style={styles.newTextStyle}>
+            {myDetails?.birth_place
+              ? myDetails?.birth_place
+              : commonUtils.notAvailable}
+          </Text>
+        </View>
+      </View>
+      <View style={styles.gotraWrapper}>
+        <View style={styles.width40}>
+          <Text
+            style={[
+              styles.newTextStyle,
+              {
+                fontSize: Responsive.font(3.7),
+                color: pickColors.subHeadingColor,
+              },
+            ]}
+          >
+            Caste :
+          </Text>
+        </View>
+        <View style={styles.flexAndWidth60}>
+          <Text style={styles.newTextStyle}>
+            {myDetails?.caste ? myDetails?.caste : commonUtils.notAvailable}
+          </Text>
+        </View>
+      </View>
+      <View style={styles.gotraWrapper}>
+        <View style={styles.width40}>
+          <Text
+            style={[
+              styles.newTextStyle,
+              {
+                fontSize: Responsive.font(3.7),
+                color: pickColors.subHeadingColor,
+              },
+            ]}
+          >
+            Marital Status:
+          </Text>
+        </View>
+        <View style={styles.flexAndWidth60}>
+          <Text style={styles.newTextStyle}>
+            {myDetails?.marital_status
+              ? myDetails?.marital_status
+              : commonUtils.notAvailable}
+          </Text>
+        </View>
+      </View>
+      <View style={styles.gotraWrapper}>
+        <View style={styles.width40}>
+          <Text
+            style={[
+              styles.newTextStyle,
+              {
+                fontSize: Responsive.font(3.7),
+                color: pickColors.subHeadingColor,
+              },
+            ]}
+          >
+            Manglik :
+          </Text>
+        </View>
+        <View style={styles.flexAndWidth60}>
+          <Text style={styles.newTextStyle}>
+            {myDetails?.manglik ? myDetails?.manglik : commonUtils.notAvailable}
+          </Text>
+        </View>
+      </View>
+     
+            
+           
+            
     </View>
   );
 };

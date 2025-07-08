@@ -11,6 +11,8 @@ const screenNames = {
   RecentUserScreen: "RecentUserScreen",
   SearchScreen: "SearchScreen",
   DetailsScreen: "DetailsScreen",
+  DetailsScreen2: "DetailsScreen2",
+
   NewsScreen: "NewsScreen",
   NewsDetailsScreen: "NewsDetailsScreen",
   ServicesScreen: "ServicesScreen",

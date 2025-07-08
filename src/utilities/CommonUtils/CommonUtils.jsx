@@ -72,5 +72,6 @@ export const commonUtils = {
   shortlistedBYme: "Shortlisted by me",
   totalNews: "Total News",
   totalServices: "Total Services",
-  PaymentHistory:"Payment History"
+  PaymentHistory:"Payment History",
+  aboutMySelf:"Hi, thank you for visiting my profile. I would describe myself as honest and someone who believes in Simplicty I have an understanding and caring nature."
 };
