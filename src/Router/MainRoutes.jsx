@@ -109,10 +109,7 @@ const MainRoutes = () => {
                     name={screenNames.DetailsScreen}
                     component={UserDetailsScreen}
                 />
-                <Stack.Screen
-                    name={screenNames.DetailsScreen2}
-                    component={UserDetailsScreen2}
-                />
+               
                 <Stack.Screen
                     name={screenNames.UpdateProfileScreen}
                     component={UpdateProfileScreen}

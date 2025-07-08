@@ -120,7 +120,7 @@ const SearchUsersListComponents = () => {
     <TouchableOpacity
       style={styles.card}
       onPress={() =>
-        navigation.navigate(screenNames.DetailsScreen2, {
+        navigation.navigate(screenNames.DetailsScreen, {
           id: item._id,
         })
       }
